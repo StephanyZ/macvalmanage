@@ -103,7 +103,6 @@ function show(){
 				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 删除"
 
 				+"</a></td>";
-
 				html+="</tr>";
 
 				$("tbody").html(html);
