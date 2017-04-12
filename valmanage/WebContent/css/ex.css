@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+
+.ex-scroll-x {
+	overflow-x: scroll;
+}
+
+.ex-scroll-y {
+	height: 500px;
+	overflow-y: scroll;
+}
+
+.ex-ma {
+	margin-bottom: 15px;
+}
+
+.space-left-0 {
+	margin-left: 0%;
+}
+
+.space-left-1 {
+	margin-left: 1%;
+}
+
+.space-left-2 {
+	margin-left: 2%;
+}
+
+.space-left-3 {
+	margin-left: 3%;
+}
+
+.space-left-4 {
+	margin-left: 4%;
+}
+
+.space-left-5 {
+	margin-left: 5%;
+}
+
+.space-left-6 {
+	margin-left: 6%;
+}
+
+.space-left-7 {
+	margin-left: 7%;
+}
+
+.space-left-8 {
+	margin-left: 8%;
+}
+
+.space-left-9 {
+	margin-left: 9%;
+}
+
+.space-left-10 {
+	margin-left: 10%;
+}

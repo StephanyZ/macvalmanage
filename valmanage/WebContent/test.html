@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+<script src="bower_components/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+function doFind(){
+	$.ajax({
+	cache: false,
+	type: "POST",
+	url:"test.jsp", //把表单数据发送到ajax.jsp
+	data:$('#testajax').serialize(), //要发送的是ajaxFrm表单中的数据
+	async: false,
+	error: function(request) {
+	alert("发送请求失败！");
+	},
+	success: function(data) {
+	alert(data); //将返回的结果显示到ajaxDiv中
+	}
+	});
+	}
+</script>
+
+</head>
+<body>
+
+    <form id="testajax">  
+    <input type="text" name="useraccount" placeholder="请输入账号" value="sdxu">  
+       <input type="text" name="username" placeholder="请输入姓名" value="许三多">  
+       <input type="text" name="userpassword" placeholder="请输入密码" value="123123">  
+       <input type="text" name="usertelephone" placeholder="请输入电话" value="18861822333">
+       <input type="button" onClick="doFind();" value="提交">
+       <div id="ajaxDiv"></div>
+    </form>  
+
+</body>
+</html>
