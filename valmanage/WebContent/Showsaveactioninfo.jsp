@@ -64,6 +64,53 @@ function show(){
 			N[2]=7;
 			var i=0;
 			alert(data[1].valnumber);
+			for(var n=1;n<data.length;n++){
+
+				var html="<tr>";
+
+				for(i in 3){
+
+				html+="<td calss=\"center\">"
+
+				html+=data[n][N[i]];
+
+				html+="</td>";
+
+				}
+
+				if(data[n].opaction=='S'){
+
+				html+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
+
+				}
+
+				if(data[n].opaction=='T'){
+
+				html+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
+
+				}
+
+				html+="<td class=\"center\"><a class=\"btn btn-success\" href=\"#\">"
+
+				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
+
+				+"</a> <a class=\"btn btn-info\" href=\"#\"> <i"
+
+				+"class=\"glyphicon glyphicon-edit icon-white\"></i> 编辑"
+
+				+"</a> <a class=\"btn btn-danger\" href=\"#\"> <i"
+
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 删除"
+
+				+"</a></td>";
+
+				html+="</tr>";
+
+				$("tbody").html(html);
+
+				}
+
+
 			
 		}
 		});
