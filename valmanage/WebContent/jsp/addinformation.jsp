@@ -52,6 +52,7 @@ String standard=null;
 String appearance=null;
 String equipindex=null;
 String acceptno=null;
+String groupnum=null;
 
 
 requireddrawtime = requireddrawtime.replaceAll("-","");
@@ -91,9 +92,9 @@ while(rs_select_valnum.next()){
 }
 factoryindex=df.format(factoryinfocount);
 sendtime=acceptno;
-String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"')";
+String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"')";
 String add_userfactory="insert into userfactory values('"+factoryindex+"','"+factory+"','"+address+"','"+postcode+"','"+contact+"','"+telephone+"')";
-String add_checkorder="insert into checkorder values('"+acceptno+"','"+valnumber+"','"+factoryindex+"','"+equipindex+"','"+valvecate+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
+String add_checkorder="insert into checkorder values('"+acceptno+"','"+valnumber+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
 String add_willbesaved="insert into willbesaved values('"+productno+"','"+manufacture+"','"+valnumber+"')";
 
 out.println(factoryindex);

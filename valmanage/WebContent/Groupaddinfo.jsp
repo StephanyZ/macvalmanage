@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+
 <title>捷力安全阀首页</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description"
@@ -44,7 +45,7 @@ function doFind(){
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/addinformation.jsp", //把表单数据发送到ajax.jsp
+	url:"jsp/groupaddinfo.jsp?option=addinformation", //把表单数据发送到ajax.jsp
 	data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {
@@ -58,12 +59,70 @@ function doFind(){
 function test(obj){
 	 if(obj.checked){
 	     $("#groupfield").show();
-	     $("#groupbutton").show();
+	     $("#groupnumlabel").show();
+	     $("#groupnum").show();
+	     $.ajax({
+	    		cache: false,
+	    		type: "POST",
+	    		url:"jsp/groupaddinfo.jsp?option=groupnum", //把表单数据发送到ajax.jsp
+	    		data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+	    		async: false,
+	    		error: function(request) {
+	    		alert("发送请求失败！");
+	    		},
+	    		success: function(data) {
+	    			document.getElementById("groupnum").value=data; //将返回的结果显示到ajaxDiv中
+	    		}
+	    		});
 	 }else{
 	   $("#groupfield").hide();
-	   $("#groupbutton").hide();
+	   $("#groupnumlabel").hide();
+	   $("#groupnum").hide();
 	}
-	}
+}
+
+function addvaltogroup(){
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/groupaddinfo.jsp?option=valnum", //把表单数据发送到ajax.jsp
+		data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+		dataType:'text',
+		timeout:3000,
+		async: false,
+		error: function(request) {
+		alert("发送请求失败！");
+		},
+		success: function(data) {
+			showgroupval();
+			showgroupval();
+		}
+	});
+}
+function showgroupval(){
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/groupaddinfo.jsp?option=showgroupval", //把表单数据发送到ajax.jsp
+		data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+		dataType:'json',
+		timeout:3000,
+		async: false,
+		error: function(request) {
+		alert("发送请求失败！");
+		},
+		success: function(data) {
+		var insert="";
+		for(var n=0;n<data.length;n++){
+			insert+="<option selected>";
+			insert+=data[n].valnumber;
+			insert+="</option>";
+		}
+		window.document.getElementById('showgroupval').innerHTML=insert;
+		}
+		});
+}
+
 </script>
 </head>
 
@@ -256,48 +315,71 @@ function test(obj){
 									<form id="addinformation">
 								
 									<h2>
+										<small class="space-left-2">= = = = = = = = = = 使用单位信息 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
+										</h2>
+											<div class="form-group space-left-4">
+													<label for="factory">使用单位名称：</label> <input
+														type="text" id="factory" name="factory" placeholder="" value="锡工业有限公司">
+													<label class="space-left-3" for="address">使用单位地址:</label> <input type="text"
+														id="address" name="address" placeholder="" value="江苏无锡">	
+													<label class="space-left-3" for="postcode">使用单位邮编：</label> <input
+														type="text" id="postcode" name="postcode" placeholder="" value="214000">											
+											</div>
+											<div class="form-group space-left-4">
+													<label for="contact">使用单位联系人：</label> <input type="text"
+														id="contact" name="contact" placeholder="" value="张邵明">
+													<label class="space-left-3" for="telephone">使用单位联系电话：</label> <input
+														type="text" id="telephone" name="telephone" placeholder="" value="18861827812">	
+																								
+											</div>
+									<h2>
 										<small class="space-left-2">= = = = = = = = = = 安全阀信息 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
 									</h2>
 										<div class="box-content">
 											<div class="form-group space-left-4">
-											<input type="checkbox" onchange="test(this)"/><label for="svalve">分组存储</label>
-								
-										<div id="groupfield" class="control-group">	
-											<label class="control-label" for="selectError1">已添加安全阀</label>
-											<p class="controls">
-											<select id="selectError1" multiple class="form-control"  data-rel="chosen">
-											</select>
-											</p>
+											<input id="isgroup" type="checkbox" onchange="test(this)" value="yes" name="checkisgroup" /><label for="svalve">分组存储</label>
+											<label id="groupnumlabel" class="space-left-12" for="groupnum">组号：</label><input type="text" id="groupnum" name="groupnum" onfocus=this.blur()>
+											
+											<div id="groupfield">
+											<div class="control-group">	
+												<label class="control-label" for="selectError1">已添加安全阀</label>
+												<p class="controls">
+													<select id="showgroupval" multiple class="form-control" width="200px" data-rel="chosen">
+									
+													</select>
+												</p>
 											</div>
 											<div id="groupbutton" class="space-left-15">
-											<button type="button" class="btn btn-primary" onchange="test(this)">添加入组</button>
+												<button type="button" class="btn btn-primary" onClick="addvaltogroup()">添加入组</button>
 											</div>
-										
-												</div>
-										
+											</div>
+											</div>
+								
+															
+												
 												<div class="form-group space-left-4">
 													<label for="productno">安全阀厂商ID：</label> <input type="text"
-														id="productno" name="productno" placeholder="" value="TK2718934561">
+														id="productno" name="productno" placeholder="" value="SL13671246">
 													<label class="space-left-3" for="manufacture">安全阀制造单位：</label> <input
 														type="text" id="manufacture" name="manufacture"
-														placeholder="" value="苏安有限公司">
+														placeholder="" value="神乐有限公司">
 													<label class="space-left-2" for="manucode">制造单位许可证编号:</label> <input type="text"
-														id="manucode" name="manucode" placeholder="" value="XF5671 672">
+														id="manucode" name="manucode" placeholder="" value="XF8934 781">
 													
 												</div>
 												<div class="form-group space-left-4">
 													<label for="valvecate">安全阀型号：</label> <input type="text"
-														id="valvecate" name="valvecate" placeholder="" value="A42Y-40">
+														id="valvecate" name="valvecate" placeholder="" value="A42Y-60">
 													<label class="space-left-5" for="diapress">公称压力：</label> <input type="text"
-														id="diapress" name="diapress" placeholder="" value="2.0">MPa
+														id="diapress" name="diapress" placeholder="" value="1.90">MPa
 													<label class="space-left-4" for="requiredpress">要求整定压力:</label> <input
-														type="text" id="requiredpress" name="requiredpress" placeholder="" value="1.90">MPa
+														type="text" id="requiredpress" name="requiredpress" placeholder="" value="1.83">MPa
 												</div>
 												<div class="form-group space-left-4">
 													<label for="diameter">公称通径：</label> <input type="text"
-														id="diameter" name="diameter" placeholder="" value="80">mm
+														id="diameter" name="diameter" placeholder="" value="150">mm
 													<label class="space-left-4" for="valdiameter">阀座口径:</label> <input type="text"
-														id="valdiameter" name="valdiameter" placeholder="" value="70">mm
+														id="valdiameter" name="valdiameter" placeholder="" value="130">mm
 													<label class="space-left-6" for="pressgrade">压力级别范围:</label> <input type="text"
 														id="pressgrade" name="pressgrade" placeholder="" value="1.0-1.3">
 												</div>
@@ -305,22 +387,22 @@ function test(obj){
 													<label for="revise">背压修正系数:</label> <input type="text"
 														id="revise" name="revise" placeholder="" value="0.1">
 													<label class="space-left-5" for="reseatpress">回座压力:</label> <input type="text"
-														id="reseatpress" name="reseatpress" placeholder="" value="1.80">MPa
+														id="reseatpress" name="reseatpress" placeholder="" value="1.75">MPa
 													<label class="space-left-8" for="media">工作介质：</label> <input type="text"
-														id="media" name="media" placeholder="" value="液氮">
+														id="media" name="media" placeholder="" value="蒸汽">
 													
 												</div>
 												<div class="form-group space-left-4">
 													<label for="designpress">设计压力:</label> <input type="text"
-														id="designpress" name="designpress" placeholder="" value="2.10">MPa
+														id="designpress" name="designpress" placeholder="" value="2.0">MPa
 													<label class="space-left-8" for="designtemper">设计温度:</label> <input type="text"
-														id="designtemper" name="designtemper" placeholder="" value="200">度
+														id="designtemper" name="designtemper" placeholder="" value="300">度
 													<label class="space-left-8" for="valvepno">阀门位号:</label> <input type="text"
-														id="valvepno" name="valvepno" placeholder="" value="2">
+														id="valvepno" name="valvepno" placeholder="" value="3">
 												</div>
 												<div class="form-group space-left-4">
 												<label for="outputtime">出厂日期:</label> <input type="text"
-														id="outputtime" name="outputtime" placeholder="" value="20160911">
+														id="outputtime" name="outputtime" placeholder="" value="20151011">
 													
 												</div>
 												<div class="form-group space-left-4">
@@ -343,31 +425,14 @@ function test(obj){
 														</label>
 													</div>
 												</div>
-										<h2>
-										<small class="space-left-2">= = = = = = = = = = 使用单位信息 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
-										</h2>
-											<div class="form-group space-left-4">
-													<label for="factory">使用单位名称：</label> <input
-														type="text" id="factory" name="factory" placeholder="" value="锡工业有限公司">
-													<label class="space-left-3" for="address">使用单位地址:</label> <input type="text"
-														id="address" name="address" placeholder="" value="江苏无锡">	
-													<label class="space-left-3" for="postcode">使用单位邮编：</label> <input
-														type="text" id="postcode" name="postcode" placeholder="" value="214000">											
-											</div>
-											<div class="form-group space-left-4">
-													<label for="contact">使用单位联系人：</label> <input type="text"
-														id="contact" name="contact" placeholder="" value="张邵明">
-													<label class="space-left-3" for="telephone">使用单位联系电话：</label> <input
-														type="text" id="telephone" name="telephone" placeholder="" value="18861827812">	
-																								
-											</div>
+										
 											<h2>
 										<small class="space-left-2">= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
 										</h2>
 											<div class="form-group space-left-4">
 											
 													<label class="space-left-3" for="requireddrawtime">要求取件日期：</label> <input
-														type="date" id="requireddrawtime" name="requireddrawtime" placeholder="" value="20170416">	
+														type="date" id="requireddrawtime" name="requireddrawtime" placeholder="" value="2017-04-16">	
 											</div>
 									
 										<button type="button" class="btn btn-primary btn-lg space-left-4" onClick="doFind();">

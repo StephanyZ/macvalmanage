@@ -53,7 +53,7 @@ function doFind(){
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/nochecksave.jsp", //把表单数据发送到ajax.jsp
+	url:"jsp/nochecksave.jsp?", //把表单数据发送到ajax.jsp
 	data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {

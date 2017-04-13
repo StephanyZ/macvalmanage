@@ -44,8 +44,8 @@ function doFind(){
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/addinformation.jsp", //把表单数据发送到ajax.jsp
-	data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+	url:"jsp/groupaddinfo.jsp", //把表单数据发送到ajax.jsp
+	data:$('#groupaddinfo').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {
 	alert("发送请求失败！");
@@ -244,7 +244,7 @@ function doFind(){
 							</div>
 							<div class="box-content row">
 								<div class="col-lg-12 col-md-12">			
-									<form id="addinformation">
+									<form id="groupaddinfo">
 									<h2>
 										<small class="space-left-2">= = = = = = = = = = 安全阀信息 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
 									</h2>

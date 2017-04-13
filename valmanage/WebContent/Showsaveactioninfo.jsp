@@ -60,9 +60,6 @@ $(document).ready(function show(){
 		success: function(data) {
 			//var datas=eval('('+data+')');
 			var N=new Array();
-			N[0]=0;
-			N[1]=2;
-			N[2]=7;
 			var i=0;
 			var insert="";
 			for(var n=0;n<data.length;n++){
@@ -98,7 +95,7 @@ $(document).ready(function show(){
 			tbody.innerHTML =insert;
 		}
 		});
-	setInterval('show', 1000);
+	setInterval('show()', 1000);
 });
 </script>
 
