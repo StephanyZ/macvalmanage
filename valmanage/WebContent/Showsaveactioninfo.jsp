@@ -274,7 +274,7 @@ $(document).ready(function show(){
 						<div class="box-inner">
 							<div class="box-header well" data-original-title="">
 								<h2>
-									<i class="glyphicon glyphicon-user"></i> Datatable + Responsive
+									<i class="glyphicon glyphicon-user"></i>存储信息
 								</h2>
 
 								<div class="box-icon">
@@ -308,20 +308,9 @@ $(document).ready(function show(){
 
 				</div>
 				<!--/row-->
-		<footer class="row">
-			<p class="col-md-9 col-sm-9 col-xs-12 copyright">
-				&copy; <a href="http://usman.it" target="_blank">Muhammad Usman</a>
-				2012 - 2015
-			</p>
-
-			<p class="col-md-3 col-sm-3 col-xs-12 powered-by">
-				Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a>
-			</p>
-		</footer>
+		
 
 	</div>
-	<!--/.fluid-container-->
-
 	<!-- external javascript -->
 
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -333,7 +322,6 @@ $(document).ready(function show(){
 	<script src='bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
 	<!-- data table plugin -->
 	<script src='js/jquery.dataTables.min.js'></script>
-
 	<!-- select or dropdown enhancer -->
 	<script src="bower_components/chosen/chosen.jquery.min.js"></script>
 	<!-- plugin for gallery image view -->
