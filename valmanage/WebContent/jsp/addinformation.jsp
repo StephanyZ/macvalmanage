@@ -54,7 +54,7 @@ String equipindex=null;
 String acceptno=null;
 
 
-
+requireddrawtime = requireddrawtime.replaceAll("-","");
 //get valnumber
 String select_valinformation="select * from val_information";
 ResultSet rs_select_valinformation=connect.query(select_valinformation);
