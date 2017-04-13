@@ -56,10 +56,12 @@ function doFind(){
 	});
 	}
 function test(obj){
-	   if(obj.checked){
+	 if(obj.checked){
 	     $("#groupfield").show();
+	     $("#groupbutton").show();
 	 }else{
 	   $("#groupfield").hide();
+	   $("#groupbutton").hide();
 	}
 	}
 </script>
@@ -258,18 +260,19 @@ function test(obj){
 									</h2>
 										<div class="box-content">
 											<div class="form-group space-left-4">
-											<input type="checkbox" onclick="test(this)"/><label for="svalve">分组存储</label>
-											
-										<div class="control-group">	
+											<input type="checkbox" onchange="test(this)"/><label for="svalve">分组存储</label>
+								
+										<div id="groupfield" class="control-group">	
 											<label class="control-label" for="selectError1">已添加安全阀</label>
 											<p class="controls">
 											<select id="selectError1" multiple class="form-control"  data-rel="chosen">
 											</select>
 											</p>
-											<div class="ex-left-5">
-											<button class="btn btn-primary space-left-l-1">添加入组</button>
 											</div>
-										</div>
+											<div id="groupbutton" class="space-left-15">
+											<button type="button" class="btn btn-primary" onchange="test(this)">添加入组</button>
+											</div>
+										
 												</div>
 										
 												<div class="form-group space-left-4">
