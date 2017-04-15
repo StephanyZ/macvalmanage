@@ -81,6 +81,19 @@ $(document).ready(function show(){
 				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
 
 				}
+				insert+="<td calss=\"center\">";
+				if(data[n].valstatus=="N"){
+					insert+="未检在库";
+				}else if(data[n].valstatus=="U"){
+					insert+="不合格在库";
+				}else if(data[n].valstatus=="Q"){
+					insert+="合格在库";
+				}else if(data[n].valstatus=="C"){
+					insert+="备检出库";
+				}else if(data[n].valstatus=="O"){
+					insert+="检毕出库";
+				}
+				insert+="</td>";
 				insert+="<td class=\"center\"><a class=\"btn btn-success\" href=\"#\">"
 				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
 				+"</a> <a class=\"btn btn-info\" href=\"#\"> <i"
@@ -292,6 +305,7 @@ $(document).ready(function show(){
 											<th>存储位置</th>
 											<th>操作时间</th>
 											<th>存入／取出</th>
+											<th>状态</th>
 											<th>更多</th>
 										</tr>
 									</thead>

@@ -80,11 +80,24 @@ $(document).ready(function show(){
 				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
 
 				}
-				insert+="<td class=\"center\"><a class=\"btn btn-success\" href=\"#\">"
+				insert+="<td calss=\"center\">";
+				if(data[n].valstatus=="N"){
+					insert+="未检在库";
+				}else if(data[n].valstatus=="U"){
+					insert+="不合格在库";
+				}else if(data[n].valstatus=="Q"){
+					insert+="合格在库";
+				}else if(data[n].valstatus=="C"){
+					insert+="备检出库";
+				}else if(data[n].valstatus=="O"){
+					insert+="检毕出库";
+				}
+				insert+="</td>";
+				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"deleteRow(this)\">"
 				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
-				+"</a> <a class=\"btn btn-info\" href=\"#\"> <i"
+				+"</a> <a class=\"btn btn-info\" onclick=\"deleteRow(this)\"> <i"
 				+"class=\"glyphicon glyphicon-edit icon-white\"></i> 编辑"
-				+"</a> <a class=\"btn btn-danger\" href=\"#\"> <i"
+				+"</a> <a class=\"btn btn-danger\" onclick=\"deleteRow(this)\"> <i"
 				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 删除"
 				+"</a></td>";
 				insert+="</tr>";
@@ -94,21 +107,37 @@ $(document).ready(function show(){
 			tbody.innerHTML =insert;
 		}
 		});
-	//setInterval('show()', 5000);
+	setInterval('show()', 5000);
 });
-function getRow(r){
-	 var i=r.parentNode.parentNode.rowIndex; 
-	 return i ;
-	}
-function updateRow(r){
-	 row = getRow(r); //把该行号赋值给全局变量
-	 showAddInput(); //显示修改表单
-	 //提交按钮替换
-	 document.getElementById('btn_add').style="display:none" ;
-	 document.getElementById('btn_update').style="display:block-inline" ;
-	 insertInputFromQuery(queryInfoByRow(row));
-	  
-	}
+function deleteRow(r){
+	 var rows=r.parentNode.parentNode.rowIndex;
+	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
+	 var status=document.getElementById('table').rows[rows].cells[4].innerText;
+	 
+	 if(status=="未检在库"){
+		 status="N";
+	 }else if(status=="不合格在库"){
+		 status="U";
+	 }else if(status=="合格在库"){
+		 status="Q";
+	 }
+	 var str=prompt("对接出库员工ID：","请核实后输入，如：10001");
+	 
+	 $.ajax({
+			cache: false,
+			type: "POST",
+			url:"jsp/valveout.jsp?opnumber="+valorgroupnumber+"&&manindex="+str+"&&status="+status, //把表单数据发送到ajax.jsp
+			data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+			async: false,
+			error: function(request) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+			alert(data); //将返回的结果显示到ajaxDiv中
+			}
+			});
+}
+
 </script>
 
 </head>
@@ -296,7 +325,7 @@ function updateRow(r){
 								</div>
 							</div>
 							<div class="box-content">
-								<table
+								<table id="table"
 									class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 									<thead>
 										<tr>
@@ -304,6 +333,7 @@ function updateRow(r){
 											<th>存储位置</th>
 											<th>操作时间</th>
 											<th>存入／取出</th>
+											<th>状态</th>
 											<th>更多</th>
 										</tr>
 									</thead>
