@@ -64,6 +64,9 @@ function doFind(){
 	}
 	});
 	}
+$(document).ready(function showmessage(){
+	
+});
 </script>
 </head>
 
@@ -323,8 +326,8 @@ function nochecklocation(){
 									<form id="nochecksave">
 										<div class="box-content">
 											<div class="form-group space-left-2">
-												<label for="productno">安全阀出厂ID：</label> <input type="text"
-													id="productno" name="productno" placeholder="prductno" list="idlist">
+												<label for="valorgroupnumber">安全阀或分组编号ID：</label> <input type="text"
+													id="valorgroupnumber" name="valorgroupnumber" placeholder="valorgroupnumber" list="idlist">
 													<% 
 													String sql="select * from willbesaved";
 														ResultSet rs=null;
@@ -332,19 +335,7 @@ function nochecklocation(){
 													%>
 													<datalist id="idlist">
 													<%while(rs.next()){ %>
-													<option value="<%=rs.getString("productno")%>"></option>
-													<%}%>
-													</datalist>
-
-												<label class="space-left-5" for="manufacture">安全阀制造单位：</label>
-												<input type="text" id="manufacture" name="manufacture"
-													placeholder="manufacture" list="manulist">
-													<% 
-														rs=connect.query(sql);
-													%>
-													<datalist id="manulist">
-													<%while(rs.next()){ %>
-													<option value="<%=rs.getString("manufacture")%>"></option>
+													<option value="<%=rs.getString("valorgroupnumber")%>"></option>
 													<%}%>
 													</datalist>
 
