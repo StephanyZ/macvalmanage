@@ -95,7 +95,6 @@ function addvaltogroup(){
 		},
 		success: function(data) {
 			showgroupval();
-			showgroupval();
 		}
 	});
 }
@@ -111,16 +110,18 @@ function showgroupval(){
 		error: function(request) {
 		alert("发送请求失败！");
 		},
-		success: function(data) {
-		var insert="";
+		success: function(data){
+		var insert="<div class=\"control-group\"><label class=\"control-label\" for=\"selectError1\">已添加安全阀</label><div  class=\"controls\"><select id=\"showgroupval\" multiple class=\"form-control\" width=\"200px\" data-rel=\"chosen\">";
+		
 		for(var n=0;n<data.length;n++){
 			insert+="<option selected>";
 			insert+=data[n].valnumber;
 			insert+="</option>";
 		}
-		window.document.getElementById('showgroupval').innerHTML=insert;
+		insert+="</select></div></div>";
+		document.getElementById("showgroup").innerHTML=insert;
 		}
-		});
+	});	
 }
 
 </script>
@@ -319,7 +320,7 @@ function showgroupval(){
 										</h2>
 											<div class="form-group space-left-4">
 													<label for="factory">使用单位名称：</label> <input
-														type="text" id="factory" name="factory" placeholder="" value="锡工业有限公司">
+														type="text" id="factory" name="factory" placeholder="" value="正兴工业有限公司">
 													<label class="space-left-3" for="address">使用单位地址:</label> <input type="text"
 														id="address" name="address" placeholder="" value="江苏无锡">	
 													<label class="space-left-3" for="postcode">使用单位邮编：</label> <input
@@ -327,9 +328,9 @@ function showgroupval(){
 											</div>
 											<div class="form-group space-left-4">
 													<label for="contact">使用单位联系人：</label> <input type="text"
-														id="contact" name="contact" placeholder="" value="张邵明">
+														id="contact" name="contact" placeholder="" value="钱伟">
 													<label class="space-left-3" for="telephone">使用单位联系电话：</label> <input
-														type="text" id="telephone" name="telephone" placeholder="" value="18861827812">	
+														type="text" id="telephone" name="telephone" placeholder="" value="18861825613">	
 																								
 											</div>
 									<h2>
@@ -337,17 +338,15 @@ function showgroupval(){
 									</h2>
 										<div class="box-content">
 											<div class="form-group space-left-4">
-											<input id="isgroup" type="checkbox" onchange="test(this)" value="yes" name="checkisgroup" /><label for="svalve">分组存储</label>
-											<label id="groupnumlabel" class="space-left-12" for="groupnum">组号：</label><input type="text" id="groupnum" name="groupnum" onfocus=this.blur()>
+											<input id="checkisgroup" type="checkbox" onchange="test(this)" value="yes" name="checkisgroup" /><label for="svalve">分组存储</label>
+											<label id="groupnumlabel" class="space-left-12" for="groupnum">组号：</label><input type="text" id="groupnum" name="groupnum">
 											
 											<div id="groupfield">
+											<div id="showgroup">
 											<div class="control-group">	
 												<label class="control-label" for="selectError1">已添加安全阀</label>
-												<p class="controls">
-													<select id="showgroupval" multiple class="form-control" width="200px" data-rel="chosen">
-									
-													</select>
-												</p>
+												
+											</div>
 											</div>
 											<div id="groupbutton" class="space-left-15">
 												<button type="button" class="btn btn-primary" onClick="addvaltogroup()">添加入组</button>

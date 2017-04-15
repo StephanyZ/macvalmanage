@@ -86,7 +86,7 @@ while(rs_select_factoryinfo.next()){
 }
 factoryinfocount++;
 ResultSet rs_select_factoryindex=connect.query("select * from userfactory where factoryindex=\""+factoryindex+"\"");
-while(rs_select_valnum.next()){
+while(rs_select_factoryindex.next()){
 	factoryinfocount++;
 	rs_select_factoryindex=connect.query("select * from userfactory where factoryindex=\""+factoryindex+"\"");
 }

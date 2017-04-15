@@ -40,7 +40,7 @@ String outputtime=request.getParameter("outputtime");
 String inportvalve=request.getParameter("inportvalve");
 String svalve=request.getParameter("svalve");
 
-String factoryindex=request.getParameter("factoryindex");
+String factoryindex=null;
 String factory=request.getParameter("factory");
 String address=request.getParameter("address");
 
@@ -49,6 +49,8 @@ String telephone=request.getParameter("telephone");
 String postcode=request.getParameter("postcode");
 
 String requireddrawtime=request.getParameter("requireddrawtime");
+requireddrawtime = requireddrawtime.replaceAll("-","");
+
 String checkisgroup=request.getParameter("checkisgroup");
 
 String groupnum=null;
@@ -149,44 +151,124 @@ if(option.equals("addinformation")){
 	int flag_add_userfactory=0;
 	int flag_add_checkorder=0;
 	int flag_add_groupwillbesaved=0;
+	String STR_FORMAT = "00000000";
+	DecimalFormat df = new DecimalFormat(STR_FORMAT);
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	Date d=new Date();
+	acceptno = sdf.format(d);
+	sendtime=acceptno;
+	ResultSet rs_select_factory=connect.query("select * from userfactory where factory=\""+factory+"\"");
+	int f=0;
+	if(rs_select_factory.next()){
+		f=1;
+		factoryindex=rs_select_factory.getString("factoryindex");
+		}
+	int flag=0;
+	String ss=null;
+	
+
+	if(f==0){
+		String select_factoryinfo="select * from userfactory";
+		ResultSet rs_select_factoryinfo=null;
+		rs_select_factoryinfo=connect.query(select_factoryinfo);
+		int factoryinfocount=0;
+		while(rs_select_factoryinfo.next()){
+			factoryinfocount++;
+		}
+		factoryinfocount++;
+		factoryindex=df.format(factoryinfocount);
+		ResultSet rs_select_factoryindex=connect.query("select * from userfactory where factoryindex=\""+factoryindex+"\"");
+		while(rs_select_factoryindex.next()){
+			factoryinfocount++;
+			factoryindex=df.format(factoryinfocount);
+			rs_select_factoryindex=connect.query("select * from userfactory where factoryindex=\""+factoryindex+"\"");
+		}
+		factoryindex=df.format(factoryinfocount);
+		String add_userfactory="insert into userfactory values('"+factoryindex+"','"+factory+"','"+address+"','"+postcode+"','"+contact+"','"+telephone+"')";
+		flag_add_userfactory=connect.addquery(add_userfactory);
+		}
+	
 	if(checkisgroup.equals("yes")){
 		groupnum=request.getParameter("groupnum");
 		String select_valgroup="select * from val_information where groupnum='"+groupnum+"'";
 		ResultSet rs_select_valgroup=connect.query(select_valgroup);
 		int count=0;
 		if(rs_select_valgroup.next()){
-			count++;
-			while(rs_select_valgroup.next()){
-				count++;
-			}
-			ResultSet rs_select_factory=connect.query("select * from userfactory where factory=\""+factory+"\"");
-			int f=0;
-			
-			while(rs_select_factory.next()){
-				f=1;
-				%><script>alert("数据库已存在该使用单位")</script><%
-				break;
-				}
-			int flag=0;
-			String ss=null;
-			String add_userfactory="insert into userfactory values('"+factoryindex+"','"+factory+"','"+address+"','"+postcode+"','"+contact+"','"+telephone+"')";
+			String add_groupwillbesaved="insert into willbesaved values('"+groupnum+"')";
 			String add_checkorder="insert into checkorder values('"+acceptno+"','"+groupnum+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
-			String add_groupwillbesaved="insert into groupwillbesaved values('"+groupnum+"','"+acceptno+"','"+count+"')";
-			
-			if(f==0){
-				flag_add_userfactory=connect.addquery(add_userfactory);
-				}
 			flag_add_checkorder=connect.addquery(add_checkorder);
 			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
+			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
+				PrintWriter pw=response.getWriter();
+				response.setContentType("text");
+				pw.write("委托单填写成功！");
+				pw.close();
+			}else{
+				PrintWriter pw=response.getWriter();
+				response.setContentType("text");
+				pw.write("填写失败。请联系后台人员处理"+add_checkorder);
+				pw.close();
+			}
+		}else{
+			PrintWriter pw=response.getWriter();
+			response.setContentType("text");
+			pw.write("未加入任何安全阀入组！");
+			pw.close();
+		}
+	}else{
+		String select_valinformation="select * from val_information";
+		ResultSet rs_select_valinformation=connect.query(select_valinformation);
+		int valinfocount=0;
+		while(rs_select_valinformation.next()){
+			valinfocount=valinfocount+1;
+		}
+		valinfocount++;
+		valnumber=df.format(valinfocount);
+		ResultSet rs_select_valnum=connect.query("select * from val_information where valnumber=\""+valnumber+"\"");
+		String select_valprono="select * from val_information where productno='"+productno+"'";
+		ResultSet rs_select_valprono=connect.query(select_valprono);
+		while(rs_select_valprono.next()){
+			PrintWriter pw=response.getWriter();
+			response.setContentType("html/text");
+			pw.write("该安全阀已存在！id为:"+rs_select_valprono.getString("valnumber"));
+			pw.close();
+			return;
+		}
+		while(rs_select_valnum.next()){
+			valinfocount++;
+			valnumber=df.format(valinfocount);
+			rs_select_valnum=connect.query("select * from val_information where valnumber=\""+valnumber+"\"");
+		}
+		valnumber=df.format(valinfocount);
+		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"')";
+		int flag_add_valinformation=0;
+		flag_add_valinformation=connect.addquery(add_valinformation);
+		if(flag_add_valinformation!=0){
+			String add_checkorder="insert into checkorder values('"+acceptno+"','"+valnumber+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
+			flag_add_checkorder=connect.addquery(add_checkorder);
+			String add_groupwillbesaved="insert into willbesaved values('"+valnumber+"')";
+			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
+			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
+				PrintWriter pw=response.getWriter();
+				response.setContentType("text");
+				pw.write("委托单填写成功！");
+				pw.close();
+			}else{
+				PrintWriter pw=response.getWriter();
+				response.setContentType("text");
+				pw.write("填写失败。请联系后台人员处理"+add_checkorder);
+				pw.close();
+			}
 			
 		}else{
 			PrintWriter pw=response.getWriter();
-			response.setContentType("text／json");
-			pw.write("未加入任何安全阀入组！");
+			response.setContentType("text");
+			pw.write("安全阀信息添加失败！");
 			pw.close();
 		}
 	}
 }
+
 
 %>
 </body>
