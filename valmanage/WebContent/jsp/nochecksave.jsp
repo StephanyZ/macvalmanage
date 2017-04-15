@@ -14,15 +14,12 @@
 try {
 request.setCharacterEncoding("UTF-8");
 ResultSet rs=null;
-String groupnum=null;
 String opaction="S";
 String valorgroupnumber=request.getParameter("valorgroupnumber");
-String manufacture=request.getParameter("manufacture");
 String manindex=request.getParameter("manindex");
 String valvolume=request.getParameter("valvolume");
 String storagelocationnum=request.getParameter("storagelocationnum");
 String lo="select * from val_information where valnumber=\""+valorgroupnumber+"\" or groupnum=\""+valorgroupnumber+"\"";
-out.print(lo);
 rs=connect.query(lo);
 
 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -34,14 +31,13 @@ int f=0;
 int ff=0;
 if(rs.next()){
 	f=1;
-	String valnumber=rs.getString("valnumber");
 	String lo1="select * from locationinfo where storagelocationnum=\""+storagelocationnum+"\"";
 	rs=connect.query(lo1);
 	if(rs.next()){
 		ff=1;
 		if(rs.getInt("locationstatus")==0){
-			String modify="update locationinfo set locationstatus=1,valorgroupnumber=\""+valnumber+"\" where storagelocationnum=\""+storagelocationnum+"\"";
-			String insert="insert into valsavestatusinfo values('"+valorgroupnumber+"','"+valvolume+"','"+storagelocationnum+"','"+groupnum+"','"+opaction+"','"+manindex+"','"+useraccount+"',"+optime+",'"+valstatus+"')";		
+			String modify="update locationinfo set locationstatus=1,valorgroupnumber=\""+valorgroupnumber+"\" where storagelocationnum=\""+storagelocationnum+"\"";
+			String insert="insert into valsavestatusinfo values('"+valorgroupnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"',"+optime+",'"+valstatus+"')";		
 			int flag_modify=connect.addquery(modify);
 			int flad_insert=connect.addquery(insert);
 			if(flag_modify!=0&&flad_insert!=0){	
@@ -61,7 +57,7 @@ if(rs.next()){
 			}else if(flad_insert==0&&flag_modify!=0){
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
-				pw.write("插入存储状态失败！！");
+				pw.write("插入存储状态失败！！"+insert);
 				pw.close();
 			}else{
 				PrintWriter pw=response.getWriter();

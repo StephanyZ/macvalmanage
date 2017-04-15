@@ -53,7 +53,7 @@ function doFind(){
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/nochecksave.jsp?", //把表单数据发送到ajax.jsp
+	url:"jsp/nochecksave.jsp", //把表单数据发送到ajax.jsp
 	data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {
@@ -64,9 +64,22 @@ function doFind(){
 	}
 	});
 	}
-$(document).ready(function showmessage(){
-	
-});
+function showmessage(){
+	//var valorgroupnum=document.getElementById("valorgroupnum").value;
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/show.jsp?option=showvalorgroupinfo", //把表单数据发送到ajax.jsp
+		data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
+		async: false,
+		error: function(request) {
+		alert("发送请求失败！");
+		},
+		success: function(data) {
+			document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
+		}
+		});
+}
 </script>
 </head>
 
@@ -327,7 +340,7 @@ function nochecklocation(){
 										<div class="box-content">
 											<div class="form-group space-left-2">
 												<label for="valorgroupnumber">安全阀或分组编号ID：</label> <input type="text"
-													id="valorgroupnumber" name="valorgroupnumber" placeholder="valorgroupnumber" list="idlist">
+													id="valorgroupnumber" name="valorgroupnumber" placeholder="valorgroupnumber" list="idlist" onBlur="showmessage()">
 													<% 
 													String sql="select * from willbesaved";
 														ResultSet rs=null;
@@ -385,7 +398,7 @@ function nochecklocation(){
 					<div class="box-inner homepage-box">
 						<div class="box-header well">
 							<h2>
-								<i class="glyphicon glyphicon-th"></i> 手动选择位置
+								<i class="glyphicon glyphicon-th"></i> 安全阀基本信息
 							</h2>
 
 							<div class="box-icon">
@@ -397,8 +410,8 @@ function nochecklocation(){
 									class="glyphicon glyphicon-remove"></i></a>
 							</div>
 						</div>
-						<div class="box-content">
-							
+						<div id="showmessage" class="box-content">
+						
 							</div>
 						</div>
 					</div>
