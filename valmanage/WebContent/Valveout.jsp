@@ -134,6 +134,7 @@ function deleteRow(r){
 			},
 			success: function(data) {
 			alert(data); //将返回的结果显示到ajaxDiv中
+			location.replace("Valveout.jsp");
 			}
 			});
 }
