@@ -44,7 +44,7 @@ function doFind(){
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/groupaddinfo.jsp", //把表单数据发送到ajax.jsp
+	url:"jsp/addinformation.jsp", //把表单数据发送到ajax.jsp
 	data:$('#groupaddinfo').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {

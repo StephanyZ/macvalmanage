@@ -51,7 +51,9 @@ String postcode=request.getParameter("postcode");
 String requireddrawtime=request.getParameter("requireddrawtime");
 requireddrawtime = requireddrawtime.replaceAll("-","");
 
-String checkisgroup=request.getParameter("checkisgroup");
+
+String checkisgroup=request.getParameter("flag");
+
 
 String groupnum=null;
 String sendtime=null;
@@ -215,7 +217,7 @@ if(option.equals("addinformation")){
 			pw.write("未加入任何安全阀入组！");
 			pw.close();
 		}
-	}else{
+	}else if(checkisgroup.equals("no")){
 		String select_valinformation="select * from val_information";
 		ResultSet rs_select_valinformation=connect.query(select_valinformation);
 		int valinfocount=0;

@@ -42,10 +42,16 @@
 <link rel="shortcut icon" href="img/favicon.ico">
 <script type="text/javascript">
 function doFind(){
+	var checkArray = document.getElementsByName("checkbox");
+	if(checkArray.checked){
+		flag="yes";
+	}else{
+		flag="no";
+	}
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/groupaddinfo.jsp?option=addinformation", //把表单数据发送到ajax.jsp
+	url:"jsp/groupaddinfo.jsp?option=addinformation&&flag="+flag, //把表单数据发送到ajax.jsp
 	data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {
@@ -224,7 +230,7 @@ function showgroupval(){
 							<li class="nav-header">菜单</li>
 							<li><a class="ajax-link" href="homepage.jsp"><i
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
-							<li><a class="ajax-link" href="Addinformation.jsp"><i
+							<li><a class="ajax-link" href="Groupaddinfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
 							<li><a class="ajax-link" href="savevalve.html"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>

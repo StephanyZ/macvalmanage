@@ -145,7 +145,7 @@
 							<li class="nav-header">菜单</li>
 							<li><a class="ajax-link" href="homepage.jsp"><i
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
-							<li><a class="ajax-link" href="Addinformation.jsp"><i
+							<li><a class="ajax-link" href="Groupaddinfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
 							<li><a class="ajax-link" href="savevalve.html"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
