@@ -24,7 +24,6 @@ while(rs.next()){
 	ob.addProperty("valnumber",rs.getString("valnumber"));
 	ob.addProperty("valvolume",rs.getString("valvolume"));
 	ob.addProperty("storagelocationnum",rs.getString("storagelocationnum"));
-	ob.addProperty("groupnum",rs.getString("groupnum"));
 	ob.addProperty("opaction", rs.getString("opaction"));
 	ob.addProperty("manindex",rs.getString("manindex"));
 	ob.addProperty("useraccount", rs.getString("useraccount"));
