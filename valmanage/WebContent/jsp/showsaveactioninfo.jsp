@@ -15,7 +15,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 ResultSet rs=null;
-String sql="select * from valsavestatusinfo";
+String sql="select * from valsavestatusinfo order by optime desc";
 rs=connect.query(sql);
 JsonObject object=new JsonObject();
 JsonArray array=new JsonArray();

@@ -43,8 +43,10 @@
     <![endif]-->
 
 <!-- The fav icon -->
+<script src='js/jquery.dataTables.min.js'></script>
 <link rel="shortcut icon" href="img/favicon.ico">
 <script type="text/javascript">
+
 $(document).ready(function show(){
 	var tbody=window.document.getElementById("oneinput");
 	$.ajax({
@@ -104,12 +106,14 @@ $(document).ready(function show(){
 				insert+="</tr>";
 				//alert(insert);
 				
-				}	
+				}
+			insert+="<script>order()<//script>";
 			tbody.innerHTML =insert;
 		}
 		});
-	setInterval('show()', 1000);
+        
 });
+
 </script>
 
 </head>
@@ -297,7 +301,7 @@ $(document).ready(function show(){
 								</div>
 							</div>
 							<div class="box-content">
-								<table
+								<table id="ddtable" 
 									class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 									<thead>
 										<tr>
@@ -332,7 +336,7 @@ $(document).ready(function show(){
 	<script src='bower_components/moment/min/moment.min.js'></script>
 	<script src='bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
 	<!-- data table plugin -->
-	<script src='js/jquery.dataTables.min.js'></script>
+	
 	<!-- select or dropdown enhancer -->
 	<script src="bower_components/chosen/chosen.jquery.min.js"></script>
 	<!-- plugin for gallery image view -->
