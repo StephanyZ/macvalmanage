@@ -14,6 +14,45 @@
 <jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
 <%
 String option=request.getParameter("option");
+
+if(option.equals("checkvalorgroup")){
+	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	String select_val="select * from val_information where valnumber='"+valorgroupnumber+"'";
+	ResultSet rs_select_val=connect.query(select_val);
+	String select_group="select * from val_information where groupnum='"+valorgroupnumber+"'";
+	ResultSet rs_select_group=connect.query(select_group);
+	String ss="";
+	while(rs_select_val.next()){
+		ss+="<input type=\"checkbox\" value=\""+rs_select_val.getString("valnumber")+" name=\"checkisqualify\"/>";
+		ss+="安全阀编制ID："+rs_select_val.getString("valnumber")+"<br>";
+		ss+="&nbsp&nbsp&nbsp安全阀出厂编号："+rs_select_val.getString("productno")+"<br>";
+		ss+="&nbsp&nbsp&nbsp安全阀制造单位："+rs_select_val.getString("manufacture")+"<br>";
+		ss+="&nbsp&nbsp&nbsp安全阀型号："+rs_select_val.getString("valvecate")+"<br>";
+	}
+	if(rs_select_group.next()){
+		int count=0;
+		ss+="安全阀组("+valorgroupnumber+"):<br>";
+		count++;
+		ss+="<input type=\"checkbox\" value=\""+rs_select_group.getString("valnumber")+" name=\"checkisqualify\"/>";
+		ss+=count+".安全阀编制ID："+rs_select_group.getString("valnumber")+"<br>";
+		ss+="&nbsp&nbsp&nbsp安全阀出厂编号："+rs_select_group.getString("productno")+"<br>";
+		ss+="&nbsp&nbsp&nbsp安全阀制造单位："+rs_select_group.getString("manufacture")+"<br>";
+		ss+="&nbsp&nbsp&nbsp安全阀型号："+rs_select_group.getString("valvecate")+"<br>";
+		while(rs_select_group.next()){
+			count++;
+			ss+="<input type=\"checkbox\" value=\""+rs_select_val.getString("valnumber")+" name=\"checkisqualify\"/>";
+			ss+=count+".安全阀编制ID："+rs_select_group.getString("valnumber")+"<br>";
+			ss+="&nbsp&nbsp&nbsp安全阀出厂编号："+rs_select_group.getString("productno")+"<br>";
+			ss+="&nbsp&nbsp&nbsp安全阀制造单位："+rs_select_group.getString("manufacture")+"<br>";
+			ss+="&nbsp&nbsp&nbsp安全阀型号："+rs_select_group.getString("valvecate")+"<br>";
+		}
+		
+	}
+	PrintWriter pw=response.getWriter();
+	response.setContentType("text");
+	pw.write(ss);
+	pw.close();
+}
 if(option.equals("showvalorgroupinfo")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
 	String select_val="select * from val_information where valnumber='"+valorgroupnumber+"'";
@@ -49,6 +88,19 @@ if(option.equals("showvalorgroupinfo")){
 	pw.write(ss);
 	pw.close();
 }
+if(option.equals("getvolume")){
+	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	String select="select * from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
+	ResultSet rs_select=connect.query(select);
+	if(rs_select.next()){
+		String volume=rs_select.getString("valvolume");
+		PrintWriter pw=response.getWriter();
+		response.setContentType("text");
+		pw.write(volume);
+		pw.close();
+	}
+}
+
 
 %>
 

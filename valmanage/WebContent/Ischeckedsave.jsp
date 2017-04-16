@@ -69,7 +69,7 @@ function showmessage(){
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/show.jsp?option=showvalorgroupinfo", //把表单数据发送到ajax.jsp
+		url:"jsp/show.jsp?option=checkvalorgroup", //把表单数据发送到ajax.jsp
 		data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
 		async: false,
 		error: function(request) {
@@ -79,6 +79,25 @@ function showmessage(){
 			document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
 		}
 		});
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/show.jsp?option=getvolume", //把表单数据发送到ajax.jsp
+		data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
+		async: false,
+		error: function(request) {
+		alert("发送请求失败！");
+		},
+		success: function(data) {
+			if(data=="S"){
+				$("input[name='valvolume'][value='S']").attr("checked",true);
+			}else if(data=="L"){
+				$("input[name='valvolume'][value='L']").attr("checked",true);
+			}
+			//document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
+		}
+		});
+	
 }
 </script>
 </head>
@@ -341,13 +360,13 @@ function nochecklocation(){
 												<label for="valorgroupnumber">安全阀或分组编号ID：</label> <input type="text"
 													id="valorgroupnumber" name="valorgroupnumber" placeholder="valorgroupnumber" list="idlist" onBlur="showmessage()">
 													<% 
-													String sql="select * from willbesaved";
+													String sql="select * from checkedwillbesaved";
 														ResultSet rs=null;
 														rs=connect.query(sql);
 													%>
 													<datalist id="idlist">
 													<%while(rs.next()){ %>
-													<option value="<%=rs.getString("valorgroupnumber")%>"></option>
+													<option value="<%=rs.getString("valorgroupnum")%>"></option>
 													<%}%>
 													</datalist>
 
@@ -366,12 +385,13 @@ function nochecklocation(){
 													<option value="<%=rs1.getString("manindex")%>"></option>
 													<%}%>
 													</datalist>
+													
 												<label
 													class="space-left-6" for="media">安全阀体积：</label> <label
 													class="radio-inline"> <input type="radio"
-													name="valvolume" id="small" value="S">Small
+													 id="small" value="S" name="valvolume">Small
 												</label> <label class="radio-inline"> <input type="radio"
-													name="valvolume" id ="large" value="L">Large
+													 id ="large" value="L"  name="valvolume">Large
 												</label>
 
 											</div>

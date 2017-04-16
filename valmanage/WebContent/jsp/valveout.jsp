@@ -52,7 +52,7 @@ if(rs_select_getinfo.next()){
 		flag=connect.addquery(modify);
 		if(flag!=0){
 			String insert_out_info="insert into valsavestatusinfo values('"+opnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"',"+optime+",'"+valstatus+"')";
-			String add_checkedwillbesaved="insert into checkedwillbesaved values('"+opnumber+"','"+storagelocationnum+"')";
+			String add_checkedwillbesaved="insert into checkedwillbesaved values('"+opnumber+"','"+valvolume+"')";
 			int j=connect.addquery(add_checkedwillbesaved);
 			int i=connect.addquery(insert_out_info);
 			if(i!=0&&j!=0){
@@ -63,7 +63,7 @@ if(rs_select_getinfo.next()){
 			}else{
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
-				pw.write("信息插入失败！"+insert_out_info+status);
+				pw.write("信息插入失败！"+insert_out_info+add_checkedwillbesaved);
 				pw.close();
 			}
 		}
