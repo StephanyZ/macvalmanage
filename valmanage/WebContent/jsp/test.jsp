@@ -14,7 +14,16 @@
 <jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
 <%
 request.setCharacterEncoding("UTF-8");
-ResultSet rs=null;
+String s[]=request.getParameterValues("checkedid");
+String ss="";
+for(int i=0;i<s.length;i++){
+	ss+=s[i];
+}
+PrintWriter pw=response.getWriter();
+response.setContentType("text");
+pw.write(ss);
+pw.close();
+/*ResultSet rs=null;
 String locationstatus="select * from locationinfo where locationstatus=1";
 out.println(locationstatus);
 String sql="";
@@ -25,7 +34,7 @@ while(rs_select_location.next()){
 	valorgroupnummber=rs_select_location.getString("valorgroupnumber");
 	sql="select * from valsavestatusinfo where valorgroupnumber='"+valorgroupnummber+"'";
 	
-}
+}*/
 %>
 
 </body>

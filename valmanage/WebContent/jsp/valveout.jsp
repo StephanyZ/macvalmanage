@@ -44,7 +44,6 @@ if(rs_select_getinfo.next()){
 	}else if(status.equals("Q")||status.equals("U")){
 		valstatus="O";
 	}
-	
 	if(rs_select_save.next()){
 		String location=rs_select_save.getString("storagelocationnum");
 		String modify="update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"+location+"'";
@@ -53,7 +52,18 @@ if(rs_select_getinfo.next()){
 		if(flag!=0){
 			String insert_out_info="insert into valsavestatusinfo values('"+opnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"',"+optime+",'"+valstatus+"')";
 			String add_checkedwillbesaved="insert into checkedwillbesaved values('"+opnumber+"','"+valvolume+"')";
-			int j=connect.addquery(add_checkedwillbesaved);
+			
+			int j=-1;
+			if(valstatus.equals("C")){
+				j=connect.addquery(add_checkedwillbesaved);
+				if(j==0){
+					PrintWriter pw=response.getWriter();
+					response.setContentType("text");
+					pw.write("出库插入备存队列失败！！"+add_checkedwillbesaved);
+					pw.close();
+				}
+			}
+			
 			int i=connect.addquery(insert_out_info);
 			if(i!=0&&j!=0){
 				PrintWriter pw=response.getWriter();

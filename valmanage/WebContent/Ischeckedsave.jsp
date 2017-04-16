@@ -76,6 +76,7 @@ function showmessage(){
 		alert("发送请求失败！");
 		},
 		success: function(data) {
+			data+="<button type=\"button\" class=\"btn btn-primary btn-sm space-left-4\" onClick=\"addcheckgroup()\">确认</button>";
 			document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
 		}
 		});
@@ -99,6 +100,34 @@ function showmessage(){
 		});
 	
 }
+function addcheckgroup(){
+	var flag = 1;  
+	var checked = [];  
+    flag = 0;  
+    $('input:checkbox:checked').each(function() {
+    	checked.push($(this).val());  
+    	});
+    $.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/show.jsp?option=getcheckedgroup", //把表单数据发送到ajax.jsp
+		traditional :true,
+		data:{"checkedid":checked}, //要发送的是ajaxFrm表单中的数据
+		async: false,
+		error: function(request) {
+		alert("发送请求失败！");
+		},
+		success: function(data) {
+			alert(data);
+			//document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
+		}
+		});
+    /*$(checked).each(function(index){
+        alert(this);
+    });*/
+    
+    } 
+
 </script>
 </head>
 
@@ -369,11 +398,7 @@ function nochecklocation(){
 													<option value="<%=rs.getString("valorgroupnum")%>"></option>
 													<%}%>
 													</datalist>
-
-
-											</div>
-											<div class="form-group space-left-2">
-												<label for="manindex">交接工人ID：</label> <input type="text"
+												<label class="space-left-2" for="manindex">交接工人ID：</label> <input type="text"
 													id="factoryindex" name="manindex" placeholder="" list="workerlist"> 
 													<% 
 													String sql1="select * from workman";
@@ -385,14 +410,20 @@ function nochecklocation(){
 													<option value="<%=rs1.getString("manindex")%>"></option>
 													<%}%>
 													</datalist>
-													
-												<label
-													class="space-left-6" for="media">安全阀体积：</label> <label
+											</div>
+											<div class="form-group space-left-2">
+												<label for="media">安全阀体积：</label> <label
 													class="radio-inline"> <input type="radio"
 													 id="small" value="S" name="valvolume">Small
 												</label> <label class="radio-inline"> <input type="radio"
 													 id ="large" value="L"  name="valvolume">Large
 												</label>
+												</div>
+											<div class="form-group space-left-2">
+												<label for="qgroupnum">合格组号:</label> <input
+													type="text" id="qgroupnum" name="qgroupnum" placeholder="">
+												<label class="space-left-2" for="ugroupnum">不合格组号:</label> <input
+													type="text" id="ugroupnum" name="ugroupnum" placeholder="">
 
 											</div>
 
@@ -417,7 +448,7 @@ function nochecklocation(){
 					<div class="box-inner homepage-box">
 						<div class="box-header well">
 							<h2>
-								<i class="glyphicon glyphicon-th"></i> 安全阀基本信息
+								<i class="glyphicon glyphicon-th"></i> 安全阀合格确认
 							</h2>
 
 							<div class="box-icon">
@@ -431,7 +462,8 @@ function nochecklocation(){
 						</div>
 						<div id="showmessage" class="box-content">
 						
-							</div>
+						</div>
+						
 						</div>
 					</div>
 				</div>

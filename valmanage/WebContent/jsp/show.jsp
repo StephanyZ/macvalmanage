@@ -23,7 +23,7 @@ if(option.equals("checkvalorgroup")){
 	ResultSet rs_select_group=connect.query(select_group);
 	String ss="";
 	while(rs_select_val.next()){
-		ss+="<input type=\"checkbox\" value=\""+rs_select_val.getString("valnumber")+" name=\"checkisqualify\"/>";
+		ss+="<input type=\"checkbox\" value=\""+rs_select_val.getString("valnumber")+"\" name=\"checkisqualify\"/>";
 		ss+="安全阀编制ID："+rs_select_val.getString("valnumber")+"<br>";
 		ss+="&nbsp&nbsp&nbsp安全阀出厂编号："+rs_select_val.getString("productno")+"<br>";
 		ss+="&nbsp&nbsp&nbsp安全阀制造单位："+rs_select_val.getString("manufacture")+"<br>";
@@ -33,14 +33,14 @@ if(option.equals("checkvalorgroup")){
 		int count=0;
 		ss+="安全阀组("+valorgroupnumber+"):<br>";
 		count++;
-		ss+="<input type=\"checkbox\" value=\""+rs_select_group.getString("valnumber")+" name=\"checkisqualify\"/>";
+		ss+="<input type=\"checkbox\" value=\""+rs_select_group.getString("valnumber")+"\" name=\"checkisqualify\"/>";
 		ss+=count+".安全阀编制ID："+rs_select_group.getString("valnumber")+"<br>";
 		ss+="&nbsp&nbsp&nbsp安全阀出厂编号："+rs_select_group.getString("productno")+"<br>";
 		ss+="&nbsp&nbsp&nbsp安全阀制造单位："+rs_select_group.getString("manufacture")+"<br>";
 		ss+="&nbsp&nbsp&nbsp安全阀型号："+rs_select_group.getString("valvecate")+"<br>";
 		while(rs_select_group.next()){
 			count++;
-			ss+="<input type=\"checkbox\" value=\""+rs_select_val.getString("valnumber")+" name=\"checkisqualify\"/>";
+			ss+="<input type=\"checkbox\" value=\""+rs_select_group.getString("valnumber")+"\" name=\"checkisqualify\"/>";
 			ss+=count+".安全阀编制ID："+rs_select_group.getString("valnumber")+"<br>";
 			ss+="&nbsp&nbsp&nbsp安全阀出厂编号："+rs_select_group.getString("productno")+"<br>";
 			ss+="&nbsp&nbsp&nbsp安全阀制造单位："+rs_select_group.getString("manufacture")+"<br>";
@@ -101,7 +101,12 @@ if(option.equals("getvolume")){
 	}
 }
 
-
+if(option.equals("getcheckedgroup")){
+	request.setCharacterEncoding("UTF-8");
+	String s[]=request.getParameterValues("checkedid");
+	String ss="";
+	
+}
 %>
 
 </body>
