@@ -86,10 +86,8 @@ $(document).ready(function show(){
 				insert+="<td calss=\"center\">";
 				if(data[n].valstatus=="N"){
 					insert+="未检在库";
-				}else if(data[n].valstatus=="U"){
-					insert+="不合格在库";
-				}else if(data[n].valstatus=="Q"){
-					insert+="合格在库";
+				}else if(data[n].valstatus=="Y"){
+					insert+="已检在库";
 				}else if(data[n].valstatus=="C"){
 					insert+="备检出库";
 				}else if(data[n].valstatus=="O"){

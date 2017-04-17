@@ -104,13 +104,15 @@ function addcheckgroup(){
 	var flag = 1;  
 	var checked = [];  
     flag = 0;  
+    var valorgroupnumber=document.getElementById("valorgroupnumber").value;
+    var volume=$('input:radio:checked').val();
     $('input:checkbox:checked').each(function() {
     	checked.push($(this).val());  
     	});
     $.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/show.jsp?option=getcheckedgroup", //把表单数据发送到ajax.jsp
+		url:"jsp/show.jsp?option=getcheckedgroup&&valorgroupnumber="+valorgroupnumber+"&&volume="+volume, //把表单数据发送到ajax.jsp
 		traditional :true,
 		data:{"checkedid":checked}, //要发送的是ajaxFrm表单中的数据
 		async: false,
@@ -419,19 +421,13 @@ function nochecklocation(){
 													 id ="large" value="L"  name="valvolume">Large
 												</label>
 												</div>
-											<div class="form-group space-left-2">
-												<label for="qgroupnum">合格组号:</label> <input
-													type="text" id="qgroupnum" name="qgroupnum" placeholder="">
-												<label class="space-left-2" for="ugroupnum">不合格组号:</label> <input
-													type="text" id="ugroupnum" name="ugroupnum" placeholder="">
-
-											</div>
 
 											<div class="form-group space-left-2">
-												<label for="storagelocationnum">存储位置:</label> <input
+												<label for="storagelocationnum">合格存储位置:</label> <input
 													type="text" id="storagelocationnum" name="storagelocationnum" placeholder="">
-												<button
-													class="btn btn-inverse btn-default btn-sm space-left-5" id="getlocation" onclick="nochecklocation()" type="button">获取推荐存储位置</button>
+												<label class="space-left-2" for="storagelocationnum">不合格存储位置:</label> <input
+													type="text" id="storagelocationnum" name="storagelocationnum" placeholder="">
+												
 											</div>
 
 											<button type="button"
