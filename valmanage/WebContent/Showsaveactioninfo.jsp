@@ -71,6 +71,9 @@ $(document).ready(function show(){
 				insert+="</td>";
 				insert+="<td calss=\"center\">";
 				insert+=data[n].storagelocationnum;
+				if(data[n].exlocationnum!=null){
+					insert+="&"+data[n].exlocationnum;
+				}
 				insert+="</td>";	
 				insert+="<td calss=\"center\">";
 				insert+=data[n].optime;

@@ -53,8 +53,8 @@ function doFind(){
 	$.ajax({
 	cache: false,
 	type: "POST",
-	url:"jsp/nochecksave.jsp", //把表单数据发送到ajax.jsp
-	data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
+	url:"jsp/checkedsave.jsp", //把表单数据发送到ajax.jsp
+	data:$('#checkedsave').serialize(), //要发送的是ajaxFrm表单中的数据
 	async: false,
 	error: function(request) {
 	alert("发送请求失败！");
@@ -70,7 +70,7 @@ function showmessage(){
 		cache: false,
 		type: "POST",
 		url:"jsp/show.jsp?option=checkvalorgroup", //把表单数据发送到ajax.jsp
-		data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
+		data:$('#checkedsave').serialize(), //要发送的是ajaxFrm表单中的数据
 		async: false,
 		error: function(request) {
 		alert("发送请求失败！");
@@ -84,7 +84,7 @@ function showmessage(){
 		cache: false,
 		type: "POST",
 		url:"jsp/show.jsp?option=getvolume", //把表单数据发送到ajax.jsp
-		data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
+		data:$('#checkedsave').serialize(), //要发送的是ajaxFrm表单中的数据
 		async: false,
 		error: function(request) {
 		alert("发送请求失败！");
@@ -106,7 +106,9 @@ function addcheckgroup(){
     flag = 0;  
     var valorgroupnumber=document.getElementById("valorgroupnumber").value;
     var volume=$('input:radio:checked').val();
+    var checkedcount=0;
     $('input:checkbox:checked').each(function() {
+    	checkedcount++;
     	checked.push($(this).val());  
     	});
     $.ajax({
@@ -115,13 +117,32 @@ function addcheckgroup(){
 		url:"jsp/show.jsp?option=getcheckedgroup&&valorgroupnumber="+valorgroupnumber+"&&volume="+volume, //把表单数据发送到ajax.jsp
 		traditional :true,
 		data:{"checkedid":checked}, //要发送的是ajaxFrm表单中的数据
+		dataType:'json',
 		async: false,
 		error: function(request) {
 		alert("发送请求失败！");
 		},
 		success: function(data) {
-			alert(data);
-			//document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
+			document.getElementById("location").value=null;
+			document.getElementById("exlocation").value=null;
+			var fdStart = valorgroupnumber.indexOf("g");
+			if(fdStart == 0){
+				if(data.qlocation==""){
+					document.getElementById("location").value=data.ulocation;
+				}else if(data.ulocation==""){
+					document.getElementById("location").value=data.qlocation;
+				}else{
+					document.getElementById("location").value=data.qlocation;
+					document.getElementById("exlocation").value=data.ulocation;
+				}
+			}else if(fdStart == -1){
+				if(checkedcount!=0){
+					document.getElementById("location").value=data.qlocation;
+				}else if(checkedcount==0){
+					document.getElementById("location").value=data.ulocation;
+				}
+			}
+			 //将返回的结果显示到ajaxDiv中
 		}
 		});
     /*$(checked).each(function(index){
@@ -385,7 +406,7 @@ function nochecklocation(){
 									<div class="alert alert-info">
 									请确保您现在已为操作员登入状态
 									</div>
-									<form id="nochecksave">
+									<form id="checkedsave">
 										<div class="box-content">
 											<div class="form-group space-left-2">
 												<label for="valorgroupnumber">安全阀或分组编号ID：</label> <input type="text"
@@ -423,10 +444,10 @@ function nochecklocation(){
 												</div>
 
 											<div class="form-group space-left-2">
-												<label for="storagelocationnum">合格存储位置:</label> <input
-													type="text" id="storagelocationnum" name="storagelocationnum" placeholder="">
-												<label class="space-left-2" for="storagelocationnum">不合格存储位置:</label> <input
-													type="text" id="storagelocationnum" name="storagelocationnum" placeholder="">
+												<label for="location">存储位置:</label> <input
+													type="text" id="location" name="location" placeholder="">
+												<label class="space-left-2" for="exlocation">备选存储位置:</label> <input
+													type="text" id="exlocation" name="exlocation" placeholder="">
 												
 											</div>
 

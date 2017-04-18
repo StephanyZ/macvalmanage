@@ -29,6 +29,7 @@ while(rs.next()){
 	ob.addProperty("useraccount", rs.getString("useraccount"));
 	ob.addProperty("optime", rs.getString("optime"));
 	ob.addProperty("valstatus", rs.getString("valstatus"));
+	ob.addProperty("exlocationnum", rs.getString("exlocationnum"));
 	array.add(ob);	
 }
 PrintWriter pw=response.getWriter();

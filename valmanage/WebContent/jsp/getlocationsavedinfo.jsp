@@ -15,7 +15,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 ResultSet rs=null;
-String locationstatus="select * from locationinfo where locationstatus=1";
+String locationstatus="select * from locationinfo where locationstatus=1 group by valorgroupnumber";
 out.println(locationstatus);
 String sql="";
 ResultSet rs_select_location=connect.query(locationstatus);
@@ -24,8 +24,7 @@ JsonObject object=new JsonObject();
 JsonArray array=new JsonArray();
 while(rs_select_location.next()){
 	valorgroupnummber=rs_select_location.getString("valorgroupnumber");
-	sql="select * from valsavestatusinfo where valnumber='"+valorgroupnummber+"'";
-	out.println(sql);
+	sql="select * from valsavestatusinfo where valnumber='"+valorgroupnummber+"'order by optime desc limit 1";
 	rs=connect.query(sql);
 	while(rs.next()){
 		JsonObject ob=new JsonObject();
@@ -37,6 +36,7 @@ while(rs_select_location.next()){
 		ob.addProperty("useraccount", rs.getString("useraccount"));
 		ob.addProperty("optime", rs.getString("optime"));
 		ob.addProperty("valstatus", rs.getString("valstatus"));
+		ob.addProperty("exlocationnum", rs.getString("exlocationnum"));
 		array.add(ob);
 	}
 }

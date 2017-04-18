@@ -68,6 +68,9 @@ $(document).ready(function show(){
 				insert+="</td>";
 				insert+="<td calss=\"center\">";
 				insert+=data[n].storagelocationnum;
+				if(data[n].exlocationnum!=null){
+					insert+="&"+data[n].exlocationnum;
+				}
 				insert+="</td>";	
 				insert+="<td calss=\"center\">";
 				insert+=data[n].optime;
@@ -114,10 +117,8 @@ function deleteRow(r){
 	 
 	 if(status=="未检在库"){
 		 status="N";
-	 }else if(status=="不合格在库"){
-		 status="U";
-	 }else if(status=="合格在库"){
-		 status="Q";
+	 }else if(status=="已检在库"){
+		 status="Y";
 	 }
 	 var str=prompt("对接出库员工ID：","请核实后输入，如：10001");
 	 
