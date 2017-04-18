@@ -144,7 +144,7 @@ function nochecklocation(){
 				<ul class="dropdown-menu">
 					<li><a href="#">Profile</a></li>
 					<li class="divider"></li>
-					<li><a href="login.jsp">Logout</a></li>
+					<li><a href="jsp/logout.jsp">Logout</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->

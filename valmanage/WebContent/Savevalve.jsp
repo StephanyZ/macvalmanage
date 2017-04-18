@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page
+	import="java.sql.*,java.sql.Connection,java.sql.Statement,java.util.Formatter,javax.servlet.http.HttpServlet"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>捷力安全阀首页</title>
+<title>安全阀存储</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description"
 	content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
@@ -38,24 +40,57 @@
 
 <!-- jQuery -->
 <script src="bower_components/jquery/jquery.min.js"></script>
+
+<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- The fav icon -->
 <link rel="shortcut icon" href="img/favicon.ico">
 <script type="text/javascript">
-function doFind(){
-	$.ajax({
-	cache: false,
-	type: "POST",
-	url:"jsp/addinformation.jsp", //把表单数据发送到ajax.jsp
-	data:$('#groupaddinfo').serialize(), //要发送的是ajaxFrm表单中的数据
-	async: false,
-	error: function(request) {
-	alert("发送请求失败！");
-	},
-	success: function(data) {
-	alert(data); //将返回的结果显示到ajaxDiv中
-	}
-	});
-	}
+    function add(){
+    	var div=document.createElement("div");
+    	div.style.position="absolute";
+    	div.style.left="0px";
+    	div.style.top="0px";
+    	div.style.width="1400px";
+    	div.style.height="600px";
+    	div.style.backgroundColor="black";
+    	div.style.filter="alpha(opacity=40)";
+    	div.style.opacity=.4;
+    	div.setAttribute("id","div");
+    	var div2=document.createElement("div");
+    	var input1=document.createElement("input");
+    	input1.type="text";
+    	input1.value="input";
+    	input1.setAttribute("id","test");
+    	div2.appendChild(input1);
+    	var input2=document.createElement("input");
+    	input2.type="button";
+    	input2.value="提交";
+    	input2.onclick=subs;
+    	div2.appendChild(input2);
+    	var input3=document.createElement("input");
+    	input3.type="button";
+    	input3.value="取消";
+    	input3.onclick=cancel;
+    	div2.appendChild(input3);
+    	var c=document.createElement("center");
+    	c.appendChild(div2);
+    	div.appendChild(c);
+    	document.body.appendChild(div);
+    	}
+    function subs(){
+    	var a=document.getElementById("test").value;
+    	window.location.href="http://www.baidu.com/s?wd="+a;
+    	}
+    function cancel(){
+    	var p=document.getElementById("div");
+    	document.body.removeChild(p);
+    	}
 </script>
+
 </head>
 
 <body>
@@ -76,7 +111,7 @@ function doFind(){
 				<button class="btn btn-default dropdown-toggle"
 					data-toggle="dropdown">
 					<i class="glyphicon glyphicon-user"></i><span
-						class="hidden-sm hidden-xs"><%String useraccount = (String)session.getAttribute("useraccount");%><%=useraccount %></span> <span class="caret"></span>
+						class="hidden-sm hidden-xs"> <%String useraccount = (String)session.getAttribute("useraccount");%><%=useraccount %></span> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
 					<li><a href="#">Profile</a></li>
@@ -218,96 +253,143 @@ function doFind(){
 				<!-- content starts -->
 				<div>
 					<ul class="breadcrumb">
-						<li><a href="#">首页</a></li>
-						<li><a href="#">委托单信息录入</a></li>
+						<li><a href="homepage.jsp">首页</a></li>
+						<li><a href="savevalve.html">开始存储</a></li>
 					</ul>
 				</div>
+				<div class=" row">
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="6 new members."
+							class="well top-block" href="opconfirm.html"> <i
+							class="glyphicon glyphicon-envelope red"></i> <span>移动操作确认</span>
+						</a>
+					</div>
 
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="4 new pro members."
+							class="well top-block" href="Nochecksave.jsp"> <i
+							class="glyphicon glyphicon-star green"></i> <span>未检入库</span>
+						</a>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="$34 new sales."
+							class="well top-block" href="Ischeckedsave.jsp"> <i
+							class="glyphicon glyphicon-shopping-cart yellow"></i> <span>已检入库</span>
+						</a>
+					</div>
+
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="12 new messages."
+							class="well top-block" href="Valveout.jsp"> <i
+							class="glyphicon glyphicon-user blue"></i> <span>出库</span>
+						</a>
+					</div>
+				</div>
 				<div class="row">
-					<div class="box col-md-12">
+					<div class="box col-md-5">
 						<div class="box-inner">
 							<div class="box-header well">
 								<h2>
-									<i class="glyphicon glyphicon-info-sign"></i> 委托单信息填写
+									<i class="glyphicon glyphicon-info-sign"></i>存储选择
 								</h2>
 
 								<div class="box-icon">
 									<a href="#" class="btn btn-setting btn-round btn-default"><i
-										class="glyphicon glyphicon-cog"></i></a>
-									<a href="#"
+										class="glyphicon glyphicon-cog"></i></a> <a href="#"
 										class="btn btn-minimize btn-round btn-default"><i
-										class="glyphicon glyphicon-chevron-up"></i></a> 
-									<a href="#"
+										class="glyphicon glyphicon-chevron-up"></i></a> <a href="#"
 										class="btn btn-close btn-round btn-default"><i
 										class="glyphicon glyphicon-remove"></i></a>
 								</div>
 							</div>
 							<div class="box-content row">
-								<div class="col-lg-12 col-md-12">			
-									<form id="groupaddinfo">
+								<div class="col-lg-12 col-md-12">
 									<h2>
-										<small class="space-left-2">= = = = = = = = = = 安全阀信息 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
+										<small>存储信息输入</small>
 									</h2>
+									<form action="jsp/addinformation.jsp" method="POST">
 										<div class="box-content">
-												<div class="form-group space-left-4">
+											<div class="ex-scroll-y ex-ma">
+												<div class="form-group">
 													<label for="productno">安全阀厂商ID：</label> <input type="text"
-														id="productno" name="productno" placeholder="" value="TK2718934561">
-													<label class="space-left-3" for="manufacture">安全阀制造单位：</label> <input
+														id="productno" name="productno" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="manufacture">安全阀制造单位：</label> <input
 														type="text" id="manufacture" name="manufacture"
-														placeholder="" value="苏安有限公司">
-													<label class="space-left-2" for="manucode">制造单位许可证编号:</label> <input type="text"
-														id="manucode" name="manucode" placeholder="" value="XF5671 672">
-													
+														placeholder="">
 												</div>
-												<div class="form-group space-left-4">
-													<label for="valvecate">安全阀型号：</label> <input type="text"
-														id="valvecate" name="valvecate" placeholder="" value="A42Y-40">
-													<label class="space-left-5" for="diapress">公称压力：</label> <input type="text"
-														id="diapress" name="diapress" placeholder="" value="2.0">MPa
-													<label class="space-left-4" for="requiredpress">要求整定压力:</label> <input
-														type="text" id="requiredpress" name="requiredpress" placeholder="" value="1.90">MPa
+												<div class="form-group">
+													<label for="valvecate">安全阀使用单位ID：</label> <input
+														type="text" id="valvecate" placeholder="">
 												</div>
-												<div class="form-group space-left-4">
+												<div class="form-group">
+													<label for="media">工作介质：</label> <input type="text"
+														id="media" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="maxpress">最大允许压力：</label> <input type="text"
+														id="maxpress" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="diapress">公称压力：</label> <input type="text"
+														id="diapress" placeholder="">
+												</div>
+												<div class="form-group">
 													<label for="diameter">公称通径：</label> <input type="text"
-														id="diameter" name="diameter" placeholder="" value="80">mm
-													<label class="space-left-4" for="valdiameter">阀座口径:</label> <input type="text"
-														id="valdiameter" name="valdiameter" placeholder="" value="70">mm
-													<label class="space-left-6" for="pressgrade">压力级别范围:</label> <input type="text"
-														id="pressgrade" name="pressgrade" placeholder="" value="1.0-1.3">
+														id="diameter" placeholder="">
 												</div>
-												<div class="form-group space-left-4">
+												<div class="form-group">
+													<label for="valdiameter">阀座口径:</label> <input type="text"
+														id="valdiameter" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="requiredpress">要求整定压力:</label> <input
+														type="text" id="requiredpress" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="pressgrade">压力级别范围:</label> <input type="text"
+														id="pressgrade" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="outputtime">出厂日期:</label> <input type="text"
+														id="outputtime" placeholder="">
+												</div>
+												<div class="form-group">
 													<label for="revise">背压修正系数:</label> <input type="text"
-														id="revise" name="revise" placeholder="" value="0.1">
-													<label class="space-left-5" for="reseatpress">回座压力:</label> <input type="text"
-														id="reseatpress" name="reseatpress" placeholder="" value="1.80">MPa
-													<label class="space-left-8" for="media">工作介质：</label> <input type="text"
-														id="media" name="media" placeholder="" value="液氮">
-													
+														id="revise" placeholder="">
 												</div>
-												<div class="form-group space-left-4">
+												<div class="form-group">
+													<label for="manucode">制造单位许可证编号:</label> <input type="text"
+														id="manucode" placeholder="">
+												</div>
+												<div class="form-group">
 													<label for="designpress">设计压力:</label> <input type="text"
-														id="designpress" name="designpress" placeholder="" value="2.10">MPa
-													<label class="space-left-8" for="designtemper">设计温度:</label> <input type="text"
-														id="designtemper" name="designtemper" placeholder="" value="200">度
-													<label class="space-left-8" for="valvepno">阀门位号:</label> <input type="text"
-														id="valvepno" name="valvepno" placeholder="" value="2">
+														id="designpress" placeholder="">
 												</div>
-												<div class="form-group space-left-4">
-												<label for="outputtime">出厂日期:</label> <input type="text"
-														id="outputtime" name="outputtime" placeholder="" value="20160911">
-													
+												<div class="form-group">
+													<label for="designtemper">设计温度:</label> <input type="text"
+														id="designtemper" placeholder="">
 												</div>
-												<div class="form-group space-left-4">
+												<div class="form-group">
+													<label for="valvepno">阀门位号:</label> <input type="text"
+														id="valvepno" placeholder="">
+												</div>
+												<div class="form-group">
+													<label for="reseatpress">回座压力:</label> <input type="text"
+														id="reseatpress" placeholder="">
+												</div>
+												<div class="form-group">
 													<div class="radio">
-														<label for="inportvalve">是否进口阀:</label> <label
+														<label for="inportvaive">是否进口阀:</label> <label
 															class="radio-inline"> <input type="radio"
-															name="inportvalve" value="yes"> YES
+															name="inportvaive" value="yes"> YES
 														</label> <label class="radio-inline"> <input type="radio"
-															name="inportvalve" value="no"> NO
+															name="inportvaive" value="no"> NO
 														</label>
 													</div>
 												</div>
-												<div class="form-group space-left-4">
+												<div class="form-group">
 													<div class="radio">
 														<label for="svalve">是否丝口阀:</label> <label
 															class="radio-inline"> <input type="radio"
@@ -317,37 +399,30 @@ function doFind(){
 														</label>
 													</div>
 												</div>
-										<h2>
-										<small class="space-left-2">= = = = = = = = = = 使用单位信息 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
-										</h2>
-											<div class="form-group space-left-4">
-													<label for="factory">使用单位名称：</label> <input
-														type="text" id="factory" name="factory" placeholder="" value="锡工业有限公司">
-													<label class="space-left-3" for="address">使用单位地址:</label> <input type="text"
-														id="address" name="address" placeholder="" value="江苏无锡">	
-													<label class="space-left-3" for="postcode">使用单位邮编：</label> <input
-														type="text" id="postcode" name="postcode" placeholder="" value="214000">											
 											</div>
-											<div class="form-group space-left-4">
-													<label for="contact">使用单位联系人：</label> <input type="text"
-														id="contact" name="contact" placeholder="" value="张邵明">
-													<label class="space-left-3" for="telephone">使用单位联系电话：</label> <input
-														type="text" id="telephone" name="telephone" placeholder="" value="18861827812">	
-																								
-											</div>
-											<h2>
-										<small class="space-left-2">= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = </small>
-										</h2>
-											<div class="form-group space-left-4">
-											
-													<label class="space-left-3" for="requireddrawtime">要求取件日期：</label> <input
-														type="date" id="requireddrawtime" name="requireddrawtime" placeholder="" value="20170416">	
-											</div>
-									
-										<button type="button" class="btn btn-primary btn-lg space-left-4" onClick="doFind();">
-												提交信息</button>
-									</div>
+											<!--  
+                   <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <input type="file" id="exampleInputFile">
+
+                        <p class="help-block">Example block-level help text here.</p>
+                    </div> 
+                    -->
+
+
+											<button type="submit" class="btn btn-primary btn-lg">
+												提交</button>
+										</div>
+
 									</form>
+
+									<!--   <p class="center-block download-buttons">
+                        <a href="http://usman.it/free-responsive-admin-template/" class="btn btn-primary btn-lg"><i
+                                class="glyphicon glyphicon-chevron-left glyphicon-white"></i> Back to article</a>
+                        <a href="http://usman.it/free-responsive-admin-template/" class="btn btn-default btn-lg"><i
+                                class="glyphicon glyphicon-download-alt"></i> Download Page</a>
+                    </p>
+                    -->
 								</div>
 							</div>
 						</div>
@@ -703,7 +778,48 @@ function doFind(){
 		</div>
 		<!--/fluid-row-->
 
-	
+		<!-- Ad, you can remove it -->
+		<div class="row">
+			<div class="col-md-9 col-lg-9 col-xs-9 hidden-xs">
+				<script async
+					src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- Charisma Demo 2 -->
+				<ins class="adsbygoogle"
+					style="display: inline-block; width: 728px; height: 90px"
+					data-ad-client="ca-pub-5108790028230107" data-ad-slot="3193373905"></ins>
+				<script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+			</div>
+			<div
+				class="col-md-2 col-lg-3 col-sm-12 col-xs-12 email-subscription-footer">
+				<div class="mc_embed_signup">
+					<form
+						action="//halalit.us3.list-manage.com/subscribe/post?u=444b176aa3c39f656c66381f6&amp;id=eeb0c04e84"
+						method="post" id="mc-embedded-subscribe-form"
+						name="mc-embedded-subscribe-form" class="validate" target="_blank"
+						novalidate>
+						<div>
+							<label>Keep up with my work</label> <input type="email" value=""
+								name="EMAIL" class="email" placeholder="Email address" required>
+
+							<div class="power_field">
+								<input type="text" name="b_444b176aa3c39f656c66381f6_eeb0c04e84"
+									tabindex="-1" value="">
+							</div>
+							<div class="clear">
+								<input type="submit" value="Subscribe" name="subscribe"
+									class="button">
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<!--End mc_embed_signup-->
+			</div>
+
+		</div>
+		<!-- Ad ends -->
 
 		<hr>
 

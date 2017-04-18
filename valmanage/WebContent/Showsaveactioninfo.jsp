@@ -130,7 +130,7 @@ $(document).ready(function show(){
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="index.html"> <img
-				alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" /> <span>Charisma</span></a>
+				alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" /> <span>Fast Valve</span></a>
 
 			<!-- user dropdown starts -->
 			<div class="btn-group pull-right">
@@ -142,7 +142,7 @@ $(document).ready(function show(){
 				<ul class="dropdown-menu">
 					<li><a href="#">Profile</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html">Logout</a></li>
+					<li><a href="jsp/logout.jsp">Logout</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->

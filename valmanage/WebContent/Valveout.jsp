@@ -94,9 +94,9 @@ $(document).ready(function show(){
 					insert+="检毕出库";
 				}
 				insert+="</td>";
-				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"deleteRow(this)\">"
+				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"\">"
 				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
-				+"</a> <a class=\"btn btn-info\" onclick=\"deleteRow(this)\"> <i"
+				+"</a> <a class=\"btn btn-info\" onclick=\"\"> <i"
 				+"class=\"glyphicon glyphicon-edit icon-white\"></i> 编辑"
 				+"</a> <a class=\"btn btn-danger\" onclick=\"deleteRow(this)\"> <i"
 				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 删除"
@@ -108,7 +108,7 @@ $(document).ready(function show(){
 			tbody.innerHTML =insert;
 		}
 		});
-	setInterval('show()', 5000);
+	//setInterval('show()', 5000);
 });
 function deleteRow(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
@@ -165,7 +165,7 @@ function deleteRow(r){
 				<ul class="dropdown-menu">
 					<li><a href="#">Profile</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html">Logout</a></li>
+					<li><a href="jsp/logout.jsp">Logout</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->

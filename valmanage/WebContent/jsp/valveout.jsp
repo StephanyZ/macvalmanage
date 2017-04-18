@@ -17,11 +17,7 @@ request.setCharacterEncoding("UTF-8");
 String manindex=request.getParameter("manindex");
 String opnumber=request.getParameter("opnumber");
 String status=request.getParameter("status");
-out.println(status);
-
 String valstatus="";
-
-
 ResultSet rs=null;
 String STR_FORMAT = "00000000";
 DecimalFormat df = new DecimalFormat(STR_FORMAT);
@@ -41,7 +37,7 @@ if(rs_select_getinfo.next()){
 	ResultSet rs_select_save=connect.query(savevalve);
 	if(status.equals("N")){
 		valstatus="C";
-	}else if(status.equals("Q")||status.equals("U")){
+	}else if(status.equals("Y")){
 		valstatus="O";
 	}
 	if(rs_select_save.next()){
@@ -49,12 +45,16 @@ if(rs_select_getinfo.next()){
 		String modify="update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"+location+"'";
 		int flag=0;
 		flag=connect.addquery(modify);
+		if(rs_select_save.next()){
+			location=rs_select_save.getString("storagelocationnum");
+			modify="update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"+location+"'";
+			flag=connect.addquery(modify);
+		}
+		int j=0;
 		if(flag!=0){
-			String insert_out_info="insert into valsavestatusinfo values('"+opnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"',"+optime+",'"+valstatus+"')";
-			String add_checkedwillbesaved="insert into checkedwillbesaved values('"+opnumber+"','"+valvolume+"')";
-			
-			int j=-1;
+			String insert_out_info="insert into valsavestatusinfo values('"+opnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"',"+optime+",'"+valstatus+"',"+null+")";
 			if(valstatus.equals("C")){
+				String add_checkedwillbesaved="insert into checkedwillbesaved values('"+opnumber+"','"+valvolume+"')";
 				j=connect.addquery(add_checkedwillbesaved);
 				if(j==0){
 					PrintWriter pw=response.getWriter();
@@ -63,9 +63,8 @@ if(rs_select_getinfo.next()){
 					pw.close();
 				}
 			}
-			
 			int i=connect.addquery(insert_out_info);
-			if(i!=0&&j!=0){
+			if(i!=0){
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
 				pw.write("出库成功！");
@@ -73,18 +72,23 @@ if(rs_select_getinfo.next()){
 			}else{
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
-				pw.write("信息插入失败！"+insert_out_info+add_checkedwillbesaved);
+				pw.write("信息插入失败！"+insert_out_info);
 				pw.close();
 			}
 		}
-	
-}
-}else{
-	PrintWriter pw=response.getWriter();
-	response.setContentType("text");
-	pw.write("出库失败！");
-	pw.close();
-}
+	}else{
+		PrintWriter pw=response.getWriter();
+		response.setContentType("text");
+		pw.write("出库失败！");
+		pw.close();
+		}
+	}else{
+		PrintWriter pw=response.getWriter();
+		response.setContentType("text");
+		pw.write("系统未录入该安全阀编号或组号，请重新输入！");
+		pw.close();
+		}
+
 
 %>
 
