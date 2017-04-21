@@ -34,9 +34,12 @@
 				session.setAttribute("usertelephone",usertelephone);
 			
 				ss="sucess";
+				System.out.println(account+passwd+ss);
 			
 			}else{
+				
 				ss="failed";
+				System.out.println(account+passwd+ss);
 			}
 		PrintWriter pw=response.getWriter();
 		response.setContentType("text");
