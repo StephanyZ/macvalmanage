@@ -32,6 +32,7 @@ while(rs.next()){
 	ob.addProperty("exlocationnum", rs.getString("exlocationnum"));
 	array.add(ob);	
 }
+System.out.println(array.toString());
 PrintWriter pw=response.getWriter();
 response.setContentType("text／json");
 pw.write(array.toString());

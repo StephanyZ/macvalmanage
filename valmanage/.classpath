@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="/Users/mac/Downloads/apache-tomcat-7.0.77/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/Users/mac/Downloads/json-taglib-0.4.1.jar"/>
 	<classpathentry kind="lib" path="/Users/mac/Downloads/gson-2.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/QRCode.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

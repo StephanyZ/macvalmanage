@@ -51,7 +51,19 @@ function doFind(){
 	alert("发送请求失败！");
 	},
 	success: function(data) {
-	alert(data); //将返回的结果显示到ajaxDiv中
+		if(data=="插入失败"){
+			alert(data);//将返回的结果显示到ajaxDiv中
+		}else{
+			var name=document.getElementById("factory").value;
+			name=encodeURI(name);
+			//alert(name);
+			var a=data.split("&");
+			var path=a[0];
+			var acceptno=a[1];
+			alert(path);
+			alert(acceptno);
+			window.open("/valmanage/CheckOrderPDF.html?name="+name+"&path="+path+"&acceptno="+acceptno,"","modal=yes,width=500,height=500,resizable=no,scrollbars=no");
+		}
 	}
 	});
 	}

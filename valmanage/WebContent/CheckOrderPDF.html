@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PDF</title>
+<link rel="stylesheet" href="./css/style.css">
+<script src="bower_components/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function show(){
+	var date = new Date();
+	var seperator1 = "-";
+	var seperator2 = ":";
+	var month = date.getMonth() + 1;
+	var strDate = date.getDate();
+	if (month >= 1 && month <= 9) {
+	    month = "0" + month;
+	}
+	if (strDate >= 0 && strDate <= 9) {
+	    strDate = "0" + strDate;
+	}
+	var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	        + " " + date.getHours() + seperator2 + date.getMinutes()
+	        + seperator2 + date.getSeconds();
+	//alert(currentdate);
+	//document.getElementById("qrcode").src=obj.path;
+	var query = location.search.substring(1);
+	var values= query.split("&");
+	var path=null;
+	var acceptno=null;
+	for(var i = 0; i < values.length; i++) {
+		var pos = values[i].indexOf('=');
+		if (pos == -1) continue;
+		var paramname = values[i].substring(0,pos);
+		var value = values[i].substring(pos+1);
+		if(i==0){
+			value=decodeURI(value,"utf8");
+			document.getElementById("factory").innerHTML=value;
+		}else if(i==1){
+			path=value;
+		}else if(i==2){
+			acceptno=value;
+			alert(acceptno);	
+		}
+	}
+	//document.getElementById("factory").innerHTML=;
+	document.getElementById("time").innerHTML=currentdate;
+	document.getElementById("acceptno").innerHTML=acceptno;
+});
+</script>
+</head>
+<body>
+		<div class="tools">
+            <button id="btn-html2canvas">export PDF</button>
+        </div>
+        <div class="container">
+        <div id=content> 
+        	<div class="content-banner">
+                    <img class="content-banner-logo" src="./img/logo.jpg" alt="logo">
+                    <h2>Checkorder By FastVave</h2>
+                </div>
+            <div class="content-main">
+            <img class="qrcode" id="qrcode" src="./img/test.png" ><br>
+            委托单号：<h2 id="acceptno"></h2>
+                委托公司：<h2 id="factory"></h2>
+                时间：<h2 id="time"></h2>
+             </div>
+        </div>
+        </div>
+        <script src="./js/jspdf.debug.js"></script>
+        <script src="./js/html2canvas.js"></script>
+        <script src="./js/main.js"></script>
+    </body>
+
+</html>

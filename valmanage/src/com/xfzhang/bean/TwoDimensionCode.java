@@ -201,24 +201,11 @@ public class TwoDimensionCode {
 			return content;
 		}
 
-		public static void main(String[] args) {
-			connection connect=new connection();
-			ResultSet rs=connect.query("select * from info_op_man");
-			try {
-				while (rs.next()) {
-					String pd=rs.getString("userpassword");
-					System.out.println(pd);
-					System.out.println(rs.getString("userpassword")+rs.getString("useraccount"));
-				
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			/*String imgPath = "/Users/apple/Desktop/2017年毕设/twocode.png"; 
+		/*public static void main(String[] args) {
+			String imgPath = "/Users/mac/Downloads/test.png"; 
 			//String imgPath1="/Users/apple/Desktop/2017年毕设/twocode2.png";
 			String encoderContent ="";
-			encoderContent+="A42Y-16P<无锡工业制造有限公司>";
+			encoderContent+="haihaifhai嗨阿嗨";
 			TwoDimensionCode handler = new TwoDimensionCode();    
 			
 			//handler.encoderQRCode(encoderContent, imgPath, "png",10);
@@ -228,8 +215,8 @@ public class TwoDimensionCode {
 			String decoderContent = handler.decoderQRCode(imgPath);
 			System.out.println("============解析结果如下：===============");
 			System.out.println(decoderContent);
-			System.out.println("=========解码成功===========");*/
-		}
+			System.out.println("=========解码成功===========");
+		}*/
 }
 	
 

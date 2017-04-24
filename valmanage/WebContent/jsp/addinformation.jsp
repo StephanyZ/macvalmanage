@@ -10,6 +10,7 @@
 </head>
 <body>
 	<jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
+	<jsp:useBean id="QRencoder" class="com.xfzhang.bean.TwoDimensionCode"/>
 	<% 
 request.setCharacterEncoding("UTF-8");
 String productno=request.getParameter("productno");
@@ -53,8 +54,6 @@ String appearance=null;
 String equipindex=null;
 String acceptno=null;
 String groupnum=null;
-
-
 requireddrawtime = requireddrawtime.replaceAll("-","");
 //get valnumber
 String select_valinformation="select * from val_information";
@@ -112,9 +111,8 @@ ResultSet rs_select_factory=connect.query("select * from userfactory where facto
 int f=0;
 while(rs_select_factory.next()){
 	f=1;
-	%><script>alert("数据库已存在该使用单位")</script><%
 	break;
-	}
+}
 int flag=0;
 String ss=null;
 if(f==0){
@@ -123,17 +121,19 @@ if(f==0){
 flag_add_valinformation=connect.addquery(add_valinformation);
 flag_add_checkorder=connect.addquery(add_checkorder);
 flag_add_willbesaved=connect.addquery(add_willbesaved);
+
+System.out.println(acceptno);
 if((flag_add_userfactory+flag_add_valinformation+flag_add_checkorder+flag_add_willbesaved)!=0)  
 { 
-	ss="插入成功";  
+	ss="/Users/mac/git/valmanage/WebContent/img/test.png";
+	QRencoder.encoderQRCode(acceptno,ss, "png",10);
 }else{  
 	ss="插入失败";  
 	}
 PrintWriter pw=response.getWriter();
 response.setContentType("html/text");
-pw.write(ss);
+pw.write(ss+"&"+acceptno);
 pw.close();
-
 %>
 
 </body>
