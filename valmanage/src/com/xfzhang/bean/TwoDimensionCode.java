@@ -201,14 +201,16 @@ public class TwoDimensionCode {
 			return content;
 		}
 
-		/*public static void main(String[] args) {
-			String imgPath = "/Users/mac/Downloads/test.png"; 
-			//String imgPath1="/Users/apple/Desktop/2017年毕设/twocode2.png";
-			String encoderContent ="";
-			encoderContent+="haihaifhai嗨阿嗨";
+		public static void main(String[] args) {
+			String imgPath = "/Users/mac/Downloads/valnumber_g0000003.png"; 
+			String imgPath1="/Users/mac/Downloads/storagenumber_20100.png";
+			String encoderContent1 ="";
+			encoderContent1+="g0000003";
+			String encoderContent2 ="";
+			encoderContent2+="20100";
 			TwoDimensionCode handler = new TwoDimensionCode();    
-			
-			//handler.encoderQRCode(encoderContent, imgPath, "png",10);
+			handler.encoderQRCode(encoderContent1, imgPath, "png",10);
+			handler.encoderQRCode(encoderContent2, imgPath1, "png",10);
 			
 			//System.out.println("=============编码成功！图片位于："+imgPath+"===============");
 			
@@ -216,7 +218,7 @@ public class TwoDimensionCode {
 			System.out.println("============解析结果如下：===============");
 			System.out.println(decoderContent);
 			System.out.println("=========解码成功===========");
-		}*/
+		}
 }
 	
 

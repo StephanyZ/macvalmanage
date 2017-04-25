@@ -15,27 +15,21 @@
 		ResultSet rs=null;
 		String account=request.getParameter("useraccount");
 		String passwd=request.getParameter("password");
-		String lo="select * from info_op_man where useraccount='"+account+"'";
+		String lo="select * from workman where manindex='"+account+"'";
 		rs=connect.query(lo);
 		String ss="";
 		out.println(lo);
 		
 		while(rs.next()) {
-			String pd=rs.getString("userpassword");
+			String pd=rs.getString("manpassword");
 			
-			if(rs.getString("userpassword").equals(passwd)){
-				String useraccount=rs.getString("useraccount");
-				String username=rs.getString("username");
-				String usertelephone=rs.getString("usertelephone");
-				String usepassword=rs.getString("userpassword");
-			
-				session.setAttribute("useraccount",useraccount);
-				session.setAttribute("username",username);
-				session.setAttribute("usertelephone",usertelephone);
-			
+			if(rs.getString("manpassword").equals(passwd)){
+				String useraccount=rs.getString("manindex");
+				String username=rs.getString("manname");
+				String usertelephone=rs.getString("mantelephone");
+				String usepassword=rs.getString("manpassword");
 				ss="sucess";
 				System.out.println(account+passwd+ss);
-			
 			}else{
 				
 				ss="failed";

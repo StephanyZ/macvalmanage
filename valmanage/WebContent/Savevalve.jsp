@@ -260,7 +260,7 @@
 				<div class=" row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
 						<a data-toggle="tooltip" title="6 new members."
-							class="well top-block" href="opconfirm.html"> <i
+							class="well top-block" href="Opconfirm.jsp"> <i
 							class="glyphicon glyphicon-envelope red"></i> <span>移动操作确认</span>
 						</a>
 					</div>

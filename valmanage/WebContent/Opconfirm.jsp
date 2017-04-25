@@ -52,7 +52,7 @@ $(document).ready(function show(){
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/showsaveactioninfo.jsp",//把表单数据发送到ajax.jsp
+		url:"jsp/showandroidpretosave.jsp?option=show",//把表单数据发送到ajax.jsp
 		dataType:'json',
 		timeout:3000,
 		async: false,
@@ -67,49 +67,68 @@ $(document).ready(function show(){
 			for(var n=0;n<data.length;n++){
 				insert+="<tr>";
 				insert+="<td calss=\"center\">";
-				insert+=data[n].valnumber;
+				insert+=data[n].valorgroupnumber;
 				insert+="</td>";
 				insert+="<td calss=\"center\">";
 				insert+=data[n].storagelocationnum;
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
 				}
-				insert+="</td>";	
+				insert+="<td calss=\"center\">";
+				insert+=data[n].manindex;
+				insert+="</td>";
+				
 				insert+="<td calss=\"center\">";
 				insert+=data[n].optime;
-				insert+="</td>";		
-				if(data[n].opaction=='S'){
-				insert+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
-
-				}
-				if(data[n].opaction=='T'){
-				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
-
-				}
+				insert+="</td>";
+				
 				insert+="<td calss=\"center\">";
 				if(data[n].valstatus=="N"){
-					insert+="未检在库";
+					insert+="未检进库";
 				}else if(data[n].valstatus=="Y"){
-					insert+="已检在库";
+					insert+="已检进库";
 				}else if(data[n].valstatus=="C"){
 					insert+="备检出库";
 				}else if(data[n].valstatus=="O"){
 					insert+="检毕出库";
 				}
 				insert+="</td>";
-				insert+="<td class=\"center\"><a class=\"btn btn-success\" href=\"#\">"
-				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
+				if(data[n].opaction=='S'){
+				insert+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
+				}
+				if(data[n].opaction=='T'){
+				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
+				}
+				insert+="</td>";
+				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"addinfo(this)\">"
+				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定"
 				+"</a></td>";
 				insert+="</tr>";
-				//alert(insert);
-				
 				}
-			insert+="<script>order()<//script>";
 			tbody.innerHTML =insert;
 		}
 		});
         
 });
+
+function addinfo(r){
+	 var rows=r.parentNode.parentNode.rowIndex;
+	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
+	 $.ajax({
+			cache: false,
+			type: "POST",
+			url:"jsp/nochecksave.jsp?option=android&&valorgroupnumber="+valorgroupnumber, //把表单数据发送到ajax.jsp
+			data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+			async: false,
+			error: function(request) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				alert(data); //将返回的结果显示到ajaxDiv中
+				location.replace("Opconfirm.jsp");
+			}
+			});
+}
 
 </script>
 
@@ -298,15 +317,16 @@ $(document).ready(function show(){
 								</div>
 							</div>
 							<div class="box-content">
-								<table id="ddtable" 
+								<table id="table" 
 									class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 									<thead>
 										<tr>
 											<th>安全阀编号</th>
 											<th>存储位置</th>
+											<th>交接员</th>
 											<th>操作时间</th>
-											<th>存入／取出</th>
 											<th>状态</th>
+											<th>存入／取出</th>
 											<th>更多</th>
 										</tr>
 									</thead>

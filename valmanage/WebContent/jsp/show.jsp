@@ -88,6 +88,71 @@ if(option.equals("showvalorgroupinfo")){
 	pw.write(ss);
 	pw.close();
 }
+if(option.equals("androidshowvalinfo")){
+	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	String select_val="select * from val_information where valnumber='"+valorgroupnumber+"'";
+	ResultSet rs_select_val=connect.query(select_val);
+	String select_group="select * from val_information where groupnum='"+valorgroupnumber+"'";
+	ResultSet rs_select_group=connect.query(select_group);
+	String ss="";
+	JsonObject object=new JsonObject();
+	JsonArray array=new JsonArray();
+	String select_willbe="select * from willbesaved where valorgroupnumber='"+valorgroupnumber+"'";
+	ResultSet rs_willbe=connect.query(select_willbe);
+	String status="";
+	if(rs_willbe.next()){
+		status="canbesaved";
+	}else{
+		status="Cantbesaved";
+	}
+	int val_flag=0;
+	if(rs_select_val.next()){
+		JsonObject ob=new JsonObject();
+		ob.addProperty("valnumber",rs_select_val.getString("valnumber"));
+		ob.addProperty("valproductno",rs_select_val.getString("productno"));
+		ob.addProperty("manufacture",rs_select_val.getString("manufacture"));
+		ob.addProperty("valvecate", rs_select_val.getString("valvecate"));
+		val_flag=1;
+	}
+	if(val_flag==1){
+		object.addProperty("status",status);
+		object.addProperty("valorgroup","val");
+		object.add("values", array);
+		System.out.println(object.toString());
+		PrintWriter pw=response.getWriter();
+		response.setContentType("text／json");
+		pw.write(object.toString());
+		pw.close();
+	}
+	if(rs_select_group.next()){
+		JsonObject ob=new JsonObject();
+		int count=0;
+		count++;
+		ob.addProperty("index", count);
+		ob.addProperty("valnumber",rs_select_group.getString("valnumber"));
+		ob.addProperty("valproductno",rs_select_group.getString("productno"));
+		ob.addProperty("manufacture",rs_select_group.getString("manufacture"));
+		ob.addProperty("valvecate", rs_select_group.getString("valvecate"));
+		array.add(ob);	
+		while(rs_select_group.next()){
+			count++;
+			ob.addProperty("index", count);
+			ob.addProperty("valnumber",rs_select_group.getString("valnumber"));
+			ob.addProperty("valproductno",rs_select_group.getString("productno"));
+			ob.addProperty("manufacture",rs_select_group.getString("manufacture"));
+			ob.addProperty("valvecate", rs_select_group.getString("valvecate"));
+			array.add(ob);	
+		}
+		object.addProperty("status",status);
+		object.addProperty("valorgroup", "group");
+		object.add("values", array);
+		System.out.println(object.toString());
+		PrintWriter pw=response.getWriter();
+		response.setContentType("text／json");
+		pw.write(object.toString());
+		pw.close();
+	}
+}
 if(option.equals("getvolume")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
 	String select="select * from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
