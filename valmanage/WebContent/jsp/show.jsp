@@ -3,7 +3,8 @@
     <%@ page
 	import="java.io.*,java.sql.*,java.sql.Connection,java.sql.Statement,java.util.Formatter,java.text.ParseException,java.text.SimpleDateFormat,java.util.Calendar,java.util.Date,java.text.DecimalFormat"%>
 <%@page import="com.google.gson.JsonArray"%>  
-<%@page import="com.google.gson.JsonObject"%> 
+<%@page import="com.google.gson.JsonObject"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -99,9 +100,13 @@ if(option.equals("androidshowvalinfo")){
 	JsonArray array=new JsonArray();
 	String select_willbe="select * from willbesaved where valorgroupnumber='"+valorgroupnumber+"'";
 	ResultSet rs_willbe=connect.query(select_willbe);
+	String select_checkedwillbe="select * from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
+	ResultSet rs_checkedwillbe=connect.query(select_checkedwillbe);
 	String status="";
 	if(rs_willbe.next()){
-		status="canbesaved";
+		status="willbesaved";
+	}else if(rs_checkedwillbe.next()){
+		status="checkedwillbesaved";
 	}else{
 		status="Cantbesaved";
 	}
@@ -136,12 +141,13 @@ if(option.equals("androidshowvalinfo")){
 		array.add(ob);	
 		while(rs_select_group.next()){
 			count++;
-			ob.addProperty("index", count);
-			ob.addProperty("valnumber",rs_select_group.getString("valnumber"));
-			ob.addProperty("valproductno",rs_select_group.getString("productno"));
-			ob.addProperty("manufacture",rs_select_group.getString("manufacture"));
-			ob.addProperty("valvecate", rs_select_group.getString("valvecate"));
-			array.add(ob);	
+			JsonObject ob1=new JsonObject();
+			ob1.addProperty("index", count);
+			ob1.addProperty("valnumber",rs_select_group.getString("valnumber"));
+			ob1.addProperty("valproductno",rs_select_group.getString("productno"));
+			ob1.addProperty("manufacture",rs_select_group.getString("manufacture"));
+			ob1.addProperty("valvecate", rs_select_group.getString("valvecate"));
+			array.add(ob1);	
 		}
 		object.addProperty("status",status);
 		object.addProperty("valorgroup", "group");
