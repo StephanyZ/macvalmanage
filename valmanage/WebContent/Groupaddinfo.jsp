@@ -42,12 +42,13 @@
 <link rel="shortcut icon" href="img/favicon.ico">
 <script type="text/javascript">
 function doFind(){
-	var checkArray = document.getElementsByName("checkbox");
+	var checkArray = document.getElementById("checkisgroup");
 	if(checkArray.checked){
 		flag="yes";
 	}else{
 		flag="no";
 	}
+	alert(flag);
 	$.ajax({
 	cache: false,
 	type: "POST",
@@ -58,7 +59,20 @@ function doFind(){
 	alert("发送请求失败！");
 	},
 	success: function(data) {
-	alert(data); //将返回的结果显示到ajaxDiv中
+	//将返回的结果显示到ajaxDiv中
+	if(data=="插入失败"){
+		alert(data);//将返回的结果显示到ajaxDiv中
+	}else{
+		var name=document.getElementById("factory").value;
+		name=encodeURI(name);
+		//alert(name);
+		var a=data.split("&");
+		var path=a[0];
+		var acceptno=a[1];
+		alert(path);
+		alert(acceptno);
+		window.open("/valmanage/CheckOrderPDF.html?name="+name+"&path="+path+"&acceptno="+acceptno,"","modal=yes,width=500,height=500,resizable=no,scrollbars=no");
+	}
 	}
 	});
 	}
@@ -100,6 +114,7 @@ function addvaltogroup(){
 		alert("发送请求失败！");
 		},
 		success: function(data) {
+			alert(data);
 			showgroupval();
 		}
 	});
@@ -232,46 +247,13 @@ function showgroupval(){
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
 							<li><a class="ajax-link" href="Groupaddinfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
-							<li><a class="ajax-link" href="savevalve.html"><i
+							<li><a class="ajax-link" href="Nochecksave.jsp"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
 							<li><a class="ajax-link" href="Showsaveactioninfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 查看存储信息</span></a></li>
-							<li><a class="ajax-link" href="form.html"><i
-									class="glyphicon glyphicon-edit"></i><span> Forms</span></a></li>
-							<li><a class="ajax-link" href="chart.html"><i
-									class="glyphicon glyphicon-list-alt"></i><span> Charts</span></a></li>
-							<li><a class="ajax-link" href="typography.html"><i
-									class="glyphicon glyphicon-font"></i><span> Typography</span></a></li>
-							<li><a class="ajax-link" href="gallery.html"><i
-									class="glyphicon glyphicon-picture"></i><span> Gallery</span></a></li>
-							<li class="nav-header hidden-md">Sample Section</li>
-							<li><a class="ajax-link" href="table.html"><i
-									class="glyphicon glyphicon-align-justify"></i><span>
-										Tables</span></a></li>
-							<li class="accordion"><a href="#"><i
-									class="glyphicon glyphicon-plus"></i><span> Accordion
-										Menu</span></a>
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#">Child Menu 1</a></li>
-									<li><a href="#">Child Menu 2</a></li>
-								</ul></li>
-							<li><a class="ajax-link" href="calendar.html"><i
-									class="glyphicon glyphicon-calendar"></i><span> Calendar</span></a>
-							</li>
-							<li><a class="ajax-link" href="grid.html"><i
-									class="glyphicon glyphicon-th"></i><span> Grid</span></a></li>
-							<li><a href="tour.html"><i
-									class="glyphicon glyphicon-globe"></i><span> Tour</span></a></li>
-							<li><a class="ajax-link" href="icon.html"><i
-									class="glyphicon glyphicon-star"></i><span> Icons</span></a></li>
-							<li><a href="error.html"><i
-									class="glyphicon glyphicon-ban-circle"></i><span> Error
-										Page</span></a></li>
-							<li><a href="login.html"><i
-									class="glyphicon glyphicon-lock"></i><span> Login Page</span></a></li>
+							
 						</ul>
-						<label id="for-is-ajax" for="is-ajax"><input id="is-ajax"
-							type="checkbox"> Ajax on menu</label>
+						
 					</div>
 				</div>
 			</div>
@@ -293,8 +275,8 @@ function showgroupval(){
 				<!-- content starts -->
 				<div>
 					<ul class="breadcrumb">
-						<li><a href="#">首页</a></li>
-						<li><a href="#">委托单信息录入</a></li>
+						<li><a href="homepage.jsp">首页</a></li>
+						<li><a href="Groupaddinfo">委托单信息录入</a></li>
 					</ul>
 				</div>
 

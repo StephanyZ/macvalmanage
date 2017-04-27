@@ -294,42 +294,7 @@ function nochecklocation(){
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
 							<li><a class="ajax-link" href="Showsaveactioninfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 查看存储信息</span></a></li>
-							<li><a class="ajax-link" href="form.html"><i
-									class="glyphicon glyphicon-edit"></i><span> Forms</span></a></li>
-							<li><a class="ajax-link" href="chart.html"><i
-									class="glyphicon glyphicon-list-alt"></i><span> Charts</span></a></li>
-							<li><a class="ajax-link" href="typography.html"><i
-									class="glyphicon glyphicon-font"></i><span> Typography</span></a></li>
-							<li><a class="ajax-link" href="gallery.html"><i
-									class="glyphicon glyphicon-picture"></i><span> Gallery</span></a></li>
-							<li class="nav-header hidden-md">Sample Section</li>
-							<li><a class="ajax-link" href="table.html"><i
-									class="glyphicon glyphicon-align-justify"></i><span>
-										Tables</span></a></li>
-							<li class="accordion"><a href="#"><i
-									class="glyphicon glyphicon-plus"></i><span> Accordion
-										Menu</span></a>
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#">Child Menu 1</a></li>
-									<li><a href="#">Child Menu 2</a></li>
-								</ul></li>
-							<li><a class="ajax-link" href="calendar.html"><i
-									class="glyphicon glyphicon-calendar"></i><span> Calendar</span></a>
-							</li>
-							<li><a class="ajax-link" href="grid.html"><i
-									class="glyphicon glyphicon-th"></i><span> Grid</span></a></li>
-							<li><a href="tour.html"><i
-									class="glyphicon glyphicon-globe"></i><span> Tour</span></a></li>
-							<li><a class="ajax-link" href="icon.html"><i
-									class="glyphicon glyphicon-star"></i><span> Icons</span></a></li>
-							<li><a href="error.html"><i
-									class="glyphicon glyphicon-ban-circle"></i><span> Error
-										Page</span></a></li>
-							<li><a href="login.html"><i
-									class="glyphicon glyphicon-lock"></i><span> Login Page</span></a></li>
 						</ul>
-						<label id="for-is-ajax" for="is-ajax"><input id="is-ajax"
-							type="checkbox"> Ajax on menu</label>
 					</div>
 				</div>
 			</div>
@@ -487,17 +452,6 @@ function nochecklocation(){
 			</div>
 		</div>
 	</div><!-- end row -->
-
-		<footer class="row">
-			<p class="col-md-9 col-sm-9 col-xs-12 copyright">
-				&copy; <a href="http://usman.it" target="_blank">Muhammad Usman</a>
-				2012 - 2015
-			</p>
-
-			<p class="col-md-3 col-sm-3 col-xs-12 powered-by">
-				Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a>
-			</p>
-		</footer>
 
 	<!--/.fluid-container-->
 

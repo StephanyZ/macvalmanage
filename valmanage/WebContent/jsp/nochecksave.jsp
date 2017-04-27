@@ -106,14 +106,22 @@ if(option.equals("android")){
 		optime = optime.replaceAll(" ","");
 		optime=optime.replaceAll(":","");
 		optime=optime.substring(0,14);
+		if(exlocationnum!=null){
+			exlocationnum="'"+exlocationnum+"'";
+		}
 		String modify="update locationinfo set locationstatus=1,valorgroupnumber=\""+valorgroupnumber+"\" where storagelocationnum=\""+storagelocationnum+"\"";
-		String insert="insert into valsavestatusinfo values('"+valorgroupnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"','"+optime+"','"+valstatus+"',"+null+")";
+		String insert="insert into valsavestatusinfo values('"+valorgroupnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"','"+optime+"','"+valstatus+"',"+exlocationnum+")";
 		System.out.println(insert);
 		int flag_modify=connect.addquery(modify);
 		int flad_insert=connect.addquery(insert);
 		if(flag_modify!=0&&flad_insert!=0){	
 			String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+valorgroupnumber+"'";
-			String delete="delete from willbesaved where valorgroupnumber='"+valorgroupnumber+"'";
+			String delete=null;
+			if(valstatus.equals("N")){
+				delete="delete from willbesaved where valorgroupnumber='"+valorgroupnumber+"'";
+			}else if(valstatus.equals("Y")){
+				delete="delete from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
+			}
 			int flag_delete=connect.addquery(delete);
 			int flag_delete_pre=connect.addquery(delete_pre);
 			if(flag_delete!=0&&flag_delete_pre!=0){

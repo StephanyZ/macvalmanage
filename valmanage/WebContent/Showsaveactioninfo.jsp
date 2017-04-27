@@ -97,7 +97,7 @@ $(document).ready(function show(){
 					insert+="检毕出库";
 				}
 				insert+="</td>";
-				insert+="<td class=\"center\"><a class=\"btn btn-success\" href=\"#\">"
+				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"serchinfo(this)\">"
 				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
 				+"</a></td>";
 				insert+="</tr>";
@@ -110,6 +110,11 @@ $(document).ready(function show(){
 		});
         
 });
+function serchinfo(r){
+	var rows=r.parentNode.parentNode.rowIndex;
+	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
+	 var status=document.getElementById('table').rows[rows].cells[4].innerText;
+}
 
 </script>
 
@@ -212,48 +217,15 @@ $(document).ready(function show(){
 							<li class="nav-header">菜单</li>
 							<li><a class="ajax-link" href="homepage.jsp"><i
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
-							<li><a class="ajax-link" href="Addinformation.jsp"><i
+							<li><a class="ajax-link" href="Groupaddinfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
 							<li><a class="ajax-link" href="Savevalve.jsp"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
 							<li><a class="ajax-link" href="Showsaveactioninfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 查看存储信息</span></a></li>
-							<li><a class="ajax-link" href="form.html"><i
-									class="glyphicon glyphicon-edit"></i><span> Forms</span></a></li>
-							<li><a class="ajax-link" href="chart.html"><i
-									class="glyphicon glyphicon-list-alt"></i><span> Charts</span></a></li>
-							<li><a class="ajax-link" href="typography.html"><i
-									class="glyphicon glyphicon-font"></i><span> Typography</span></a></li>
-							<li><a class="ajax-link" href="gallery.html"><i
-									class="glyphicon glyphicon-picture"></i><span> Gallery</span></a></li>
-							<li class="nav-header hidden-md">Sample Section</li>
-							<li><a class="ajax-link" href="table.html"><i
-									class="glyphicon glyphicon-align-justify"></i><span>
-										Tables</span></a></li>
-							<li class="accordion"><a href="#"><i
-									class="glyphicon glyphicon-plus"></i><span> Accordion
-										Menu</span></a>
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#">Child Menu 1</a></li>
-									<li><a href="#">Child Menu 2</a></li>
-								</ul></li>
-							<li><a class="ajax-link" href="calendar.html"><i
-									class="glyphicon glyphicon-calendar"></i><span> Calendar</span></a>
-							</li>
-							<li><a class="ajax-link" href="grid.html"><i
-									class="glyphicon glyphicon-th"></i><span> Grid</span></a></li>
-							<li><a href="tour.html"><i
-									class="glyphicon glyphicon-globe"></i><span> Tour</span></a></li>
-							<li><a class="ajax-link" href="icon.html"><i
-									class="glyphicon glyphicon-star"></i><span> Icons</span></a></li>
-							<li><a href="error.html"><i
-									class="glyphicon glyphicon-ban-circle"></i><span> Error
-										Page</span></a></li>
-							<li><a href="login.html"><i
-									class="glyphicon glyphicon-lock"></i><span> Login Page</span></a></li>
+							
 						</ul>
-						<label id="for-is-ajax" for="is-ajax"><input id="is-ajax"
-							type="checkbox"> Ajax on menu</label>
+						
 					</div>
 				</div>
 			</div>
@@ -275,11 +247,37 @@ $(document).ready(function show(){
 				<!-- content starts -->
 				<div>
 					<ul class="breadcrumb">
-						<li><a href="#">首页</a></li>
-						<li><a href="#">查看信息存储</a></li>
+						<li><a href="homepage.jsp">首页</a></li>
+						<li><a href="Showsaveaction.jsp">查看信息存储</a></li>
 					</ul>
 				</div>
+				<div class=" row">
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="6 new members."
+							class="well top-block" href="Opconfirm.jsp"> <i
+							class="glyphicon glyphicon-envelope red"></i> <span>移动操作确认</span>
+						</a>
+					</div>
 
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="4 new pro members."
+							class="well top-block" href="Nochecksave.jsp"> <i
+							class="glyphicon glyphicon-star green"></i> <span>未检入库</span>
+						</a>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="$34 new sales."
+							class="well top-block" href="Ischeckedsave.jsp"> <i
+							class="glyphicon glyphicon-shopping-cart yellow"></i> <span>已检入库</span>
+						</a>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<a data-toggle="tooltip" title="12 new messages."
+							class="well top-block" href="Valveout.jsp"> <i
+							class="glyphicon glyphicon-user blue"></i> <span>出库</span>
+						</a>
+					</div>
+				</div>
 				<div class="row">
 					<div class="box col-md-12">
 						<div class="box-inner">

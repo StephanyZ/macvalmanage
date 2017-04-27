@@ -44,6 +44,7 @@ $(document).ready(function show(){
 			alert(acceptno);	
 		}
 	}
+	document.getElementById("s").src="url(./image/"+acceptno+".png)"
 	//document.getElementById("factory").innerHTML=;
 	document.getElementById("time").innerHTML=currentdate;
 	document.getElementById("acceptno").innerHTML=acceptno;
@@ -61,7 +62,7 @@ $(document).ready(function show(){
                     <h2>Checkorder By FastVave</h2>
                 </div>
             <div class="content-main">
-            <img class="qrcode" id="qrcode" src="./img/test.png" ><br>
+            <img class="qrcode" id="qrcode" ><br>
             委托单号：<h2 id="acceptno"></h2>
                 委托公司：<h2 id="factory"></h2>
                 时间：<h2 id="time"></h2>

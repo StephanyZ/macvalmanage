@@ -12,6 +12,7 @@
 </head>
 <body>
 <jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
+<jsp:useBean id="QRencoder" class="com.xfzhang.bean.TwoDimensionCode"/>
 	<% 
 request.setCharacterEncoding("UTF-8");
 String option=request.getParameter("option");
@@ -86,13 +87,13 @@ if(option.equals("groupnum")){
 	pw.write(groupnum);
 	pw.close();
 	}
-
-
-
 if(option.equals("valnum")){
 	groupnum=request.getParameter("groupnum");
 	if(groupnum.equals("")){
-		%><script>alert("分组id为空！")</script><%
+		PrintWriter pw=response.getWriter();
+		response.setContentType("html/text");
+		pw.write("分组id为空");
+		pw.close();
 		return;
 	}else{
 	String select_valinformation="select * from val_information";
@@ -119,16 +120,21 @@ if(option.equals("valnum")){
 	String STR_FORMAT = "00000000";
 	DecimalFormat df = new DecimalFormat(STR_FORMAT);
 	valnumber=df.format(valinfocount);
-	String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"')";
+	String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+")";
 	int flag_add_valinformation=0;
+	System.out.println(add_valinformation);
 	flag_add_valinformation=connect.addquery(add_valinformation);
 	if(flag_add_valinformation!=0){
+		System.out.println(add_valinformation);
 		PrintWriter pw=response.getWriter();
 		response.setContentType("text");
 		pw.write("安全阀添加成功！");
 		pw.close();
 	}else{
-		%><script>alert("安全阀存储入组失败")</script><%
+		PrintWriter pw=response.getWriter();
+		response.setContentType("text");
+		pw.write("安全阀存储入组失败！");
+		pw.close();
 	}
 	}
 }
@@ -201,14 +207,16 @@ if(option.equals("addinformation")){
 			flag_add_checkorder=connect.addquery(add_checkorder);
 			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
 			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
+				ss="/Users/mac/git/valmanage/WebContent/image/"+acceptno+".png";
+				QRencoder.encoderQRCode(acceptno,ss, "png",10);
 				PrintWriter pw=response.getWriter();
-				response.setContentType("text");
-				pw.write("委托单填写成功！");
+				response.setContentType("html/text");
+				pw.write(ss+"&"+acceptno);
 				pw.close();
 			}else{
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
-				pw.write("填写失败。请联系后台人员处理"+add_checkorder);
+				pw.write("填写失败&请联系后台人员处理"+add_checkorder);
 				pw.close();
 			}
 		}else{
@@ -242,7 +250,7 @@ if(option.equals("addinformation")){
 			rs_select_valnum=connect.query("select * from val_information where valnumber=\""+valnumber+"\"");
 		}
 		valnumber=df.format(valinfocount);
-		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"')";
+		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+")";
 		int flag_add_valinformation=0;
 		flag_add_valinformation=connect.addquery(add_valinformation);
 		if(flag_add_valinformation!=0){
@@ -251,21 +259,23 @@ if(option.equals("addinformation")){
 			String add_groupwillbesaved="insert into willbesaved values('"+valnumber+"')";
 			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
 			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
+				ss="/Users/mac/git/valmanage/WebContent/image/"+acceptno+".png";
+				QRencoder.encoderQRCode(acceptno,ss, "png",10);
 				PrintWriter pw=response.getWriter();
-				response.setContentType("text");
-				pw.write("委托单填写成功！");
+				response.setContentType("html/text");
+				pw.write(ss+"&"+acceptno);
 				pw.close();
 			}else{
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
-				pw.write("填写失败。请联系后台人员处理"+add_checkorder);
+				pw.write("填写失败&请联系后台人员处理"+add_checkorder);
 				pw.close();
 			}
 			
 		}else{
 			PrintWriter pw=response.getWriter();
 			response.setContentType("text");
-			pw.write("安全阀信息添加失败！");
+			pw.write("安全阀信息添加失败");
 			pw.close();
 		}
 	}
