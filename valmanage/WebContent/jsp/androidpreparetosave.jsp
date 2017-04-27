@@ -16,43 +16,104 @@
 	<jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
 	<%
 		request.setCharacterEncoding("UTF-8");
-			String option = request.getParameter("option");
-			if (option.equals("nochecksave") || option.equals("ischeckedsave")) {
-		String valorgroupnumber = request.getParameter("valorgroupnumber");
+		String option = request.getParameter("option");
 		String manindex = request.getParameter("manindex");
-		String storagelocationnum = request.getParameter("storagelocationnum");
-		String opaction = request.getParameter("opaction");
-		String valvolume = null;
-		String exlocationnum = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String checkedinfo = request.getParameter("checkedinfo");
+		JSONArray check = new JSONArray(checkedinfo);
 		Date d = new Date();
 		String optime = sdf.format(d);
-		String flag = null;
-		int Flag = 0;
-		String valstatus = "";
 		String why = "&";
-		if (option.equals("ischeckedsave")) {
-			String checkedinfo = request.getParameter("checkedinfo");
-			exlocationnum = request.getParameter("exlocationnum");
-			JSONArray check = new JSONArray(checkedinfo);
-			int flag_modify = 0;
-			int qcount = 0;
+		if (option.equals("preoutvalve")) {
+			String flag = "";
+			int Flag = 0;
+			int ff=0;
+			String addtopre="";
 			for (int i = 0; i < check.length(); i++) {
 				JSONObject ob = check.getJSONObject(i);
-				String valnumber = ob.getString("cbvalnumber");
-				String modify_qualify = null;
-				if (ob.getString("ischecked").equals("true")) {
-					qcount++;
-					modify_qualify = "update val_information set isqualify='yes' where valnumber='" + valnumber
-							+ "'";
-				} else if (ob.getString("ischecked").equals("false")) {
-					modify_qualify = "update val_information set isqualify='no' where valnumber='" + valnumber
-							+ "'";
+				String ischecked = ob.getString("ischecked");
+				if (ischecked.equals("true")) {
+					String valorgroupnumber = ob.getString("cbvalnumber");
+					String select_outstatus = "select * from valsavestatusinfo where valnumber='" + valorgroupnumber
+							+ "'order by optime desc limit 1";
+					ResultSet rs_select_outstatus = connect.query(select_outstatus);
+					if (rs_select_outstatus.next()) {
+						String valvolume = rs_select_outstatus.getString("valvolume");
+						String storagelocationnum = rs_select_outstatus.getString("storagelocationnum");
+						String opaction = "T";
+						String exlocationnum = rs_select_outstatus.getString("exlocationnum");
+						String valstatus = rs_select_outstatus.getString("valstatus");
+						if(valstatus.equals("Y")){
+							valstatus="O";
+						}else if(valstatus.equals("N")){
+							valstatus="C";
+						}
+						if(exlocationnum!=null){
+							exlocationnum="'"+exlocationnum+"'";
+						}
+						addtopre= "insert into preparetochangeinfo values('" + valorgroupnumber + "','"
+								+ valvolume + "','" + storagelocationnum + "','" + opaction + "','" + manindex
+								+ "'," + optime + "," + exlocationnum + ",'" + valstatus + "')";
+						int flag_insert = connect.addquery(addtopre);
+						if (flag_insert == 0) {
+							Flag = 1;
+							System.out.println(addtopre);
+						}
+
+					}else{
+						ff=1;
+						System.out.println(select_outstatus);
+					}
 				}
-				flag_modify = connect.addquery(modify_qualify);
-				if (flag_modify == 0) {
-					Flag = 1;
-					why += "modify qualify is error";
+			}
+			if(Flag==1||ff==1){
+				flag = "failed";
+				if(Flag==1){
+					why+="安全阀插入失败";
+					
+				}else if(ff==1){
+					why+="安全阀查询失败";
+				}
+				flag+= why;
+			}else{
+				flag="sucess";
+			}
+			PrintWriter pw = response.getWriter();
+			response.setContentType("text");
+			pw.write(flag);
+			pw.close();
+			return;
+		}
+
+		if (option.equals("nochecksave") || option.equals("ischeckedsave")) {
+			String valorgroupnumber = request.getParameter("valorgroupnumber");
+			String storagelocationnum = request.getParameter("storagelocationnum");
+			String opaction = request.getParameter("opaction");
+			String valvolume = null;
+			String exlocationnum = null;
+			String flag = null;
+			int Flag = 0;
+			String valstatus = "";
+			if (option.equals("ischeckedsave")) {
+				exlocationnum = request.getParameter("exlocationnum");
+				int flag_modify = 0;
+				int qcount = 0;
+				for (int i = 0; i < check.length(); i++) {
+					JSONObject ob = check.getJSONObject(i);
+					String valnumber = ob.getString("cbvalnumber");
+					String modify_qualify = null;
+					if (ob.getString("ischecked").equals("true")) {
+						qcount++;
+						modify_qualify = "update val_information set isqualify='yes' where valnumber='" + valnumber
+								+ "'";
+					} else if (ob.getString("ischecked").equals("false")) {
+						modify_qualify = "update val_information set isqualify='no' where valnumber='" + valnumber
+								+ "'";
+					}
+					flag_modify = connect.addquery(modify_qualify);
+					if (flag_modify == 0) {
+						Flag = 1;
+						why += "modify qualify is error";
 					}
 				}
 				if (qcount > 0 && qcount < check.length()) {
@@ -99,6 +160,9 @@
 						pw.write(flag + "&请确认存储位置编号为正确可使用编号");
 						pw.close();
 						return;
+					}
+					if(exlocationnum!=null){
+						exlocationnum="'"+exlocationnum+"'";
 					}
 					String addtopre = "insert into preparetochangeinfo values('" + valorgroupnumber + "','"
 							+ valvolume + "','" + storagelocationnum + "','" + opaction + "','" + manindex + "','"

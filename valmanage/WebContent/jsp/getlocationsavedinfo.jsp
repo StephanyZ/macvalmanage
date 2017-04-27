@@ -26,7 +26,9 @@ while(rs_select_location.next()){
 	valorgroupnummber=rs_select_location.getString("valorgroupnumber");
 	sql="select * from valsavestatusinfo where valnumber='"+valorgroupnummber+"'order by optime desc limit 1";
 	rs=connect.query(sql);
-	while(rs.next()){
+	String select="select * from preparetochangeinfo where valorgroupnumber='"+valorgroupnummber+"'";
+	ResultSet rs1=connect.query(select);
+	if(rs.next()&&!rs1.next()){
 		JsonObject ob=new JsonObject();
 		ob.addProperty("valnumber",rs.getString("valnumber"));
 		ob.addProperty("valvolume",rs.getString("valvolume"));

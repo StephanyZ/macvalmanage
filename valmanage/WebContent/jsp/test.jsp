@@ -13,16 +13,13 @@
 <body>
 <jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
 <%
-request.setCharacterEncoding("UTF-8");
-String s[]=request.getParameterValues("checkedid");
-String ss="";
-for(int i=0;i<s.length;i++){
-	ss+=s[i];
+String ss="insert into preparetochangeinfo values('00000012','S','10100','T','lzhang',20170427164146,null,'N')";
+int flag=connect.addquery(ss);
+if(flag==0){
+	System.out.println(ss);
+}else{
+	System.out.println("成功");
 }
-PrintWriter pw=response.getWriter();
-response.setContentType("text");
-pw.write(ss);
-pw.close();
 /*ResultSet rs=null;
 String locationstatus="select * from locationinfo where locationstatus=1";
 out.println(locationstatus);

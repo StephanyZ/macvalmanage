@@ -94,12 +94,8 @@ $(document).ready(function show(){
 					insert+="检毕出库";
 				}
 				insert+="</td>";
-				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"\">"
-				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
-				+"</a> <a class=\"btn btn-info\" onclick=\"\"> <i"
-				+"class=\"glyphicon glyphicon-edit icon-white\"></i> 编辑"
-				+"</a> <a class=\"btn btn-danger\" onclick=\"deleteRow(this)\"> <i"
-				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 删除"
+				insert+="<td class=\"center\"><a class=\"btn btn-danger\" onclick=\"deleteRow(this)\"> <i"
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库"
 				+"</a></td>";
 				insert+="</tr>";
 				//alert(insert);
@@ -241,7 +237,7 @@ function deleteRow(r){
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
 							<li><a class="ajax-link" href="Addinformation.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
-							<li><a class="ajax-link" href="savevalve.html"><i
+							<li><a class="ajax-link" href="Savevalve.jsp"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
 							<li><a class="ajax-link" href="Showsaveactioninfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 查看存储信息</span></a></li>
