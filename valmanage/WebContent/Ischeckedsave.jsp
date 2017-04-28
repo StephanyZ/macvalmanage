@@ -215,7 +215,7 @@ function nochecklocation(){
 				<ul class="dropdown-menu">
 					<li><a href="#">Profile</a></li>
 					<li class="divider"></li>
-					<li><a href="login.jsp">Logout</a></li>
+					<li><a href="jsp/logout.jsp">Logout</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->
@@ -290,7 +290,7 @@ function nochecklocation(){
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
 							<li><a class="ajax-link" href="Groupaddinfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
-							<li><a class="ajax-link" href="savevalve.html"><i
+							<li><a class="ajax-link" href="Nochecksave.jsp"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
 							<li><a class="ajax-link" href="Showsaveactioninfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 查看存储信息</span></a></li>
@@ -316,14 +316,14 @@ function nochecklocation(){
 				<!-- content starts -->
 				<div>
 					<ul class="breadcrumb">
-						<li><a href="#">首页</a></li>
-						<li><a href="#">开始存储</a></li>
+						<li><a href="homepage.jsp">首页</a></li>
+						<li><a href="Nochecksave.jsp">未检存储</a></li>
 					</ul>
 				</div>
 				<div class=" row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
 						<a data-toggle="tooltip" title="6 new members."
-							class="well top-block" href="opconfirm.html"> <i
+							class="well top-block" href="Opconfirm.jsp"> <i
 							class="glyphicon glyphicon-envelope red"></i> <span>移动操作确认</span>
 						</a>
 					</div>

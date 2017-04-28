@@ -112,8 +112,8 @@ $(document).ready(function show(){
 });
 function serchinfo(r){
 	var rows=r.parentNode.parentNode.rowIndex;
-	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
-	 var status=document.getElementById('table').rows[rows].cells[4].innerText;
+	var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
+	document.get
 }
 
 </script>
@@ -219,7 +219,7 @@ function serchinfo(r){
 									class="glyphicon glyphicon-home"></i><span> 首页</span></a></li>
 							<li><a class="ajax-link" href="Groupaddinfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 委托单信息录入</span></a></li>
-							<li><a class="ajax-link" href="Savevalve.jsp"><i
+							<li><a class="ajax-link" href="Nochecksave.jsp"><i
 									class="glyphicon glyphicon-edit"></i><span> 开始存储</span></a></li>
 							<li><a class="ajax-link" href="Showsaveactioninfo.jsp"><i
 									class="glyphicon glyphicon-eye-open"></i><span> 查看存储信息</span></a></li>

@@ -11,7 +11,7 @@
 session.removeAttribute("useraccount");
 session.removeAttribute("username");
 session.removeAttribute("usertelephone");
-response.sendRedirect("../index.html");
+response.sendRedirect("../index.jsp");
 %>
 </body>
 </html>

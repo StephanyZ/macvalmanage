@@ -114,7 +114,7 @@ if(option.equals("android")){
 		System.out.println(insert);
 		int flag_modify=connect.addquery(modify);
 		int flad_insert=connect.addquery(insert);
-		if(flag_modify!=0&&flad_insert!=0){	
+		if(flag_modify!=0&&flad_insert!=0){
 			String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+valorgroupnumber+"'";
 			String delete=null;
 			if(valstatus.equals("N")){

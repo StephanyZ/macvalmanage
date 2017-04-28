@@ -60,7 +60,7 @@
 				valstatus = "O";
 			}
 			if (rs_select_save.next()) {
-				String exlocationnum = "";
+				String exlocationnum =null;
 				String location = rs_select_save.getString("storagelocationnum");
 				String modify = "update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"
 						+ location + "'";
@@ -73,13 +73,10 @@
 					flag1 = connect.addquery(modify);
 				}
 				int j = 0;
-				if (flag != 0 && (exlocationnum == null || flag1 != 0)) {
+				if (flag!= 0) {
 					if (exlocationnum != null) {
 						exlocationnum = "'" + exlocationnum + "'";
 					}
-					String insert_out_info = "insert into valsavestatusinfo values('" + opnumber + "','" + valvolume
-							+ "','" + storagelocationnum + "','" + opaction + "','" + manindex + "','" + useraccount
-							+ "'," + optime + ",'" + valstatus + "'," + exlocationnum + ")";
 					if (valstatus.equals("C")) {
 						String add_checkedwillbesaved = "insert into checkedwillbesaved values('" + opnumber + "','"
 								+ valvolume + "')";
@@ -89,33 +86,40 @@
 							response.setContentType("text");
 							pw.write("出库插入备存队列失败！！" + add_checkedwillbesaved);
 							pw.close();
+							return;
 						}
 					}
-					int i = connect.addquery(insert_out_info);
-					String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+opnumber+"'";
-					int flag_delete_pre=connect.addquery(delete_pre);
-					if (i != 0&&flag_delete_pre!=0) {
-						
+					String insert_out_info = "insert into valsavestatusinfo values('" + opnumber + "','" + valvolume
+							+ "','" + storagelocationnum + "','" + opaction + "','" + manindex + "','" + useraccount
+							+ "'," + optime + ",'" + valstatus + "'," + exlocationnum + ")";
+					int rs_insert_out = connect.addquery(insert_out_info);
+					if(option.equals("android")){
+						String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+opnumber+"'";
+						int flag_delete_pre=connect.addquery(delete_pre);
+						if(flag_delete_pre==0){
+							PrintWriter pw = response.getWriter();
+							response.setContentType("text");
+							pw.write("备选队列删除失败！" + insert_out_info);
+							pw.close();
+							return;
+						}
+					}
+					if (rs_insert_out != 0) {
 						PrintWriter pw = response.getWriter();
 						response.setContentType("text");
 						pw.write("出库成功！");
 						pw.close();
-					} else if(flag_delete_pre!=0){
-						PrintWriter pw = response.getWriter();
-						response.setContentType("text");
-						pw.write("信息插入失败！" + insert_out_info);
-						pw.close();
-					}else if(i!=0){
-						PrintWriter pw = response.getWriter();
-						response.setContentType("text");
-						pw.write("备选队列删除失败");
-						pw.close();
 					}else{
 						PrintWriter pw = response.getWriter();
 						response.setContentType("text");
-						pw.write("备选队列删除失败且出库信息插入失败");
+						pw.write("出库信息插入失败");
 						pw.close();
 					}
+				}else{
+					PrintWriter pw = response.getWriter();
+					response.setContentType("text");
+					pw.write("存储位置更新失败！");
+					pw.close();
 				}
 			} else {
 				PrintWriter pw = response.getWriter();

@@ -202,12 +202,12 @@ public class TwoDimensionCode {
 		}
 
 		public static void main(String[] args) {
-			String imgPath = "/Users/mac/Downloads/exlocation_40101.png"; 
-			String imgPath1="/Users/mac/Downloads/storagenumber_50100.png";
+			String imgPath = "/Users/mac/Downloads/valnumber_g0000008.png"; 
+			String imgPath1="/Users/mac/Downloads/storagenumber_20100.png";
 			String encoderContent1 ="";
-			encoderContent1+="40101";
+			encoderContent1+="g0000008";
 			String encoderContent2 ="";
-			encoderContent2+="50100";
+			encoderContent2+="20100";
 			TwoDimensionCode handler = new TwoDimensionCode();    
 			handler.encoderQRCode(encoderContent1, imgPath, "png",10);
 			handler.encoderQRCode(encoderContent2, imgPath1, "png",10);
