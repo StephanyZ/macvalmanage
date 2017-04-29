@@ -44,11 +44,13 @@ $(document).ready(function show(){
 			alert(acceptno);	
 		}
 	}
-	document.getElementById("s").src="url(./image/"+acceptno+".png)"
+	//document.getElementById("qrcode").src="url(./image/20170427223519.png)";
+	document.getElementById("s").src="/image/"+acceptno+".png"
 	//document.getElementById("factory").innerHTML=;
 	document.getElementById("time").innerHTML=currentdate;
 	document.getElementById("acceptno").innerHTML=acceptno;
 });
+
 </script>
 </head>
 <body>
@@ -62,7 +64,7 @@ $(document).ready(function show(){
                     <h2>Checkorder By FastVave</h2>
                 </div>
             <div class="content-main">
-            <img class="qrcode" id="qrcode" ><br>
+            <img class="qrcode" id="qrcode" src=""><br>
             委托单号：<h2 id="acceptno"></h2>
                 委托公司：<h2 id="factory"></h2>
                 时间：<h2 id="time"></h2>

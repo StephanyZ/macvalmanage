@@ -27,7 +27,7 @@ document.getElementById("btn-html2canvas").onclick = function(){
             //                                 |——|——|
             //                                 |     |      
             doc.addImage(imgData, 'JPEG', 0, 0,210,297);
-            doc.save('content.pdf');
+            doc.save(".checkedorder/"+document.getElementById("acceptno").value+document.getElementById("factory").value+".pdf");
         }
     });
 

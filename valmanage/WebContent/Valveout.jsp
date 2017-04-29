@@ -67,6 +67,9 @@ $(document).ready(function show(){
 				insert+=data[n].valnumber;
 				insert+="</td>";
 				insert+="<td calss=\"center\">";
+				insert+=data[n].acceptno;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
 				insert+=data[n].storagelocationnum;
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
@@ -106,6 +109,84 @@ $(document).ready(function show(){
 		});
 	//setInterval('show()', 5000);
 });
+$(document).ready(function showval(){
+	var tbody=window.document.getElementById("valinput");
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/getlocationsavedinfo.jsp",//把表单数据发送到ajax.jsp
+		dataType:'json',
+		timeout:3000,
+		async: false,
+		error: function(request) {
+			alert("获取数据请求失败！");
+		},
+		success: function(data) {
+			//alert(data);
+			var i=0;
+			var insert="";
+			for(var n=0;n<data.length;n++){
+				insert+="<tr>";
+				insert+="<td calss=\"center\">";
+				insert+="<input type=\"checkbox\" value=\""+data[n].valnumber+"\" name=\"checkisqualify\"/>"
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].valnumber;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].acceptno;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].storagelocationnum;
+				if(data[n].exlocationnum!=null){
+					insert+="&"+data[n].exlocationnum;
+				}
+				insert+="</td>";	
+				insert+="<td calss=\"center\">";
+				insert+=data[n].optime;
+				insert+="</td>";		
+				if(data[n].opaction=='S'){
+				insert+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
+
+				}
+				if(data[n].opaction=='T'){
+				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
+
+				}
+				insert+="<td calss=\"center\">";
+				if(data[n].valstatus=="N"){
+					insert+="未检在库";
+				}else if(data[n].valstatus=="Y"){
+					insert+="已检在库";
+				}else if(data[n].valstatus=="C"){
+					insert+="备检出库";
+				}else if(data[n].valstatus=="O"){
+					insert+="检毕出库";
+				}
+				insert+="</td>";
+				insert+="<td class=\"center\"><a class=\"btn btn-danger\" onclick=\"deletechecked(this)\"> <i"
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库"
+				+"</a></td>";
+				insert+="</tr>";
+				//alert(insert);
+				
+				}	
+			tbody.innerHTML =insert;
+		}
+		});
+	//setInterval('show()', 5000);
+});
+function deletechecked(r){
+	var checked = []; 
+	var checkedcount=0;
+	$('input:checkbox:checked').each(function() {
+    	checkedcount++;
+    	checked.push($(this).val());
+    	});
+	for(var i=0;i<checkedcount;)
+	alert();
+	
+}
 function deleteRow(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
 	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
@@ -300,7 +381,7 @@ function deleteRow(r){
 						<div class="box-inner">
 							<div class="box-header well" data-original-title="">
 								<h2>
-									<i class="glyphicon glyphicon-user"></i>存储信息
+									<i class="glyphicon glyphicon-user"></i>表单安全阀存储信息
 								</h2>
 
 								<div class="box-icon">
@@ -318,6 +399,7 @@ function deleteRow(r){
 									<thead>
 										<tr>
 											<th>安全阀编号</th>
+											<th>委托单号</th>
 											<th>存储位置</th>
 											<th>操作时间</th>
 											<th>存入／取出</th>
@@ -326,6 +408,48 @@ function deleteRow(r){
 										</tr>
 									</thead>
 									<tbody id="oneinput">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+
+				</div>
+				
+				<div class="row">
+					<div class="box col-md-12">
+						<div class="box-inner">
+							<div class="box-header well" data-original-title="">
+								<h2>
+									<i class="glyphicon glyphicon-user"></i>单个安全阀出库信息
+								</h2>
+
+								<div class="box-icon">
+									<a href="#" class="btn btn-setting btn-round btn-default"><i
+										class="glyphicon glyphicon-cog"></i></a> <a href="#"
+										class="btn btn-minimize btn-round btn-default"><i
+										class="glyphicon glyphicon-chevron-up"></i></a> <a href="#"
+										class="btn btn-close btn-round btn-default"><i
+										class="glyphicon glyphicon-remove"></i></a>
+								</div>
+							</div>
+							<div class="box-content">
+								<table id="valtable"
+									class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+									<thead>
+										<tr>
+											<th>check</th>
+											<th>安全阀编号</th>
+											<th>委托单号</th>
+											<th>存储位置</th>
+											<th>操作时间</th>
+											<th>存入／取出</th>
+											<th>状态</th>
+											<th>更多</th>
+										</tr>
+									</thead>
+									<tbody id="valinput">
 									</tbody>
 								</table>
 							</div>

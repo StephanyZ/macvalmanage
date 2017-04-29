@@ -125,7 +125,7 @@ flag_add_willbesaved=connect.addquery(add_willbesaved);
 System.out.println(acceptno);
 if((flag_add_userfactory+flag_add_valinformation+flag_add_checkorder+flag_add_willbesaved)!=0)  
 { 
-	ss="/Users/mac/git/valmanage/WebContent/img/test.png";
+	ss="/Users/mac/git/valmanage/WebContent/image/test.png";
 	QRencoder.encoderQRCode(acceptno,ss, "png",10);
 }else{  
 	ss="插入失败";  
