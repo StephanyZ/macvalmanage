@@ -10,8 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.imageio.ImageIO;
 
@@ -19,7 +21,7 @@ import jp.sourceforge.qrcode.QRCodeDecoder;
 import jp.sourceforge.qrcode.exception.DecodingFailedException;
 
 import jp.sourceforge.qrcode.data.QRCodeImage;
-
+import com.xfzhang.bean.connection;
 import com.xfzhang.bean.TwoDimensionCodeImage;
 import com.swetake.util.Qrcode;
 @SuppressWarnings({ "unused" })
@@ -201,22 +203,37 @@ public class TwoDimensionCode {
 			return content;
 		}
 
-		public static void main(String[] args) {
-			String imgPath = "/Users/mac/Downloads/valnumber_g0000008.png"; 
-			String imgPath1="/Users/mac/Downloads/storagenumber_20100.png";
+		public static void main(String[] args) throws SQLException {
+			//String imgPath = "/Users/mac/Downloads/valnumber_g0000008.png"; 
+			//String imgPath1="/Users/mac/Downloads/storagenumber_20100.png";
 			String encoderContent1 ="";
-			encoderContent1+="g0000008";
+			//encoderContent1+="g0000008";
 			String encoderContent2 ="";
-			encoderContent2+="20100";
+			//encoderContent2+="20100";
 			TwoDimensionCode handler = new TwoDimensionCode();    
-			handler.encoderQRCode(encoderContent1, imgPath, "png",10);
-			handler.encoderQRCode(encoderContent2, imgPath1, "png",10);
+			//handler.encoderQRCode(encoderContent1, imgPath, "png",10);
+			//handler.encoderQRCode(encoderContent2, imgPath1, "png",10);
+			/*for(int i=1;i<=6;i++){
+				for(int j=0;j<10;j++){
+					encoderContent2=i+"010"+j;
+					String imgPath1="/Users/mac/git/valmanage/WebContent/image/storagenumber/storagenumber_"+encoderContent2+".png";
+					handler.encoderQRCode(encoderContent2, imgPath1, "png",10);
+				}
+			}
+			for(int i=1;i<20;i++){
+				encoderContent1="0000000"+i;
+				String imgPath ="/Users/mac/git/valmanage/WebContent/image/valnumber/valnumber_"+encoderContent1+".png";
+				handler.encoderQRCode(encoderContent1, imgPath, "png",10);
+			}
+			for(int i=1;i<10;i++){
+				encoderContent1="g000000"+i;
+				String imgPath ="/Users/mac/git/valmanage/WebContent/image/valnumber/valnumber_"+encoderContent1+".png";
+				handler.encoderQRCode(encoderContent1, imgPath, "png",10);
+			}*/
 			
-			//System.out.println("=============编码成功！图片位于："+imgPath+"===============");
-			
-			String decoderContent = handler.decoderQRCode(imgPath);
-			System.out.println("============解析结果如下：===============");
-			System.out.println(decoderContent);
+			//String decoderContent = handler.decoderQRCode(imgPath);
+			//System.out.println("============解析结果如下：===============");
+			//System.out.println(decoderContent);
 			System.out.println("=========解码成功===========");
 		}
 }

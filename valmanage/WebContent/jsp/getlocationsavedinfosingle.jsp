@@ -30,16 +30,19 @@ while(rs_select_location.next()){
 	String select="select * from preparetochangeinfo where valorgroupnumber='"+valorgroupnummber+"'";
 	ResultSet rs1=connect.query(select);
 	if(rs.next()&&!rs1.next()){
-		JsonObject ob=new JsonObject();
+		
 		String checkorder="select * from checkorder where valnumber='"+rs.getString("valnumber")+"'";
 		ResultSet rs_check=connect.query(checkorder);
 		if(rs_check.next()){
 			acceptno=rs_check.getString("acceptno");
 		}
+		System.out.println(rs.getString("valnumber").substring(0,1));
 		if(rs.getString("valnumber").substring(0,1).equals("g")){
-			String getvalnumber="select * from val_infromation where groupnum='"+rs.getString("valnumber")+"'";
+			String getvalnumber="select * from val_information where groupnum='"+rs.getString("valnumber")+"'";
+			System.out.println(getvalnumber);
 			ResultSet rs_val=connect.query(getvalnumber);
 			while(rs_val.next()){
+				JsonObject ob=new JsonObject();
 				ob.addProperty("valnumber",rs_val.getString("valnumber"));
 				ob.addProperty("valvolume",rs.getString("valvolume"));
 				ob.addProperty("storagelocationnum",rs.getString("storagelocationnum"));
@@ -53,7 +56,9 @@ while(rs_select_location.next()){
 				array.add(ob);
 			}
 		}else{
+			JsonObject ob=new JsonObject();
 			ob.addProperty("valnumber",rs.getString("valnumber"));
+			System.out.println("111111111");
 			ob.addProperty("valvolume",rs.getString("valvolume"));
 			ob.addProperty("storagelocationnum",rs.getString("storagelocationnum"));
 			ob.addProperty("opaction", rs.getString("opaction"));

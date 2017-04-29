@@ -18,6 +18,7 @@ ResultSet rs=null;
 String locationstatus="select * from locationinfo where locationstatus=1 group by valorgroupnumber";
 out.println(locationstatus);
 String sql="";
+String acceptno=null;
 ResultSet rs_select_location=connect.query(locationstatus);
 String valorgroupnummber=null;
 JsonObject object=new JsonObject();
@@ -28,6 +29,11 @@ while(rs_select_location.next()){
 	rs=connect.query(sql);
 	String select="select * from preparetochangeinfo where valorgroupnumber='"+valorgroupnummber+"'";
 	ResultSet rs1=connect.query(select);
+	String checkorder="select * from checkorder where valnumber='"+valorgroupnummber+"'";
+	ResultSet rs_check=connect.query(checkorder);
+	if(rs_check.next()){
+		acceptno=rs_check.getString("acceptno");
+	}
 	if(rs.next()&&!rs1.next()){
 		JsonObject ob=new JsonObject();
 		ob.addProperty("valnumber",rs.getString("valnumber"));
@@ -39,6 +45,7 @@ while(rs_select_location.next()){
 		ob.addProperty("optime", rs.getString("optime"));
 		ob.addProperty("valstatus", rs.getString("valstatus"));
 		ob.addProperty("exlocationnum", rs.getString("exlocationnum"));
+		ob.addProperty("acceptno",acceptno);
 		array.add(ob);
 	}
 }

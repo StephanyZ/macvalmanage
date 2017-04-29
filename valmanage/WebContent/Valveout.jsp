@@ -114,7 +114,7 @@ $(document).ready(function showval(){
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/getlocationsavedinfo.jsp",//把表单数据发送到ajax.jsp
+		url:"jsp/getlocationsavedinfosingle.jsp",//把表单数据发送到ajax.jsp
 		dataType:'json',
 		timeout:3000,
 		async: false,
@@ -183,9 +183,8 @@ function deletechecked(r){
     	checkedcount++;
     	checked.push($(this).val());
     	});
-	for(var i=0;i<checkedcount;)
-	alert();
-	
+	for(var i=0;i<checkedcount;i++)
+		alert(checked[i]);
 }
 function deleteRow(r){
 	 var rows=r.parentNode.parentNode.rowIndex;

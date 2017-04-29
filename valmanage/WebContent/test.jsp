@@ -10,8 +10,17 @@
 </head>
 <jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
 	<jsp:useBean id="DBcon" class="com.xfzhang.bean.DBConnection" />
+	<jsp:useBean id="QRencoder" class="com.xfzhang.bean.TwoDimensionCode"/>
 <%  
-    request.setCharacterEncoding("utf-8");  
+String select="select * from checkorder";
+ResultSet rs_s=connect.query(select);
+String encoderContent1 ="";
+while(rs_s.next()){
+	encoderContent1=rs_s.getString("acceptno");
+	String imgPath ="/Users/mac/git/valmanage/WebContent/image/checkedorder/checkorder_"+encoderContent1+".png";
+	QRencoder.encoderQRCode(encoderContent1, imgPath, "png",10);
+}
+    /*request.setCharacterEncoding("utf-8");  
     String useraccount = request.getParameter("useraccount");  
     String userpassword = request.getParameter("userpassword");
     String username = request.getParameter("username");  
@@ -37,6 +46,6 @@
     PrintWriter pw=response.getWriter();
 		response.setContentType("html/text");
 		pw.write("插入成功！");
-		pw.close();
+		pw.close();*/
 %>  
 </html>

@@ -110,7 +110,7 @@ $(document).ready(function show(){
 		});
         
 });
-function serchinfo(r){
+function searchinfo(r){
 	var rows=r.parentNode.parentNode.rowIndex;
 	var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
 	document.get
