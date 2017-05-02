@@ -208,7 +208,7 @@ public class TwoDimensionCode {
 			//String imgPath1="/Users/mac/Downloads/storagenumber_20100.png";
 			String encoderContent1 ="";
 			//encoderContent1+="g0000008";
-			String encoderContent2 ="";
+			//String encoderContent2 ="";
 			//encoderContent2+="20100";
 			TwoDimensionCode handler = new TwoDimensionCode();    
 			//handler.encoderQRCode(encoderContent1, imgPath, "png",10);
@@ -219,12 +219,12 @@ public class TwoDimensionCode {
 					String imgPath1="/Users/mac/git/valmanage/WebContent/image/storagenumber/storagenumber_"+encoderContent2+".png";
 					handler.encoderQRCode(encoderContent2, imgPath1, "png",10);
 				}
-			}
-			for(int i=1;i<20;i++){
-				encoderContent1="0000000"+i;
+			}*/
+			for(int i=10;i<30;i++){
+				encoderContent1="000000"+i;
 				String imgPath ="/Users/mac/git/valmanage/WebContent/image/valnumber/valnumber_"+encoderContent1+".png";
 				handler.encoderQRCode(encoderContent1, imgPath, "png",10);
-			}
+			}/*
 			for(int i=1;i<10;i++){
 				encoderContent1="g000000"+i;
 				String imgPath ="/Users/mac/git/valmanage/WebContent/image/valnumber/valnumber_"+encoderContent1+".png";
@@ -234,7 +234,8 @@ public class TwoDimensionCode {
 			//String decoderContent = handler.decoderQRCode(imgPath);
 			//System.out.println("============解析结果如下：===============");
 			//System.out.println(decoderContent);
-			System.out.println("=========解码成功===========");
+			//System.out.println("=========解码成功===========");
+			//System.out.println(true&&true&&false);
 		}
 }
 	

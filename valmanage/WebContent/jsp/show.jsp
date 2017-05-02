@@ -336,6 +336,71 @@ if(option.equals("getcheckedgroup")){
 	}
 	
 }
+if(option.equals("androidshowvaloutinfo")){
+	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	String selectsaveinfo=null;
+	String checkorder=null;
+	JsonArray valoutinfo=new JsonArray();
+	if(valorgroupnumber.substring(0,1).equals("g")){
+		selectsaveinfo="select * from valsavestatusinfo where valnumber='"+valorgroupnumber+"'";
+		checkorder="select * from checkorder where valnumber='"+valorgroupnumber+"'";
+		String selectval="select * from val_information where groupnum='"+valorgroupnumber+"'";
+		ResultSet rs_selectval=connect.query(selectval);
+		ResultSet rs_checkorder=connect.query(checkorder);
+		ResultSet rs_saveinfo=connect.query(selectsaveinfo);
+		//System.out.println(checkorder);
+		if(rs_checkorder.next()&&rs_saveinfo.next()){
+		while(rs_selectval.next()){
+			JsonObject val=new JsonObject();
+			val.addProperty("valnumber", rs_selectval.getString("valnumber"));
+			//System.out.println(rs_checkorder.getString("acceptno"));
+			val.addProperty("acceptno", rs_checkorder.getString("acceptno"));
+			if(rs_saveinfo.getString("exlocationnum")==null||rs_selectval.getString("isqualify").equals("yes")){
+				val.addProperty("location",rs_saveinfo.getString("storagelocationnum"));
+			}else{
+				val.addProperty("location",rs_saveinfo.getString("exlocationnum"));
+			}
+			val.addProperty("optime",rs_saveinfo.getString("optime"));
+			val.addProperty("valstatus",rs_saveinfo.getString("valstatus"));
+			val.addProperty("mark", "group");
+			valoutinfo.add(val);
+		}
+		}
+	}else{
+		String selectval="select * from val_information where valnumber='"+valorgroupnumber+"'";
+		ResultSet rs_val=connect.query(selectval);
+		JsonObject val=new JsonObject();
+		if(rs_val.next()){
+			if(rs_val.getString("groupnum")!=null){
+				selectsaveinfo="select * from valsavestatusinfo where valnumber='"+rs_val.getString("groupnum")+"'";
+				checkorder="select * from checkorder where valnumber='"+rs_val.getString("groupnum")+"'";
+				val.addProperty("mark", "groupsingle");			
+			}else{
+				selectsaveinfo="select * from valsavestatusinfo where valnumber='"+valorgroupnumber+"'";
+				checkorder="select * from checkorder where valnumber='"+valorgroupnumber+"'";
+				val.addProperty("mark", "single");
+			}
+			ResultSet rs_saveinfo=connect.query(selectsaveinfo);
+			ResultSet rs_checkorder=connect.query(checkorder);
+			if(rs_saveinfo.next()&&rs_checkorder.next()){
+				val.addProperty("valnumber", valorgroupnumber);
+				val.addProperty("acceptno", rs_checkorder.getString("acceptno"));
+				if(rs_saveinfo.getString("exlocationnum")==null||rs_val.getString("isqualify").equals("yes")){
+					val.addProperty("location",rs_saveinfo.getString("storagelocationnum"));
+				}else{
+					val.addProperty("location",rs_saveinfo.getString("exlocationnum"));
+				}
+				val.addProperty("optime",rs_saveinfo.getString("optime"));
+				val.addProperty("valstatus",rs_saveinfo.getString("valstatus"));
+				valoutinfo.add(val);
+			}			
+		}
+	}
+	PrintWriter pw=response.getWriter();
+	response.setContentType("text／json");
+	pw.write(valoutinfo.toString());
+	pw.close();	
+}
 
 %>
 

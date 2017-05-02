@@ -19,16 +19,18 @@
 		String option = request.getParameter("option");
 		String manindex = request.getParameter("manindex");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String checkedinfo = request.getParameter("checkedinfo");
-		JSONArray check = new JSONArray(checkedinfo);
+		String checkedinfo = request.getParameter("valoutinfo");
+		System.out.println(checkedinfo);
+		System.out.println(option);
+		JSONArray check = new JSONArray(checkedinfo.toString());
 		Date d = new Date();
 		String optime = sdf.format(d);
 		String why = "&";
 		if (option.equals("preoutvalve")) {
 			String flag = "";
 			int Flag = 0;
-			int ff=0;
-			String addtopre="";
+			int ff = 0;
+			String addtopre = "";
 			for (int i = 0; i < check.length(); i++) {
 				JSONObject ob = check.getJSONObject(i);
 				String ischecked = ob.getString("ischecked");
@@ -43,40 +45,40 @@
 						String opaction = "T";
 						String exlocationnum = rs_select_outstatus.getString("exlocationnum");
 						String valstatus = rs_select_outstatus.getString("valstatus");
-						if(valstatus.equals("Y")){
-							valstatus="O";
-						}else if(valstatus.equals("N")){
-							valstatus="C";
+						if (valstatus.equals("Y")) {
+							valstatus = "O";
+						} else if (valstatus.equals("N")) {
+							valstatus = "C";
 						}
-						if(exlocationnum!=null){
-							exlocationnum="'"+exlocationnum+"'";
+						if (exlocationnum != null) {
+							exlocationnum = "'" + exlocationnum + "'";
 						}
-						addtopre= "insert into preparetochangeinfo values('" + valorgroupnumber + "','"
-								+ valvolume + "','" + storagelocationnum + "','" + opaction + "','" + manindex
-								+ "'," + optime + "," + exlocationnum + ",'" + valstatus + "')";
+						addtopre = "insert into preparetochangeinfo values('" + valorgroupnumber + "','" + valvolume
+								+ "','" + storagelocationnum + "','" + opaction + "','" + manindex + "'," + optime
+								+ "," + exlocationnum + ",'" + valstatus + "')";
 						int flag_insert = connect.addquery(addtopre);
 						if (flag_insert == 0) {
 							Flag = 1;
 							System.out.println(addtopre);
 						}
 
-					}else{
-						ff=1;
+					} else {
+						ff = 1;
 						System.out.println(select_outstatus);
 					}
 				}
 			}
-			if(Flag==1||ff==1){
+			if (Flag == 1 || ff == 1) {
 				flag = "failed";
-				if(Flag==1){
-					why+="安全阀插入失败";
-					
-				}else if(ff==1){
-					why+="安全阀查询失败";
+				if (Flag == 1) {
+					why += "安全阀插入失败";
+
+				} else if (ff == 1) {
+					why += "安全阀查询失败";
 				}
-				flag+= why;
-			}else{
-				flag="sucess";
+				flag += why;
+			} else {
+				flag = "sucess";
 			}
 			PrintWriter pw = response.getWriter();
 			response.setContentType("text");
@@ -161,8 +163,8 @@
 						pw.close();
 						return;
 					}
-					if(exlocationnum!=null){
-						exlocationnum="'"+exlocationnum+"'";
+					if (exlocationnum != null) {
+						exlocationnum = "'" + exlocationnum + "'";
 					}
 					String addtopre = "insert into preparetochangeinfo values('" + valorgroupnumber + "','"
 							+ valvolume + "','" + storagelocationnum + "','" + opaction + "','" + manindex + "','"
@@ -188,6 +190,147 @@
 					}
 				}
 			}
+		}
+
+		if (option.equals("preoutvalbyqrcode")) {
+			String mark = request.getParameter("mark");
+			String flag = "";
+			int Flag = 0;
+			int ff = 0;
+			int checkedcount = 0;
+			String addtopre = "";
+			System.out.println(mark);
+			String select_outstatus = null;
+			String valorgroupnumber = null;
+
+			if (mark.equals("group")) {
+				String select_group = "select * from val_infromation where valnumber='"
+						+ check.getJSONObject(0).getString("cbvalnumber") + "'limit 1";
+				ResultSet rs_group = connect.query(select_group);
+				if (rs_group.next()) {
+					valorgroupnumber = rs_group.getString("groupnum");
+					select_outstatus = "select * from valsavestatusinfo where valnumber='"
+							+ rs_group.getString("groupnum") + "'order by optime desc limit 1";
+				}
+			} else if (mark.equals("single")) {
+				valorgroupnumber = check.getJSONObject(0).getString("cbvalnumber");
+				select_outstatus = "select * from valsavestatusinfo where valnumber='"
+						+ check.getJSONObject(0).getString("cbvalnumber") + "'order by optime desc limit 1";
+			} else if (mark.equals("groupsingle")) {
+				String select_group = "select * from val_information where valnumber='"
+						+ check.getJSONObject(0).getString("cbvalnumber") + "'limit 1";
+				System.out.println(select_group);
+				ResultSet rs_group = connect.query(select_group);
+				if (rs_group.next()) {
+					valorgroupnumber = check.getJSONObject(0).getString("cbvalnumber");
+					select_outstatus = "select * from valsavestatusinfo where valnumber='"
+							+ rs_group.getString("groupnum") + "'order by optime desc limit 1";
+
+				}
+			}
+			System.out.println(mark + select_outstatus);
+			ResultSet rs_select_outstatus = connect.query(select_outstatus);
+			if (rs_select_outstatus.next()) {
+				String valvolume = rs_select_outstatus.getString("valvolume");
+				String storagelocationnum = rs_select_outstatus.getString("storagelocationnum");
+				String opaction = "T";
+				String exlocationnum = rs_select_outstatus.getString("exlocationnum");
+				String valstatus = rs_select_outstatus.getString("valstatus");
+				if (valstatus.equals("Y")) {
+					valstatus = "O";
+				} else if (valstatus.equals("N")) {
+					valstatus = "C";
+				}
+				for (int i = 0; i < check.length(); i++) {
+					JSONObject ob = check.getJSONObject(i);
+					if (ob.getString("ischecked").equals("true")) {
+						checkedcount++;
+					}
+				}
+				if (checkedcount == check.length() && checkedcount != 0) {
+					if (exlocationnum != null) {
+						exlocationnum = "'" + exlocationnum + "'";
+					}
+					if(mark.equals("group")){
+						addtopre = "insert into preparetochangeinfo values('" + valorgroupnumber + "','" + valvolume
+								+ "','" + storagelocationnum + "','" + opaction + "','" + manindex + "'," + optime + ","
+								+ exlocationnum + ",'" + valstatus + "')";
+					}else{
+						String location=null;
+						String select_isqualify="select * from val_information where valnumber='"+valorgroupnumber+"'";
+						ResultSet rs_isqualify=connect.query(select_isqualify);
+						if(rs_isqualify.next()){
+							if(rs_isqualify.getString("isqualify").equals("no")&& exlocationnum != null){
+								location=exlocationnum;
+							}else{
+								location=storagelocationnum;
+							}
+							valvolume="S";
+							addtopre = "insert into preparetochangeinfo values('" + valorgroupnumber + "','" + valvolume
+									+ "','" + location + "','" + opaction + "','" + manindex + "'," + optime + ","
+									+ null + ",'" + valstatus + "')";
+						}
+					}
+					/*int flag_insert = connect.addquery(addtopre);
+					if (flag_insert == 0) {
+						Flag = 1;
+						System.out.println(addtopre);
+					}*/
+					System.out.println("all" + addtopre);
+				} else {
+					valvolume = "S";
+					String location = null;
+					for (int i = 0; i < check.length(); i++) {
+						JSONObject ob = check.getJSONObject(i);
+						String ischecked = ob.getString("ischecked");
+						if (ischecked.equals("true")) {
+							String valnumber = ob.getString("cbvalnumber");
+							String select = "select * from val_information where valnumber='" + valnumber + "'";
+							ResultSet rs_select = connect.query(select);
+							if (rs_select.next()) {
+								if (rs_select.getString("isqualify").equals("no") && exlocationnum != null) {
+									location = exlocationnum;
+								} else {
+									location = storagelocationnum;
+								}
+								addtopre = "insert into preparetochangeinfo values('" + valnumber + "','"
+										+ valvolume + "','" + location + "','" + opaction + "','" + manindex + "',"
+										+ optime + "," + null + ",'" + valstatus + "')";
+								System.out.println("groupnotall" + addtopre);
+								/*int flag_insert = connect.addquery(addtopre);
+								if(flag_insert==0){
+									ff=1;
+									why+=addtopre;
+								}*/
+
+							}
+
+						}
+					}
+				}
+			} else {
+				ff = 1;
+				System.out.println(select_outstatus);
+			}
+
+			/*
+			if(Flag==1||ff==1){
+				flag = "failed";
+				if(Flag==1){
+					why+="安全阀插入失败";
+					
+				}else if(ff==1){
+					why+="安全阀查询失败";
+				}
+				flag+= why;
+			}else{
+				flag="sucess";
+			}
+			PrintWriter pw = response.getWriter();
+			response.setContentType("text");
+			pw.write(flag);
+			pw.close();
+			return;*/
 		}
 	%>
 </body>

@@ -183,8 +183,22 @@ function deletechecked(r){
     	checkedcount++;
     	checked.push($(this).val());
     	});
-	for(var i=0;i<checkedcount;i++)
-		alert(checked[i]);
+	var str=prompt("对接出库员工ID：","请核实后输入，如:lzhang");
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/valveoutsingle.jsp?manindex="+str, //把表单数据发送到ajax.jsp
+		traditional :true,
+		data:{"checkedid":checked}, //要发送的是ajaxFrm表单中的数据
+		async: false,
+		error: function(request) {
+		alert("发送请求失败！");
+		},
+		success: function(data) {
+			alert(data);
+			location.replace("Valveout.jsp");
+		}
+	});
 }
 function deleteRow(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
