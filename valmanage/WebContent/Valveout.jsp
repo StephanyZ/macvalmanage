@@ -189,7 +189,7 @@ function deletechecked(r){
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/valveoutsingle.jsp?manindex="+str, //把表单数据发送到ajax.jsp
+		url:"jsp/valveoutsingle.jsp?manindex="+str+"&&option=pc", //把表单数据发送到ajax.jsp
 		traditional :true,
 		data:{"checkedid":checked}, //要发送的是ajaxFrm表单中的数据
 		async: false,

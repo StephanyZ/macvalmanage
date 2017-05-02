@@ -43,7 +43,7 @@ while(rs_select_location.next()){
 			while(rs_val.next()){
 				String select1="select * from preparetochangeinfo where valorgroupnumber='"+rs_val.getString("valnumber")+"'";
 				ResultSet rs2=connect.query(select1);
-				if(!rs2.next()){
+				if(!rs2.next()&&!rs_val.getString("isvalid").equals("no")){
 				JsonObject ob=new JsonObject();
 				ob.addProperty("valnumber",rs_val.getString("valnumber"));
 				ob.addProperty("valvolume",rs.getString("valvolume"));

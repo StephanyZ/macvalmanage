@@ -19,10 +19,17 @@
 		String option = request.getParameter("option");
 		String manindex = request.getParameter("manindex");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String checkedinfo = request.getParameter("valoutinfo");
+		String checkedinfo=null;
+		JSONArray check;
+		if(option.equals("preoutvalbyqrcode")){
+			checkedinfo= request.getParameter("valoutinfo");
+			check = new JSONArray(checkedinfo.toString());
+		}else{
+			checkedinfo=request.getParameter("checkedinfo");
+			check = new JSONArray(checkedinfo);
+		}
 		System.out.println(checkedinfo);
 		System.out.println(option);
-		JSONArray check = new JSONArray(checkedinfo.toString());
 		Date d = new Date();
 		String optime = sdf.format(d);
 		String why = "&";

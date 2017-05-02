@@ -17,9 +17,28 @@ request.setCharacterEncoding("UTF-8");
 ResultSet rs=null;
 String sql="select * from valsavestatusinfo order by optime desc";
 rs=connect.query(sql);
+String acceptno=null;
+String select_checkorder=null;
 JsonObject object=new JsonObject();
 JsonArray array=new JsonArray();
 while(rs.next()){
+	if(rs.getString("valnumber").substring(0,1).equals("g")){
+		select_checkorder="select * from val_information where groupnum='"+rs.getString("valnumber")+"'";	
+	}else{
+		String isgroup="select * from val_information where valnumber='"+rs.getString("valnumber")+"'";
+		ResultSet rs_isgroup=connect.query(isgroup);
+		if(rs_isgroup.next()){
+			if(rs_isgroup.getString("groupnum")==null){
+				select_checkorder="select * from checkorder where valnumber='"+rs.getString("valnumber")+"'";
+			}else{
+				select_checkorder="select * from checkorder where valnumber='"+rs_isgroup.getString("groupnum")+"'";
+			}
+		}
+	}
+	ResultSet rs_checkorder=connect.query(select_checkorder);
+	if(rs_checkorder.next()){
+		acceptno=rs_checkorder.getString("acceptno");
+	}
 	JsonObject ob=new JsonObject();
 	ob.addProperty("valnumber",rs.getString("valnumber"));
 	ob.addProperty("valvolume",rs.getString("valvolume"));
@@ -30,6 +49,7 @@ while(rs.next()){
 	ob.addProperty("optime", rs.getString("optime"));
 	ob.addProperty("valstatus", rs.getString("valstatus"));
 	ob.addProperty("exlocationnum", rs.getString("exlocationnum"));
+	ob.addProperty("acceptno", acceptno);
 	array.add(ob);	
 }
 System.out.println(array.toString());

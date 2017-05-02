@@ -70,6 +70,9 @@ $(document).ready(function show(){
 				insert+=data[n].valnumber;
 				insert+="</td>";
 				insert+="<td calss=\"center\">";
+				insert+=data[n].acceptno;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
 				insert+=data[n].storagelocationnum;
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
@@ -302,6 +305,7 @@ function searchinfo(r){
 									<thead>
 										<tr>
 											<th>安全阀编号</th>
+											<th>委托单号</th>
 											<th>存储位置</th>
 											<th>操作时间</th>
 											<th>存入／取出</th>

@@ -51,8 +51,6 @@ String postcode=request.getParameter("postcode");
 
 String requireddrawtime=request.getParameter("requireddrawtime");
 requireddrawtime = requireddrawtime.replaceAll("-","");
-
-
 String checkisgroup=request.getParameter("flag");
 
 
@@ -120,7 +118,7 @@ if(option.equals("valnum")){
 	String STR_FORMAT = "00000000";
 	DecimalFormat df = new DecimalFormat(STR_FORMAT);
 	valnumber=df.format(valinfocount);
-	String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+")";
+	String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+","+null+",'yes')";
 	int flag_add_valinformation=0;
 	System.out.println(add_valinformation);
 	flag_add_valinformation=connect.addquery(add_valinformation);
@@ -173,8 +171,6 @@ if(option.equals("addinformation")){
 		}
 	int flag=0;
 	String ss=null;
-	
-
 	if(f==0){
 		String select_factoryinfo="select * from userfactory";
 		ResultSet rs_select_factoryinfo=null;
@@ -202,6 +198,11 @@ if(option.equals("addinformation")){
 		ResultSet rs_select_valgroup=connect.query(select_valgroup);
 		int count=0;
 		if(rs_select_valgroup.next()){
+			String updatevalinfo="update val_information set acceptno='"+acceptno+"' where groupnum='"+groupnum+"'";
+			int flag_updateval=connect.addquery(updatevalinfo);
+			if(flag_updateval==0){
+				System.out.println("安全阀信息更新委托单号出错！！");
+			}
 			String add_groupwillbesaved="insert into willbesaved values('"+groupnum+"')";
 			String add_checkorder="insert into checkorder values('"+acceptno+"','"+groupnum+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
 			flag_add_checkorder=connect.addquery(add_checkorder);
@@ -250,7 +251,7 @@ if(option.equals("addinformation")){
 			rs_select_valnum=connect.query("select * from val_information where valnumber=\""+valnumber+"\"");
 		}
 		valnumber=df.format(valinfocount);
-		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+")";
+		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+",'"+acceptno+"','yes')";
 		int flag_add_valinformation=0;
 		flag_add_valinformation=connect.addquery(add_valinformation);
 		if(flag_add_valinformation!=0){

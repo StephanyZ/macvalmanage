@@ -62,15 +62,15 @@
 						storagelocationnum = rs_valsave.getString("exlocationnum");
 					} else {
 						storagelocationnum = rs_valsave.getString("storagelocationnum");
-					}
-
-					optime = sdf.format(d);
+					}	
 					if(request.getParameter("option").equals("opconfirm")){
 						optime=request.getParameter("optime");
 						optime = optime.replaceAll("-","");
 						optime = optime.replaceAll(" ","");
 						optime=optime.replaceAll(":","");
 						optime=optime.substring(0,14);
+					}else{
+						optime = sdf.format(d);
 					}
 					
 					String status = rs_valsave.getString("valstatus");
@@ -85,7 +85,7 @@
 					System.out.println(insert);
 					int flag = connect.addquery(insert);
 					if (flag != 0 && FF == 1) {
-						String update = "update val_information set groupnum=null where valnumber='" + s[i] + "'";
+						String update = "update val_information set isvalid='no' where valnumber='" + s[i] + "'";
 						if(request.getParameter("option").equals("opconfirm")){
 							String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+s[i]+"'";
 							int flag_delete=connect.addquery(delete_pre);
@@ -117,10 +117,11 @@
 							if (FF == 1 && exlocationnum != null && c) {
 								String update_location = "update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"
 										+ exlocationnum + "'";
+								String opa="X";
 								String insertstatus = "insert into valsavestatusinfo values('"
 										+ rs.getString("groupnum") + "','" + rs_valsave.getString("valvolume")
 										+ "','" + rs_valsave.getString("storagelocationnum") + "','"
-										+ rs_valsave.getString("opaction") + "','"
+										+ opa + "','"
 										+ rs_valsave.getString("manindex") + "','"
 										+ rs_valsave.getString("useraccount") + "','" + optime + "','"
 										+ rs_valsave.getString("valstatus") + "'," + null + ")";
@@ -168,7 +169,7 @@
 									} else {
 										insertstatus = "insert into valsavestatusinfo values('"
 												+ rs.getString("groupnum") + "','"
-												+ rs_valsave.getString("valvolume") + "','" + exlocationnum + "','"
+												+ rs_valsave.getString("valvolume") + "','" + storagelocationnum + "','"
 												+ opaction + "','" + manindex + "','" + useraccount + "','" + optime
 												+ "','" + valstatus + "'," + null + ")";
 									}//当委托单内安全阀全部出库之后
