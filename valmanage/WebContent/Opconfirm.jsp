@@ -69,11 +69,18 @@ $(document).ready(function show(){
 				insert+="<td calss=\"center\">";
 				insert+=data[n].valorgroupnumber;
 				insert+="</td>";
+				
+				insert+="<td calss=\"center\">";
+				insert+=data[n].acceptno;
+				insert+="</td>";
+				
 				insert+="<td calss=\"center\">";
 				insert+=data[n].storagelocationnum;
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
 				}
+				insert+="</td>";
+				
 				insert+="<td calss=\"center\">";
 				insert+=data[n].manindex;
 				insert+="</td>";
@@ -102,12 +109,12 @@ $(document).ready(function show(){
 				if(data[n].valstatus=="N"||data[n].valstatus=="Y"){
 					insert+="</td>";
 					insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"addinfo(this)\">"
-					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定"
+					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定入库"
 					+"</a></td>";
 				}else if(data[n].valstatus=="C"||data[n].valstatus=="O"){
 					insert+="</td>";
-					insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"delinfo(this)\">"
-					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定"
+					insert+="<td class=\"center\"><a class=\"btn btn-info\" onclick=\"delinfotest(this)\">"
+					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定出库"
 					+"</a></td>";
 				}
 				insert+="</tr>";
@@ -153,6 +160,74 @@ function delinfo(r){
 				location.replace("Opconfirm.jsp");
 			}
 			});
+}
+
+function delinfotest(r){
+	 var rows=r.parentNode.parentNode.rowIndex;
+	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
+	 var acceptno=document.getElementById('table').rows[rows].cells[1].innerText;
+	 var manindex=document.getElementById('table').rows[rows].cells[3].innerText;
+	 var optime=document.getElementById('table').rows[rows].cells[4].innerText;
+	 $.ajax({
+			cache: false,
+			type: "POST",
+			url:"jsp/test.jsp?opnumber="+valorgroupnumber+"&&acceptno="+acceptno, //把表单数据发送到ajax.jsp
+			//data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+			async: false,
+			error: function(request) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				//alert(data); //将返回的结果显示到ajaxDiv中
+				if(data=="isgroupsingle"){
+					alert(data);
+					$.ajax({
+						cache: false,
+						type: "POST",
+						url:"jsp/valveoutsingle.jsp?manindex="+manindex+"&&optime="+optime+"&&option=opconfirm", //把表单数据发送到ajax.jsp
+						data:{"checkedid":valorgroupnumber}, //要发送的是ajaxFrm表单中的数据
+						async: false,
+						error: function(request) {
+						alert("发送请求失败！");
+						},
+						success: function(data) {
+							alert(data); //将返回的结果显示到ajaxDiv中
+							location.replace("Opconfirm.jsp");
+						}
+						});
+				}else if(data=="notgroupsingle"){
+					alert(data);
+					$.ajax({
+						cache: false,
+						type: "POST",
+						url:"jsp/valveout.jsp?option=android&&opnumber="+valorgroupnumber, //把表单数据发送到ajax.jsp
+						data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+						async: false,
+						error: function(request) {
+						alert("发送请求失败！");
+						},
+						success: function(data) {
+							alert(data); //将返回的结果显示到ajaxDiv中
+							location.replace("Opconfirm.jsp");
+						}
+						});
+				}
+			}
+			});
+	/* $.ajax({
+			cache: false,
+			type: "POST",
+			url:"jsp/valveout.jsp?option=android&&opnumber="+valorgroupnumber, //把表单数据发送到ajax.jsp
+			data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+			async: false,
+			error: function(request) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				alert(data); //将返回的结果显示到ajaxDiv中
+				location.replace("Opconfirm.jsp");
+			}
+			});*/
 }
 
 </script>
@@ -340,6 +415,7 @@ function delinfo(r){
 									<thead>
 										<tr>
 											<th>安全阀编号</th>
+											<th>委托单号</th>
 											<th>存储位置</th>
 											<th>交接员</th>
 											<th>操作时间</th>

@@ -30,7 +30,6 @@ while(rs_select_location.next()){
 	String select="select * from preparetochangeinfo where valorgroupnumber='"+valorgroupnummber+"'";
 	ResultSet rs1=connect.query(select);
 	if(rs.next()&&!rs1.next()){
-		
 		String checkorder="select * from checkorder where valnumber='"+rs.getString("valnumber")+"'";
 		ResultSet rs_check=connect.query(checkorder);
 		if(rs_check.next()){
@@ -42,6 +41,9 @@ while(rs_select_location.next()){
 			System.out.println(getvalnumber);
 			ResultSet rs_val=connect.query(getvalnumber);
 			while(rs_val.next()){
+				String select1="select * from preparetochangeinfo where valorgroupnumber='"+rs_val.getString("valnumber")+"'";
+				ResultSet rs2=connect.query(select1);
+				if(!rs2.next()){
 				JsonObject ob=new JsonObject();
 				ob.addProperty("valnumber",rs_val.getString("valnumber"));
 				ob.addProperty("valvolume",rs.getString("valvolume"));
@@ -54,6 +56,7 @@ while(rs_select_location.next()){
 				ob.addProperty("exlocationnum", rs.getString("exlocationnum"));
 				ob.addProperty("acceptno",acceptno);
 				array.add(ob);
+				}
 			}
 		}else{
 			JsonObject ob=new JsonObject();

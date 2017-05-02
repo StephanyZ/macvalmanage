@@ -338,6 +338,13 @@ if(option.equals("getcheckedgroup")){
 }
 if(option.equals("androidshowvaloutinfo")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	if(valorgroupnumber.length()>10){
+		String getnum="select * from checkorder where acceptno='"+valorgroupnumber+"'";
+		ResultSet rs_getnum=connect.query(getnum);
+		if(rs_getnum.next()){
+			valorgroupnumber=rs_getnum.getString("valnumber");
+		}
+	}
 	String selectsaveinfo=null;
 	String checkorder=null;
 	JsonArray valoutinfo=new JsonArray();

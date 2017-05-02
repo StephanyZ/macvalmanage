@@ -80,12 +80,13 @@ $(document).ready(function show(){
 				insert+="</td>";		
 				if(data[n].opaction=='S'){
 				insert+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
-
 				}
 				if(data[n].opaction=='T'){
 				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
-
 				}
+				if(data[n].opaction=='X'){
+					insert+="<td class=\"center\"><span class=\"label-info label label-default\">修改</span></td>";
+					}
 				insert+="<td calss=\"center\">";
 				if(data[n].valstatus=="N"){
 					insert+="未检在库";

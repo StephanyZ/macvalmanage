@@ -40,6 +40,7 @@
 			opaction = "T";
 			valvolume = "S";
 			String select = "select * from val_information where valnumber='" + s[i] + "' limit 1";
+			System.out.println(select);
 			ResultSet rs = connect.query(select);
 			if (rs.next()) {
 				FF = 0;
@@ -64,6 +65,14 @@
 					}
 
 					optime = sdf.format(d);
+					if(request.getParameter("option").equals("opconfirm")){
+						optime=request.getParameter("optime");
+						optime = optime.replaceAll("-","");
+						optime = optime.replaceAll(" ","");
+						optime=optime.replaceAll(":","");
+						optime=optime.substring(0,14);
+					}
+					
 					String status = rs_valsave.getString("valstatus");
 					if (status.equals("N") || status.equals("C")) {
 						valstatus = "C";
@@ -73,9 +82,21 @@
 					String insert = "insert into valsavestatusinfo values('" + s[i] + "','" + valvolume + "','"
 							+ storagelocationnum + "','" + opaction + "','" + manindex + "','" + useraccount + "','"
 							+ optime + "','" + valstatus + "'," + null + ")";
+					System.out.println(insert);
 					int flag = connect.addquery(insert);
 					if (flag != 0 && FF == 1) {
 						String update = "update val_information set groupnum=null where valnumber='" + s[i] + "'";
+						if(request.getParameter("option").equals("opconfirm")){
+							String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+s[i]+"'";
+							int flag_delete=connect.addquery(delete_pre);
+							if(flag_delete==0){
+								PrintWriter pw = response.getWriter();
+								response.setContentType("text");
+								pw.write("删除备出库状态失败");
+								pw.close();
+								return;
+							}
+						}
 						int flag_update = connect.addquery(update);
 						if (flag == 0) {
 							PrintWriter pw = response.getWriter();
@@ -135,7 +156,8 @@
 									return;
 								} else if (FF == 1) {
 									String insertstatus = null;
-									if (exlocationnum != null && rs_val1.next()) {
+									optime = sdf.format(d);
+									if (exlocationnum != null && !c) {
 										insertstatus = "insert into valsavestatusinfo values('"
 												+ rs.getString("groupnum") + "','"
 												+ rs_valsave.getString("valvolume") + "','" + exlocationnum + "','"
@@ -149,7 +171,8 @@
 												+ rs_valsave.getString("valvolume") + "','" + exlocationnum + "','"
 												+ opaction + "','" + manindex + "','" + useraccount + "','" + optime
 												+ "','" + valstatus + "'," + null + ")";
-									}
+									}//当委托单内安全阀全部出库之后
+									System.out.println(insertstatus);
 									int flag_updatestatus = connect.addquery(insertstatus);
 									if (flag_updatestatus == 0) {
 										PrintWriter pw = response.getWriter();
@@ -172,7 +195,6 @@
 			}
 			FFF = 1;
 		}
-		
 		if (s.length > 0 && FFF == 1) {
 			PrintWriter pw = response.getWriter();
 			response.setContentType("text");

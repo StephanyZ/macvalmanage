@@ -13,25 +13,24 @@
 <body>
 <jsp:useBean id="connect" class="com.xfzhang.bean.connection" />
 <%
-String ss="insert into preparetochangeinfo values('00000012','S','10100','T','lzhang',20170427164146,null,'N')";
-int flag=connect.addquery(ss);
-if(flag==0){
-	System.out.println(ss);
-}else{
-	System.out.println("成功");
-}
-/*ResultSet rs=null;
-String locationstatus="select * from locationinfo where locationstatus=1";
-out.println(locationstatus);
-String sql="";
-ResultSet rs_select_location=connect.query(locationstatus);
+String number=request.getParameter("opnumber");
+String acceptno=request.getParameter("acceptno");
+ResultSet rs=null;
+String test="select * from checkorder where valnumber='"+number+"'and acceptno='"+acceptno+"'";
+System.out.println(test);
+ResultSet rs_test=connect.query(test);
 String valorgroupnummber=null;
-out.println(locationstatus);
-while(rs_select_location.next()){
-	valorgroupnummber=rs_select_location.getString("valorgroupnumber");
-	sql="select * from valsavestatusinfo where valorgroupnumber='"+valorgroupnummber+"'";
-	
-}*/
+if(rs_test.next()){
+	PrintWriter pw = response.getWriter();
+	response.setContentType("text");
+	pw.write("notgroupsingle");
+	pw.close();
+}else{
+	PrintWriter pw = response.getWriter();
+	response.setContentType("text");
+	pw.write("isgroupsingle");
+	pw.close();
+}
 %>
 
 </body>

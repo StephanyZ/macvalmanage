@@ -204,7 +204,7 @@
 			String valorgroupnumber = null;
 
 			if (mark.equals("group")) {
-				String select_group = "select * from val_infromation where valnumber='"
+				String select_group = "select * from val_information where valnumber='"
 						+ check.getJSONObject(0).getString("cbvalnumber") + "'limit 1";
 				ResultSet rs_group = connect.query(select_group);
 				if (rs_group.next()) {
@@ -271,11 +271,11 @@
 									+ null + ",'" + valstatus + "')";
 						}
 					}
-					/*int flag_insert = connect.addquery(addtopre);
+					int flag_insert = connect.addquery(addtopre);
 					if (flag_insert == 0) {
 						Flag = 1;
 						System.out.println(addtopre);
-					}*/
+					}
 					System.out.println("all" + addtopre);
 				} else {
 					valvolume = "S";
@@ -297,11 +297,11 @@
 										+ valvolume + "','" + location + "','" + opaction + "','" + manindex + "',"
 										+ optime + "," + null + ",'" + valstatus + "')";
 								System.out.println("groupnotall" + addtopre);
-								/*int flag_insert = connect.addquery(addtopre);
+								int flag_insert = connect.addquery(addtopre);
 								if(flag_insert==0){
 									ff=1;
 									why+=addtopre;
-								}*/
+								}
 
 							}
 
@@ -313,7 +313,6 @@
 				System.out.println(select_outstatus);
 			}
 
-			/*
 			if(Flag==1||ff==1){
 				flag = "failed";
 				if(Flag==1){
@@ -330,7 +329,7 @@
 			response.setContentType("text");
 			pw.write(flag);
 			pw.close();
-			return;*/
+			return;
 		}
 	%>
 </body>
