@@ -251,7 +251,7 @@ if(option.equals("addinformation")){
 			rs_select_valnum=connect.query("select * from val_information where valnumber=\""+valnumber+"\"");
 		}
 		valnumber=df.format(valinfocount);
-		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"','"+groupnum+"',"+null+",'"+acceptno+"','yes')";
+		String add_valinformation="insert into val_information values('"+productno+"','"+manufacture+"','"+valnumber+"','"+valvecate+"','"+media+"',"+diapress+","+diameter+","+valdiameter+","+requiredpress+",'"+pressgrade+"',"+outputtime+",'"+revise+"','"+manucode+"',"+designpress+","+designtemper+","+valvepno+","+reseatpress+",'"+inportvalve+"','"+svalve+"',"+null+","+null+",'"+acceptno+"','yes')";
 		int flag_add_valinformation=0;
 		flag_add_valinformation=connect.addquery(add_valinformation);
 		if(flag_add_valinformation!=0){

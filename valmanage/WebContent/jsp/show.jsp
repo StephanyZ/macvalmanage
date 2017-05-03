@@ -120,6 +120,13 @@ if(option.equals("androidshowvalinfo")){
 		val_flag=1;
 	}
 	if(val_flag==1){
+		JsonObject ob=new JsonObject();
+		ob.addProperty("index", 1);
+		ob.addProperty("valnumber",rs_select_val.getString("valnumber"));
+		ob.addProperty("valproductno",rs_select_val.getString("productno"));
+		ob.addProperty("manufacture",rs_select_val.getString("manufacture"));
+		ob.addProperty("valvecate", rs_select_val.getString("valvecate"));
+		array.add(ob);
 		object.addProperty("status",status);
 		object.addProperty("valorgroup","val");
 		object.add("values", array);
@@ -158,6 +165,7 @@ if(option.equals("androidshowvalinfo")){
 		pw.write(object.toString());
 		pw.close();
 	}
+	
 }
 if(option.equals("getvolume")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
@@ -375,6 +383,7 @@ if(option.equals("androidshowvaloutinfo")){
 		}
 	}else{
 		String selectval="select * from val_information where valnumber='"+valorgroupnumber+"'";
+		System.out.println(selectval);
 		ResultSet rs_val=connect.query(selectval);
 		JsonObject val=new JsonObject();
 		if(rs_val.next()){

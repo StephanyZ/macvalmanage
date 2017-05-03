@@ -119,6 +119,7 @@
 						modify_qualify = "update val_information set isqualify='no' where valnumber='" + valnumber
 								+ "'";
 					}
+					System.out.println(modify_qualify);
 					flag_modify = connect.addquery(modify_qualify);
 					if (flag_modify == 0) {
 						Flag = 1;
@@ -170,8 +171,10 @@
 						pw.close();
 						return;
 					}
-					if (exlocationnum != null) {
+					if (exlocationnum != null&&!exlocationnum.equals("")) {
 						exlocationnum = "'" + exlocationnum + "'";
+					}else{
+						exlocationnum=null;
 					}
 					String addtopre = "insert into preparetochangeinfo values('" + valorgroupnumber + "','"
 							+ valvolume + "','" + storagelocationnum + "','" + opaction + "','" + manindex + "','"
@@ -232,16 +235,18 @@
 					valorgroupnumber = check.getJSONObject(0).getString("cbvalnumber");
 					select_outstatus = "select * from valsavestatusinfo where valnumber='"
 							+ rs_group.getString("groupnum") + "'order by optime desc limit 1";
-
 				}
 			}
 			System.out.println(mark + select_outstatus);
 			ResultSet rs_select_outstatus = connect.query(select_outstatus);
 			if (rs_select_outstatus.next()) {
 				String valvolume = rs_select_outstatus.getString("valvolume");
+				System.out.println(valvolume);
 				String storagelocationnum = rs_select_outstatus.getString("storagelocationnum");
+				System.out.println(storagelocationnum);
 				String opaction = "T";
 				String exlocationnum = rs_select_outstatus.getString("exlocationnum");
+				System.out.println(exlocationnum);
 				String valstatus = rs_select_outstatus.getString("valstatus");
 				if (valstatus.equals("Y")) {
 					valstatus = "O";
