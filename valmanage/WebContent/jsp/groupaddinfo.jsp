@@ -260,8 +260,9 @@ if(option.equals("addinformation")){
 			String add_groupwillbesaved="insert into willbesaved values('"+valnumber+"')";
 			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
 			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
-				ss="/Users/mac/git/valmanage/WebContent/image/"+acceptno+".png";
+				ss="/Users/mac/git/valmanage/WebContent/image/checkedorder/"+acceptno+".png";
 				QRencoder.encoderQRCode(acceptno,ss, "png",10);
+				
 				PrintWriter pw=response.getWriter();
 				response.setContentType("html/text");
 				pw.write(ss+"&"+acceptno);
