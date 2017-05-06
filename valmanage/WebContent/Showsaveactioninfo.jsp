@@ -252,7 +252,7 @@ function searchinfo(r){
 				<div>
 					<ul class="breadcrumb">
 						<li><a href="homepage.jsp">首页</a></li>
-						<li><a href="Showsaveaction.jsp">查看信息存储</a></li>
+						<li><a href="Showsaveactioninfo.jsp">查看信息存储</a></li>
 					</ul>
 				</div>
 				<div class=" row">

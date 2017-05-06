@@ -276,7 +276,7 @@ function showgroupval(){
 				<div>
 					<ul class="breadcrumb">
 						<li><a href="homepage.jsp">首页</a></li>
-						<li><a href="Groupaddinfo">委托单信息录入</a></li>
+						<li><a href="Groupaddinfo.jsp">委托单信息录入</a></li>
 					</ul>
 				</div>
 
