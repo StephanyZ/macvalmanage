@@ -15,6 +15,18 @@ request.setCharacterEncoding("UTF-8");
 ResultSet rs=null;
 String opaction="S";
 String valorgroupnumber=request.getParameter("valorgroupnumber");
+String acceptno=null;
+if(valorgroupnumber.length()>10){
+	acceptno=valorgroupnumber;
+	String get_valorgroupnumber="select * from val_information where acceptno='"+valorgroupnumber+"'";
+	ResultSet rs_valorgroupnumber=connect.query(get_valorgroupnumber);
+	if(rs_valorgroupnumber.next()){
+		valorgroupnumber=rs_valorgroupnumber.getString("valnumber");
+		if(rs_valorgroupnumber.next()){
+			valorgroupnumber=rs_valorgroupnumber.getString("groupnum");
+		}
+	}
+}
 String manindex=request.getParameter("manindex");
 String valvolume=request.getParameter("valvolume");
 String location=request.getParameter("location");
@@ -61,7 +73,7 @@ String insert="";
 		int flad_insert=connect.addquery(insert);
 		if(flag_modify1!=0&&flad_insert!=0){
 			String delete="";
-			delete="delete from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
+			delete="delete from checkedwillbesaved where acceptno='"+valorgroupnumber+"'";
 			int flag_delete=connect.addquery(delete);
 			if(flag_delete!=0){
 				PrintWriter pw=response.getWriter();

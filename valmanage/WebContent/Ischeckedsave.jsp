@@ -383,7 +383,7 @@ function nochecklocation(){
 													%>
 													<datalist id="idlist">
 													<%while(rs.next()){ %>
-													<option value="<%=rs.getString("valorgroupnum")%>"></option>
+													<option value="<%=rs.getString("acceptno")%>"></option>
 													<%}%>
 													</datalist>
 												<label class="space-left-2" for="manindex">交接工人ID：</label> <input type="text"

@@ -78,7 +78,20 @@
 						exlocationnum = "'" + exlocationnum + "'";
 					}
 					if (valstatus.equals("C")) {
-						String add_checkedwillbesaved = "insert into checkedwillbesaved values('" + opnumber + "','"
+						
+						String acceptno=null;
+						String get_acceptno=null;
+						if(opnumber.substring(0, 1).equals("g")){
+							get_acceptno="select * from val_information where groupnum='"+opnumber+"'";
+						}else{
+							get_acceptno="select * from val_information where valnumber='"+opnumber+"'";
+						}
+						ResultSet rs_acceptno=connect.query(get_acceptno);
+						if(rs_acceptno.next()){
+							acceptno=rs_acceptno.getString("acceptno");
+						}
+						
+						String add_checkedwillbesaved = "insert into checkedwillbesaved values('" + acceptno + "','"
 								+ valvolume + "')";
 						j = connect.addquery(add_checkedwillbesaved);
 						if (j == 0) {

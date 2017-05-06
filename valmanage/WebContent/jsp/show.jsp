@@ -56,6 +56,16 @@ if(option.equals("checkvalorgroup")){
 }
 if(option.equals("showvalorgroupinfo")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	if(valorgroupnumber.length()>10){
+		String get_valorgroupnumber="select * from val_information where acceptno='"+valorgroupnumber+"'";
+		ResultSet rs_valorgroupnumber=connect.query(get_valorgroupnumber);
+		if(rs_valorgroupnumber.next()){
+			valorgroupnumber=rs_valorgroupnumber.getString("valnumber");
+			if(rs_valorgroupnumber.next()){
+				valorgroupnumber=rs_valorgroupnumber.getString("groupnum");
+			}
+		}
+	}
 	String select_val="select * from val_information where valnumber='"+valorgroupnumber+"'";
 	ResultSet rs_select_val=connect.query(select_val);
 	String select_group="select * from val_information where groupnum='"+valorgroupnumber+"'";
@@ -169,7 +179,7 @@ if(option.equals("androidshowvalinfo")){
 }
 if(option.equals("getvolume")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
-	String select="select * from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
+	String select="select * from checkedwillbesaved where acceptno='"+valorgroupnumber+"'";
 	ResultSet rs_select=connect.query(select);
 	if(rs_select.next()){
 		String volume=rs_select.getString("valvolume");
