@@ -103,6 +103,18 @@
 			String flag = null;
 			int Flag = 0;
 			String valstatus = "";
+			String acceptno=null;
+			if(valorgroupnumber.length()>10){
+				acceptno=valorgroupnumber;
+				String get_valorgroupnumber="select * from val_information where acceptno='"+acceptno+"'";
+				ResultSet rs_valorgroupnumber=connect.query(get_valorgroupnumber);
+				if(rs_valorgroupnumber.next()){
+					valorgroupnumber=rs_valorgroupnumber.getString("valnumber");
+					if(rs_valorgroupnumber.next()){
+						valorgroupnumber=rs_valorgroupnumber.getString("groupnum");
+					}
+				}
+			}
 			if (option.equals("ischeckedsave")) {
 				exlocationnum = request.getParameter("exlocationnum");
 				int flag_modify = 0;
@@ -134,10 +146,10 @@
 				}
 			}
 			if (opaction.equals("S")) {
-				String select_willbe = "select * from willbesaved where valorgroupnumber='" + valorgroupnumber
+				String select_willbe = "select * from willbesaved where acceptno='" + acceptno
 						+ "'";
-				String select_checkedwillbe = "select * from checkedwillbesaved where valorgroupnum='"
-						+ valorgroupnumber + "'";
+				String select_checkedwillbe = "select * from checkedwillbesaved where acceptno='"
+						+ acceptno + "'";
 				System.out.println(select_willbe);
 				System.out.println(select_checkedwillbe);
 				ResultSet rs_willbe = connect.query(select_willbe);

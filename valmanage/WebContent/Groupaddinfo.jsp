@@ -105,8 +105,8 @@ function addvaltogroup(){
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/groupaddinfo.jsp?option=valnum", //把表单数据发送到ajax.jsp
-		data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+		url:"jsp/groupaddinfo.jsp?option=valnum", //把表单数据发送到groupaddinfo.jsp
+		data:$('#addinformation').serialize(), //要发送的是addinformation表单中的数据
 		dataType:'text',
 		timeout:3000,
 		async: false,

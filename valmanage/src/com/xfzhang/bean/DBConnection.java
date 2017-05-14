@@ -6,11 +6,9 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 public class DBConnection { 
 	public static Connection getConnection() {  
-		  
 	    Connection con = null;    //创建用于连接数据库的Connection对象  
 	    DataSource ds = null;  
-	    try {  
-	  
+	    try {    
 	        Context initContext = new InitialContext();  
 	        Context envContext = (Context)initContext.lookup("java:/comp/env");  
 	        ds = (DataSource)envContext.lookup("jdbc/mydb");  

@@ -18,26 +18,20 @@
 		String lo="select * from info_op_man where useraccount='"+account+"'";
 		rs=connect.query(lo);
 		String ss="";
-		out.println(lo);
-		
+		out.println(lo);		
 		while(rs.next()) {
-			String pd=rs.getString("userpassword");
-			
+			String pd=rs.getString("userpassword");			
 			if(rs.getString("userpassword").equals(passwd)){
 				String useraccount=rs.getString("useraccount");
 				String username=rs.getString("username");
 				String usertelephone=rs.getString("usertelephone");
 				String usepassword=rs.getString("userpassword");
-			
 				session.setAttribute("useraccount",useraccount);
 				session.setAttribute("username",username);
-				session.setAttribute("usertelephone",usertelephone);
-			
+				session.setAttribute("usertelephone",usertelephone);		
 				ss="sucess";
-				System.out.println(account+passwd+ss);
-			
-			}else{
-				
+				System.out.println(account+passwd+ss);	
+			}else{			
 				ss="failed";
 				System.out.println(account+passwd+ss);
 			}
@@ -46,11 +40,6 @@
 		pw.write(ss);
 		pw.close();
 }
-
-
 %>
-	<%-- jsp:include page="connection.jsp" flush="true"></jsp:include>--%>
-
-	<%-- <jsp:forward page="test.jsp"></jsp:forward>--%>
 </body>
 </html>

@@ -29,6 +29,7 @@
 		if (option.equals("pc")) {
 			manindex = request.getParameter("manindex");
 			status = request.getParameter("status");
+			System.out.println(status+" test ");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			Date d = new Date();
 			optime= sdf.format(d);
@@ -59,6 +60,7 @@
 			} else if (status.equals("Y") || status.equals("O")) {
 				valstatus = "O";
 			}
+			System.out.println(status+" "+valstatus);
 			if (rs_select_save.next()) {
 				String exlocationnum =null;
 				String location = rs_select_save.getString("storagelocationnum");
@@ -78,7 +80,6 @@
 						exlocationnum = "'" + exlocationnum + "'";
 					}
 					if (valstatus.equals("C")) {
-						
 						String acceptno=null;
 						String get_acceptno=null;
 						if(opnumber.substring(0, 1).equals("g")){
@@ -89,8 +90,7 @@
 						ResultSet rs_acceptno=connect.query(get_acceptno);
 						if(rs_acceptno.next()){
 							acceptno=rs_acceptno.getString("acceptno");
-						}
-						
+						}	
 						String add_checkedwillbesaved = "insert into checkedwillbesaved values('" + acceptno + "','"
 								+ valvolume + "')";
 						j = connect.addquery(add_checkedwillbesaved);

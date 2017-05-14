@@ -72,13 +72,15 @@ if(option.equals("groupnum")){
 		groupcount++;
 	}
 	groupcount++;
-	ResultSet rs_select_groupnum=connect.query("select * from val_information where groupnum=\""+groupcount+"\"");
-	while(rs_select_groupnum.next()){
-		groupcount++;
-		rs_select_groupnum=connect.query("select * from val_information where groupnum=\""+groupcount+"\"");
-	}
 	String STR_FORMAT = "g0000000";
 	DecimalFormat df = new DecimalFormat(STR_FORMAT);
+	groupnum=df.format(groupcount);
+	ResultSet rs_select_groupnum=connect.query("select * from val_information where groupnum=\""+groupnum+"\"");
+	while(rs_select_groupnum.next()){
+		groupcount++;
+		groupnum=df.format(groupcount);
+		rs_select_groupnum=connect.query("select * from val_information where groupnum=\""+groupnum+"\"");
+	}
 	groupnum=df.format(groupcount);
 	PrintWriter pw=response.getWriter();
 	response.setContentType("html/text");
@@ -198,17 +200,17 @@ if(option.equals("addinformation")){
 		ResultSet rs_select_valgroup=connect.query(select_valgroup);
 		int count=0;
 		if(rs_select_valgroup.next()){
+			String add_groupwillbesaved="insert into willbesaved values('"+acceptno+"')";
+			String add_checkorder="insert into checkorder values('"+acceptno+"','"+groupnum+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
+			flag_add_checkorder=connect.addquery(add_checkorder);
 			String updatevalinfo="update val_information set acceptno='"+acceptno+"' where groupnum='"+groupnum+"'";
 			int flag_updateval=connect.addquery(updatevalinfo);
 			if(flag_updateval==0){
 				System.out.println("安全阀信息更新委托单号出错！！");
 			}
-			String add_groupwillbesaved="insert into willbesaved values('"+groupnum+"')";
-			String add_checkorder="insert into checkorder values('"+acceptno+"','"+groupnum+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
-			flag_add_checkorder=connect.addquery(add_checkorder);
 			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
 			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
-				ss="/Users/mac/git/valmanage/WebContent/image/"+acceptno+".png";
+				ss="/Users/mac/git/valmanage/WebContent/image/checkedorder/"+acceptno+".png";
 				QRencoder.encoderQRCode(acceptno,ss, "png",10);
 				PrintWriter pw=response.getWriter();
 				response.setContentType("html/text");
@@ -257,7 +259,7 @@ if(option.equals("addinformation")){
 		if(flag_add_valinformation!=0){
 			String add_checkorder="insert into checkorder values('"+acceptno+"','"+valnumber+"','"+factoryindex+"','"+equipindex+"','"+appearance+"',"+sendtime+",'"+standard+"','"+reportno+"',"+requireddrawtime+")";
 			flag_add_checkorder=connect.addquery(add_checkorder);
-			String add_groupwillbesaved="insert into willbesaved values('"+valnumber+"')";
+			String add_groupwillbesaved="insert into willbesaved values('"+acceptno+"')";
 			flag_add_groupwillbesaved=connect.addquery(add_groupwillbesaved);
 			if(flag_add_checkorder!=0&&flag_add_groupwillbesaved!=0){
 				ss="/Users/mac/git/valmanage/WebContent/image/checkedorder/"+acceptno+".png";

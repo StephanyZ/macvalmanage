@@ -73,51 +73,53 @@ String insert="";
 		int flad_insert=connect.addquery(insert);
 		if(flag_modify1!=0&&flad_insert!=0){
 			String delete="";
-			delete="delete from checkedwillbesaved where acceptno='"+valorgroupnumber+"'";
+			delete="delete from checkedwillbesaved where acceptno='"+acceptno+"'";
 			int flag_delete=connect.addquery(delete);
 			if(flag_delete!=0){
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
 				pw.write("存储成功！");
 				pw.close();
-				return;
+				//return;
 			}else{
 				PrintWriter pw=response.getWriter();
 				response.setContentType("text");
 				pw.write("未成功删除备出库列表"+delete);
 				pw.close();
-				return;
+				//return;
 			}
 		}else if(flag==0&&flad_insert!=0&&flag_modify1==0){
 			PrintWriter pw=response.getWriter();
 			response.setContentType("text");
 			pw.write("修改locationstatus失败！");
 			pw.close();
-			return;
+			//return;
 		}else if(flag==0&&flad_insert==0&&flag_modify1!=0){
 			PrintWriter pw=response.getWriter();
 			response.setContentType("text");
 			pw.write("插入存储状态失败！！"+insert);
 			pw.close();
-			return;
+			//return;
 		}else if(flag==1){
 			PrintWriter pw=response.getWriter();
 			response.setContentType("text");
 			pw.write("插入备选存储位置失败！！");
 			pw.close();
-			return;
+			//return;
 		}else{
 			PrintWriter pw=response.getWriter();
 			response.setContentType("text");
 			pw.write("存储失败！");
 			pw.close();
-			return;
+			//return;
 		}
-		
+		}else{
+			PrintWriter pw=response.getWriter();
+			response.setContentType("text");
+			pw.write("该位置不为空！！");
+			pw.close();
+			//return;
 		}
-		
-	
-
-%>
+	%>
 </body>
 </html>

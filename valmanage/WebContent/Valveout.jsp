@@ -189,9 +189,9 @@ function deletechecked(r){
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/valveoutsingle.jsp?manindex="+str+"&&option=pc", //把表单数据发送到ajax.jsp
+		url:"jsp/valveoutsingle.jsp?manindex="+str+"&&option=pc", 
 		traditional :true,
-		data:{"checkedid":checked}, //要发送的是ajaxFrm表单中的数据
+		data:{"checkedid":checked}, 
 		async: false,
 		error: function(request) {
 		alert("发送请求失败！");
@@ -205,26 +205,26 @@ function deletechecked(r){
 function deleteRow(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
 	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
-	 var status=document.getElementById('table').rows[rows].cells[4].innerText;
-	 
+	 var status=document.getElementById('table').rows[rows].cells[5].innerText;	 
 	 if(status=="未检在库"){
 		 status="N";
 	 }else if(status=="已检在库"){
 		 status="Y";
 	 }
+	 alert(status); 
 	 var str=prompt("对接出库员工ID：","请核实后输入，如:lzhang");
 	 
 	 $.ajax({
 			cache: false,
 			type: "POST",
-			url:"jsp/valveout.jsp?opnumber="+valorgroupnumber+"&&manindex="+str+"&&status="+status+"&&option=pc", //把表单数据发送到ajax.jsp
-			data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
+			url:"jsp/valveout.jsp?opnumber="+valorgroupnumber+"&&manindex="+str+"&&status="+status+"&&option=pc", 
+			data:$('#addinformation').serialize(), 
 			async: false,
 			error: function(request) {
 			alert("发送请求失败！");
 			},
 			success: function(data) {
-			alert(data); //将返回的结果显示到ajaxDiv中
+			alert(data); 
 			location.replace("Valveout.jsp");
 			}
 			});

@@ -113,7 +113,7 @@ $(document).ready(function show(){
 					+"</a></td>";
 				}else if(data[n].valstatus=="C"||data[n].valstatus=="O"){
 					insert+="</td>";
-					insert+="<td class=\"center\"><a class=\"btn btn-info\" onclick=\"delinfotest(this)\">"
+					insert+="<td class=\"center\"><a class=\"btn btn-info\" onclick=\"delinfo(this)\">"
 					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定出库"
 					+"</a></td>";
 				}
@@ -143,7 +143,7 @@ function addinfo(r){
 			}
 			});
 }
-function delinfo(r){
+function delinfotest(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
 	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
 	 $.ajax({
@@ -162,7 +162,7 @@ function delinfo(r){
 			});
 }
 
-function delinfotest(r){
+function delinfo(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
 	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
 	 var acceptno=document.getElementById('table').rows[rows].cells[1].innerText;

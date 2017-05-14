@@ -65,18 +65,17 @@ function doFind(){
 	});
 	}
 function showmessage(){
-	//var valorgroupnum=document.getElementById("valorgroupnum").value;
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/show.jsp?option=showvalorgroupinfo", //把表单数据发送到ajax.jsp
-		data:$('#nochecksave').serialize(), //要发送的是ajaxFrm表单中的数据
+		url:"jsp/show.jsp?option=showvalorgroupinfo", 
+		data:$('#nochecksave').serialize(), 
 		async: false,
 		error: function(request) {
 		alert("发送请求失败！");
 		},
 		success: function(data) {
-			document.getElementById("showmessage").innerHTML=data; //将返回的结果显示到ajaxDiv中
+			document.getElementById("showmessage").innerHTML=data; 
 		}
 		});
 }
@@ -107,8 +106,7 @@ function nochecklocation(){
 	else
 		xmlhttp=new ActiveXObjice("Microsoft.XMLHTTP");
 	xmlhttp.onreadystatechange=function(){
-		if(xmlhttp.readyState==4&&xmlhttp.status==200){
-			
+		if(xmlhttp.readyState==4&&xmlhttp.status==200){		
 			document.getElementById("storagelocationnum").value=xmlhttp.responseText;
 			//alert(xmlhttp.responseText);
 		}
@@ -307,8 +305,8 @@ function nochecklocation(){
 									<form id="nochecksave">
 										<div class="box-content">
 											<div class="form-group space-left-2">
-												<label for="valorgroupnumber">安全阀或分组编号ID：</label> <input type="text"
-													id="valorgroupnumber" name="valorgroupnumber" placeholder="valorgroupnumber" list="idlist" onBlur="showmessage()">
+												<label for="valorgroupnumber">委托单编号ID：</label> <input type="text"
+													id="valorgroupnumber" name="valorgroupnumber" placeholder="acceptno" list="idlist" onBlur="showmessage()">
 													<% 
 													String sql="select * from willbesaved";
 														ResultSet rs=null;

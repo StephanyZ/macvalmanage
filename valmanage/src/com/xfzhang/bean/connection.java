@@ -22,7 +22,6 @@ public class connection {
             }  
         }  
         System.out.println("查询函数中连接到数据库数据成功"+conn);  
-  
         try {  
             st = (Statement) conn.createStatement();    //创建用于执行静态sql语句的Statement对象，st属局部变量     
             rs = (ResultSet) st.executeQuery(sql);    //执行sql查询语句，返回查询数据的结果集 
@@ -43,7 +42,6 @@ public class connection {
             }  
         }  
         System.out.println("插入函数中连接到数据库数据成功"+conn);  
-  
         try {  
             st = (Statement) conn.createStatement();    //创建用于执行静态sql语句的Statement对象，st属局部变量     
             flag = (int) st.executeUpdate(sql);    //执行sql查询语句，返回查询数据的结果集 
@@ -51,8 +49,7 @@ public class connection {
         } catch (SQLException e) {  
             System.out.println("数据库中插入数据失败");  
             return 0;  
-        }  
-         
+        }          
     }
     public static void closeDB() throws SQLException{  
         if(null != rs)  
@@ -62,6 +59,5 @@ public class connection {
         if(null != conn)  
             conn.close();    //关闭数据库连接  
     }  
-	
 }
 

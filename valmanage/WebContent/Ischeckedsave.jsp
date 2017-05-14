@@ -120,11 +120,13 @@ function addcheckgroup(){
 		dataType:'json',
 		async: false,
 		error: function(request) {
-		alert("发送请求失败！");
+			alert("发送请求失败！");
 		},
 		success: function(data) {
 			document.getElementById("location").value=null;
 			document.getElementById("exlocation").value=null;
+			valorgroupnumber=data.valorgroupnumber;
+			alert(valorgroupnumber);
 			var fdStart = valorgroupnumber.indexOf("g");
 			if(fdStart == 0){
 				if(data.qlocation==""){
