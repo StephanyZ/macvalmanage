@@ -22,7 +22,7 @@ if(valorgroupnumber.length()>10){
 	ResultSet rs_valorgroupnumber=connect.query(get_valorgroupnumber);
 	if(rs_valorgroupnumber.next()){
 		valorgroupnumber=rs_valorgroupnumber.getString("valnumber");
-		if(rs_valorgroupnumber.next()){
+		if((rs_valorgroupnumber.getString("groupnum")!=null&&!rs_valorgroupnumber.getString("groupnum").equals("null"))||rs_valorgroupnumber.next()){
 			valorgroupnumber=rs_valorgroupnumber.getString("groupnum");
 		}
 	}

@@ -5,6 +5,7 @@
 <title>PDF</title>
 <link rel="stylesheet" href="./css/style.css">
 <script src="bower_components/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.qrcode.min.js"></script>
 <script type="text/javascript">
 
 
@@ -46,10 +47,12 @@ $(document).ready(function show(){
 	}
 	//document.getElementById("qrcode").src="url(./image/checkedorder/20170514165744.png)";
 	//document.getElementById("qrcode").src="./image/checkedorder/20170514165744.png";
-	document.getElementById("qrcode").src="./image/checkedorder/"+acceptno+".png";
+	//document.getElementById("qrcode").src="./image/checkedorder/"+acceptno+".png";
+	$('#qrcode').qrcode(acceptno); 
 	//document.getElementById("factory").innerHTML=;
 	document.getElementById("time").innerHTML=currentdate;
 	document.getElementById("acceptno").innerHTML=acceptno;
+	
 });
 
 </script>
@@ -65,11 +68,13 @@ $(document).ready(function show(){
                     <h2>Checkorder By FastVave</h2>
                 </div>
             <div class="content-main">
-            <img class="qrcode" id="qrcode" src=""><br>
+            	<div id="qrcode"><div>
             委托单号：<h2 id="acceptno"></h2>
                 委托公司：<h2 id="factory"></h2>
                 时间：<h2 id="time"></h2>
              </div>
+        </div>
+        </div>
         </div>
         </div>
         <script src="./js/jspdf.debug.js"></script>

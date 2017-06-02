@@ -99,7 +99,8 @@ $(document).ready(function show(){
 				}
 				insert+="</td>";
 				insert+="<td class=\"center\"><a class=\"btn btn-danger\" onclick=\"deleteRow(this)\"> <i"
-				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库"
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库</a> <a class=\"btn btn-success\" onclick=\"showval(this)\"> <i"
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 浏览"
 				+"</a></td>";
 				insert+="</tr>";
 				//alert(insert);
@@ -110,12 +111,14 @@ $(document).ready(function show(){
 		});
 	//setInterval('show()', 5000);
 });
-$(document).ready(function showval(){
+function showval(r){
+	var rows=r.parentNode.parentNode.rowIndex;
+	var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
 	var tbody=window.document.getElementById("valinput");
 	$.ajax({
 		cache: false,
 		type: "POST",
-		url:"jsp/getlocationsavedinfosingle.jsp",//把表单数据发送到ajax.jsp
+		url:"jsp/getlocationsavedinfosingle.jsp?valorgroupnumber="+valorgroupnumber,//把表单数据发送到ajax.jsp
 		dataType:'json',
 		timeout:3000,
 		async: false,
@@ -142,30 +145,15 @@ $(document).ready(function showval(){
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
 				}
-				insert+="</td>";	
-				insert+="<td calss=\"center\">";
-				insert+=data[n].optime;
-				insert+="</td>";		
-				if(data[n].opaction=='S'){
-				insert+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
+				insert+="</td>";			
+				
+				if(data[n].isqualify=='yes'){
+					insert+="<td class=\"center\"><span class=\"label-success label label-default\">合格</span></td>";
+				}else if(data[n].isqualify=='no'){
+					insert+="<td class=\"center\"><span class=\"label-danger label label-default\">不合格</span></td>";
+				}else{
+					insert+="<td class=\"center\"><span class=\"label-info label label-default\">未检</span></td>";
 				}
-				if(data[n].opaction=='T'){
-				insert+="<td class=\"center\"><span class=\"label-danger label label-default\">取出</span></td>";
-				}
-				if(data[n].opaction=='X'){
-					insert+="<td class=\"center\"><span class=\"label-info label label-default\">修改</span></td>";
-				}
-				insert+="<td calss=\"center\">";
-				if(data[n].valstatus=="N"){
-					insert+="未检在库";
-				}else if(data[n].valstatus=="Y"){
-					insert+="已检在库";
-				}else if(data[n].valstatus=="C"){
-					insert+="备检出库";
-				}else if(data[n].valstatus=="O"){
-					insert+="检毕出库";
-				}
-				insert+="</td>";
 				insert+="<td class=\"center\"><a class=\"btn btn-danger\" onclick=\"deletechecked(this)\"> <i"
 				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库"
 				+"</a></td>";
@@ -177,7 +165,7 @@ $(document).ready(function showval(){
 		}
 		});
 	//setInterval('show()', 5000);
-});
+}
 function deletechecked(r){
 	var checked = []; 
 	var checkedcount=0;
@@ -458,9 +446,7 @@ function deleteRow(r){
 											<th>安全阀编号</th>
 											<th>委托单号</th>
 											<th>存储位置</th>
-											<th>操作时间</th>
-											<th>存入／取出</th>
-											<th>状态</th>
+											<th>合格状态</th>
 											<th>更多</th>
 										</tr>
 									</thead>

@@ -110,7 +110,7 @@
 				ResultSet rs_valorgroupnumber=connect.query(get_valorgroupnumber);
 				if(rs_valorgroupnumber.next()){
 					valorgroupnumber=rs_valorgroupnumber.getString("valnumber");
-					if(rs_valorgroupnumber.next()){
+					if((rs_valorgroupnumber.getString("groupnum")!=null&&!rs_valorgroupnumber.getString("groupnum").equals("null"))||rs_valorgroupnumber.next()){
 						valorgroupnumber=rs_valorgroupnumber.getString("groupnum");
 					}
 				}
@@ -265,12 +265,14 @@
 				} else if (valstatus.equals("N")) {
 					valstatus = "C";
 				}
+				
 				for (int i = 0; i < check.length(); i++) {
 					JSONObject ob = check.getJSONObject(i);
 					if (ob.getString("ischecked").equals("true")) {
 						checkedcount++;
 					}
 				}
+				System.out.println(checkedcount+check.length());
 				if (checkedcount == check.length() && checkedcount != 0) {
 					if (exlocationnum != null) {
 						exlocationnum = "'" + exlocationnum + "'";
@@ -301,7 +303,8 @@
 						System.out.println(addtopre);
 					}
 					System.out.println("all" + addtopre);
-				} else {
+				} 
+				else {
 					valvolume = "S";
 					String location = null;
 					for (int i = 0; i < check.length(); i++) {
@@ -355,6 +358,7 @@
 			pw.close();
 			return;
 		}
+		
 	%>
 </body>
 </html>

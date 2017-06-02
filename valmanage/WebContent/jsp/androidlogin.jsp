@@ -10,8 +10,7 @@
 </head>
 <body>
 	<jsp:useBean id="connect" class="com.xfzhang.bean.connection"></jsp:useBean>
-	<%
-		request.setCharacterEncoding("UTF-8");
+	<%	request.setCharacterEncoding("UTF-8");
 		ResultSet rs=null;
 		String account=request.getParameter("useraccount");
 		String passwd=request.getParameter("password");
@@ -19,30 +18,18 @@
 		rs=connect.query(lo);
 		String ss="";
 		out.println(lo);
-		
 		while(rs.next()) {
 			String pd=rs.getString("manpassword");
-			
 			if(rs.getString("manpassword").equals(passwd)){
-				String useraccount=rs.getString("manindex");
-				String username=rs.getString("manname");
-				String usertelephone=rs.getString("mantelephone");
-				String usepassword=rs.getString("manpassword");
 				ss="sucess";
-				System.out.println(account+passwd+ss);
-			}else{
-				
+			}else{				
 				ss="failed";
-				System.out.println(account+passwd+ss);
 			}
 		PrintWriter pw=response.getWriter();
 		response.setContentType("text");
 		pw.write(ss);
 		pw.close();
-}
-
-
-%>
+		}%>
 	<%-- jsp:include page="connection.jsp" flush="true"></jsp:include>--%>
 
 	<%-- <jsp:forward page="test.jsp"></jsp:forward>--%>

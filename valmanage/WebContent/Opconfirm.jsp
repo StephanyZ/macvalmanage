@@ -110,11 +110,15 @@ $(document).ready(function show(){
 					insert+="</td>";
 					insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"addinfo(this)\">"
 					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定入库"
+					+"</a>  <a class=\"btn btn-danger\" onclick=\"deletepre(this)\">"
+					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 取消"
 					+"</a></td>";
 				}else if(data[n].valstatus=="C"||data[n].valstatus=="O"){
 					insert+="</td>";
 					insert+="<td class=\"center\"><a class=\"btn btn-info\" onclick=\"delinfo(this)\">"
 					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 确定出库"
+					+"</a>  <a class=\"btn btn-danger\" onclick=\"deletepre(this)\">"
+					+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 取消"
 					+"</a></td>";
 				}
 				insert+="</tr>";
@@ -128,10 +132,11 @@ $(document).ready(function show(){
 function addinfo(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
 	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
+	 var acceptno=document.getElementById('table').rows[rows].cells[1].innerText;
 	 $.ajax({
 			cache: false,
 			type: "POST",
-			url:"jsp/nochecksave.jsp?option=android&&valorgroupnumber="+valorgroupnumber, //把表单数据发送到ajax.jsp
+			url:"jsp/nochecksave.jsp?option=android&&valorgroupnumber="+valorgroupnumber+"&&acceptno="+acceptno, //把表单数据发送到ajax.jsp
 			data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
 			async: false,
 			error: function(request) {
@@ -143,20 +148,25 @@ function addinfo(r){
 			}
 			});
 }
-function delinfotest(r){
+function deletepre(r){
 	 var rows=r.parentNode.parentNode.rowIndex;
 	 var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
 	 $.ajax({
 			cache: false,
 			type: "POST",
-			url:"jsp/valveout.jsp?option=android&&opnumber="+valorgroupnumber, //把表单数据发送到ajax.jsp
+			url:"jsp/deletepreinfo.jsp?option=delpre&&opnumber="+valorgroupnumber, //把表单数据发送到ajax.jsp
 			data:$('#addinformation').serialize(), //要发送的是ajaxFrm表单中的数据
 			async: false,
 			error: function(request) {
 			alert("发送请求失败！");
 			},
 			success: function(data) {
-				alert(data); //将返回的结果显示到ajaxDiv中
+				 //将返回的结果显示到ajaxDiv中
+				if(data=="sucess"){
+					alert("取消成功！");
+				}else if(data=="failed"){
+					alert("取消失败！");
+				}
 				location.replace("Opconfirm.jsp");
 			}
 			});

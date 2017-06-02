@@ -118,7 +118,8 @@ if(option.equals("androidshowvalinfo")){
 	JsonArray array=new JsonArray();
 	String select_willbe="select * from willbesaved where acceptno='"+acceptno+"'";
 	ResultSet rs_willbe=connect.query(select_willbe);
-	String select_checkedwillbe="select * from checkedwillbesaved where acceptno='"+acceptno+"'";
+	String select_checkedwillbe="select * from checkedwillbesaved where acceptno='"
+	+acceptno+"'";
 	ResultSet rs_checkedwillbe=connect.query(select_checkedwillbe);
 	String status="";
 	if(rs_willbe.next()){
@@ -126,8 +127,7 @@ if(option.equals("androidshowvalinfo")){
 	}else if(rs_checkedwillbe.next()){
 		status="checkedwillbesaved";
 	}else{
-		status="Cantbesaved";
-	}
+		status="Cantbesaved";}
 	if(rs_select_val.next()){
 		JsonObject ob=new JsonObject();
 		int count=0;
@@ -226,6 +226,7 @@ if(option.equals("getcheckedgroup")){
 		ResultSet rs=connect.query(getlocation);
 		if (rs.next()){
 			String sln=rs.getString("storagelocationnum");
+			System.out.println(sln);
 			JsonObject ob=new JsonObject();
 			if(s!=null){
 				ob.addProperty("qlocation",sln);
@@ -233,7 +234,7 @@ if(option.equals("getcheckedgroup")){
 			if(s==null){
 				ob.addProperty("ulocation",sln);
 			}	
-			
+			ob.addProperty("valorgroupnumber",valorgroupnumber);
 			PrintWriter pw=response.getWriter();
 			response.setContentType("text／json");
 			pw.write(ob.toString());
@@ -353,7 +354,9 @@ if(option.equals("getcheckedgroup")){
 }
 if(option.equals("androidshowvaloutinfo")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	String acceptno=null;
 	if(valorgroupnumber.length()>10){
+		acceptno=valorgroupnumber;
 		String getnum="select * from checkorder where acceptno='"+valorgroupnumber+"'";
 		ResultSet rs_getnum=connect.query(getnum);
 		if(rs_getnum.next()){
@@ -364,7 +367,7 @@ if(option.equals("androidshowvaloutinfo")){
 	String checkorder=null;
 	JsonArray valoutinfo=new JsonArray();
 	if(valorgroupnumber.substring(0,1).equals("g")){
-		selectsaveinfo="select * from valsavestatusinfo where valnumber='"+valorgroupnumber+"'";
+		selectsaveinfo="select * from valsavestatusinfo where valnumber='"+valorgroupnumber+"'order by optime desc limit 1";
 		checkorder="select * from checkorder where valnumber='"+valorgroupnumber+"'";
 		String selectval="select * from val_information where groupnum='"+valorgroupnumber+"'";
 		ResultSet rs_selectval=connect.query(selectval);
@@ -373,6 +376,7 @@ if(option.equals("androidshowvaloutinfo")){
 		//System.out.println(checkorder);
 		if(rs_checkorder.next()&&rs_saveinfo.next()){
 		while(rs_selectval.next()){
+			if(!rs_selectval.getString("isvalid").equals("no")){
 			JsonObject val=new JsonObject();
 			val.addProperty("valnumber", rs_selectval.getString("valnumber"));
 			//System.out.println(rs_checkorder.getString("acceptno"));
@@ -383,9 +387,10 @@ if(option.equals("androidshowvaloutinfo")){
 				val.addProperty("location",rs_saveinfo.getString("exlocationnum"));
 			}
 			val.addProperty("optime",rs_saveinfo.getString("optime"));
-			val.addProperty("valstatus",rs_saveinfo.getString("valstatus"));
+			val.addProperty("isqualify",rs_selectval.getString("isqualify"));
 			val.addProperty("mark", "group");
 			valoutinfo.add(val);
+			}
 		}
 		}
 	}else{
@@ -414,7 +419,7 @@ if(option.equals("androidshowvaloutinfo")){
 					val.addProperty("location",rs_saveinfo.getString("exlocationnum"));
 				}
 				val.addProperty("optime",rs_saveinfo.getString("optime"));
-				val.addProperty("valstatus",rs_saveinfo.getString("valstatus"));
+				val.addProperty("isqualify",rs_val.getString("isqualify"));
 				valoutinfo.add(val);
 			}			
 		}

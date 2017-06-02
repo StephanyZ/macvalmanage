@@ -25,7 +25,7 @@ if(option.equals("pc")){
 			ResultSet rs_valorgroupnumber=connect.query(get_valorgroupnumber);
 			if(rs_valorgroupnumber.next()){
 				valorgroupnumber=rs_valorgroupnumber.getString("valnumber");
-				if(rs_valorgroupnumber.next()){
+				if((rs_valorgroupnumber.getString("groupnum")!=null&&!rs_valorgroupnumber.getString("groupnum").equals("null"))||rs_valorgroupnumber.next()){
 					valorgroupnumber=rs_valorgroupnumber.getString("groupnum");
 				}
 			}
@@ -107,6 +107,8 @@ if(option.equals("android")){
 	ResultSet rs=connect.query(getinfo);
 	if(rs.next()){
 		String valvolume=rs.getString("valvolume");
+		String acceptno=request.getParameter("acceptno");
+		System.out.println(acceptno);
 		String storagelocationnum=rs.getString("storagelocationnum");
 		String opaction=rs.getString("opaction");
 		String manindex=rs.getString("manindex");
@@ -130,9 +132,9 @@ if(option.equals("android")){
 			String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+valorgroupnumber+"'";
 			String delete=null;
 			if(valstatus.equals("N")){
-				delete="delete from willbesaved where valorgroupnumber='"+valorgroupnumber+"'";
+				delete="delete from willbesaved where acceptno='"+acceptno+"'";
 			}else if(valstatus.equals("Y")){
-				delete="delete from checkedwillbesaved where valorgroupnum='"+valorgroupnumber+"'";
+				delete="delete from checkedwillbesaved where acceptno='"+acceptno+"'";
 			}
 			int flag_delete=connect.addquery(delete);
 			int flag_delete_pre=connect.addquery(delete_pre);

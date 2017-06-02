@@ -106,17 +106,22 @@
 							return;
 						} else {
 							storagelocationnum = rs_valsave.getString("storagelocationnum");
+							exlocationnum = rs_valsave.getString("exlocationnum");
 							String select_val = "select * from val_information where groupnum='"
-									+ rs.getString("groupnum") + "'and isqualify='yes'";
+									+ rs.getString("groupnum") + "'and isqualify='yes' and isvalid='yes'";
 							String select_val1 = "select * from val_information where groupnum='"
-									+ rs.getString("groupnum") + "'and isqualify='no'";
+									+ rs.getString("groupnum") + "'and isqualify='no' and isvalid='yes'";
+							System.out.println(select_val);
+							System.out.println(select_val1);
 							ResultSet rs_val = connect.query(select_val);
 							ResultSet rs_val1 = connect.query(select_val1);
 							Boolean a = !rs_val.next();
 							Boolean c = !rs_val1.next();
+							System.out.println("111111"+"a:"+a+"c:"+c+"FF:"+FF+"exlocation:"+exlocationnum);
 							if (FF == 1 && exlocationnum != null && c) {
 								String update_location = "update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"
 										+ exlocationnum + "'";
+								System.out.println(update_location);
 								String opa="X";
 								String insertstatus = "insert into valsavestatusinfo values('"
 										+ rs.getString("groupnum") + "','" + rs_valsave.getString("valvolume")
@@ -162,7 +167,7 @@
 										insertstatus = "insert into valsavestatusinfo values('"
 												+ rs.getString("groupnum") + "','"
 												+ rs_valsave.getString("valvolume") + "','" + exlocationnum + "','"
-												+ rs_valsave.getString("opaction") + "','"
+												+ "X" + "','"
 												+ rs_valsave.getString("manindex") + "','"
 												+ rs_valsave.getString("useraccount") + "','" + optime + "','"
 												+ rs_valsave.getString("valstatus") + "'," + null + ")";
@@ -204,7 +209,7 @@
 		} else {
 			PrintWriter pw = response.getWriter();
 			response.setContentType("text");
-			pw.write("未选择任何安全法出库");
+			pw.write("未选择任何安全阀出库");
 			pw.close();
 		}
 		s=null;

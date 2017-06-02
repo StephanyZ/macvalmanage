@@ -31,6 +31,7 @@ while(rs_select_location.next()){
 	ResultSet rs1=connect.query(select);
 	String checkorder="select * from checkorder where valnumber='"+valorgroupnummber+"'";
 	ResultSet rs_check=connect.query(checkorder);
+	System.out.print(checkorder);
 	if(rs_check.next()){
 		acceptno=rs_check.getString("acceptno");
 	}

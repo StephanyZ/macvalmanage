@@ -126,16 +126,20 @@ function addcheckgroup(){
 			document.getElementById("location").value=null;
 			document.getElementById("exlocation").value=null;
 			valorgroupnumber=data.valorgroupnumber;
-			alert(valorgroupnumber);
+			//alert(valorgroupnumber);
 			var fdStart = valorgroupnumber.indexOf("g");
 			if(fdStart == 0){
+				
 				if(data.qlocation==""){
 					document.getElementById("location").value=data.ulocation;
+					alert("ulocation:"+data.ulocation);
 				}else if(data.ulocation==""){
 					document.getElementById("location").value=data.qlocation;
+					alert("qlocation:"+data.qlocation);
 				}else{
 					document.getElementById("location").value=data.qlocation;
 					document.getElementById("exlocation").value=data.ulocation;
+					alert("qlocation:"+data.qlocation+"ulocation:"+data.ulocation);
 				}
 			}else if(fdStart == -1){
 				if(checkedcount!=0){

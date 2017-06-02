@@ -14,7 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/ffmpeg-macosx-x86_64.jar"/>
-	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/ffmpeg.jar"/>
 	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/javacv.jar"/>
 	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/mysql-connector-java-5.1.41-bin.jar"/>
 	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/opencv-macosx-x86_64.jar"/>
@@ -25,5 +24,11 @@
 	<classpathentry kind="lib" path="/Users/mac/Downloads/json-taglib-0.4.1.jar"/>
 	<classpathentry kind="lib" path="/Users/mac/Downloads/gson-2.5.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/QRCode.jar"/>
+	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/poi-3.16.jar"/>
+	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/poi-examples-3.16.jar"/>
+	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/poi-excelant-3.16.jar"/>
+	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/poi-ooxml-3.16.jar"/>
+	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/poi-ooxml-schemas-3.16.jar"/>
+	<classpathentry kind="lib" path="/Users/mac/Documents/valmanage/extend jar/poi-scratchpad-3.16.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
