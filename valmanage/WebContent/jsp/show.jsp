@@ -160,6 +160,87 @@ if(option.equals("androidshowvalinfo")){
 	}
 	
 }
+if(option.equals("pcshowschedule")){
+	String acceptno=request.getParameter("acceptno");
+	String select_val="select * from valsavestatusinfo where (valnumber in (select valnumber from val_information where acceptno='"+acceptno+"')or valnumber in(select groupnum from val_information where acceptno='"+acceptno+"')) and valstatus<>'X'order by  optime";
+	ResultSet rs_select_val=connect.query(select_val);
+	JsonArray array=new JsonArray();
+	int count=0;
+	while(rs_select_val.next()){
+		count++;
+		JsonObject ob1=new JsonObject();
+		ob1.addProperty("index", count);
+		ob1.addProperty("optime",rs_select_val.getString("optime"));
+		ob1.addProperty("valnumber",rs_select_val.getString("valnumber"));
+		ob1.addProperty("storagelocationnum",rs_select_val.getString("storagelocationnum"));
+		ob1.addProperty("exlocationnum", rs_select_val.getString("exlocationnum"));
+		ob1.addProperty("valstatus", rs_select_val.getString("valstatus"));
+		array.add(ob1);	
+	}
+	System.out.println(array.toString());
+	PrintWriter pw=response.getWriter();
+	response.setContentType("text／json");
+	pw.write(array.toString());
+	pw.close();
+	
+}
+if(option.equals("pcshowvalinfo")){
+	String valorgroupnumber=request.getParameter("valorgroupnumber");
+	String select_val="select * from val_information where valnumber='"+valorgroupnumber+"'";
+	System.out.println(select_val);
+	String select_group="select * from val_information where groupnum='"+valorgroupnumber+"'";
+	System.out.println(select_group);
+	ResultSet rs_select_val=connect.query(select_val);
+	ResultSet rs_select_group=connect.query(select_group);
+	JsonObject object=new JsonObject();
+	JsonArray array=new JsonArray();
+	Boolean a=rs_select_val.next();
+	Boolean b=rs_select_group.next();
+	System.out.println(a+"&&"+b);
+	if(a){
+		JsonObject ob=new JsonObject();
+		int count=0;
+		count++;
+		ob.addProperty("index", count);
+		ob.addProperty("valnumber",rs_select_val.getString("valnumber"));
+		ob.addProperty("valproductno",rs_select_val.getString("productno"));
+		ob.addProperty("manufacture",rs_select_val.getString("manufacture"));
+		ob.addProperty("valvecate", rs_select_val.getString("valvecate"));
+		ob.addProperty("isqualify", rs_select_val.getString("isqualify"));
+		System.out.println("val");
+		array.add(ob);
+	}else if(b){
+		System.out.println("group");
+		JsonObject ob=new JsonObject();
+		int count=0;
+		count++;
+		ob.addProperty("index", count);
+		ob.addProperty("valnumber",rs_select_group.getString("valnumber"));
+		ob.addProperty("valproductno",rs_select_group.getString("productno"));
+		ob.addProperty("manufacture",rs_select_group.getString("manufacture"));
+		ob.addProperty("valvecate", rs_select_group.getString("valvecate"));
+		ob.addProperty("isqualify", rs_select_group.getString("isqualify"));
+		array.add(ob);	
+		System.out.println(ob.toString());
+		while(rs_select_group.next()){
+			count++;
+			JsonObject ob1=new JsonObject();
+			ob1.addProperty("index", count);
+			ob1.addProperty("valnumber",rs_select_group.getString("valnumber"));
+			ob1.addProperty("valproductno",rs_select_group.getString("productno"));
+			ob1.addProperty("manufacture",rs_select_group.getString("manufacture"));
+			ob1.addProperty("valvecate", rs_select_group.getString("valvecate"));
+			ob1.addProperty("isqualify", rs_select_group.getString("isqualify"));
+			array.add(ob1);	
+		}
+	}
+	System.out.println(object.toString());
+	PrintWriter pw=response.getWriter();
+	response.setContentType("text／json");
+	pw.write(array.toString());
+	pw.close();
+	
+}
 if(option.equals("getvolume")){
 	String valorgroupnumber=request.getParameter("valorgroupnumber");
 	String select="select * from checkedwillbesaved where acceptno='"+valorgroupnumber+"'";

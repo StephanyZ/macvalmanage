@@ -122,13 +122,23 @@ $(document).ready(function() {
     nCloneTd.innerHTML = "<a class=\"btn btn-success\">"
 		+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
 		+"</a>";
-    nCloneTd.className = "center";    
+    nCloneTd.className = "center";   
+    
+    var nCloneTh1 = document.createElement( 'th' );
+    var nCloneTd1 = document.createElement( 'td' );
+    nCloneTh1.innerHTML = "进度";
+    nCloneTd1.innerHTML = "<a1 class=\"btn btn-success\">"
+		+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
+		+"</a1>";
+    nCloneTd.className = "center";   
     $('#ddtable thead tr').each( function () {
         this.insertBefore(nCloneTh, this.childNodes[12]);
+        this.insertBefore(nCloneTh1, this.childNodes[14]);
     });
      
     $('#ddtable tbody tr').each( function () {
         this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[6] );
+        this.insertBefore(  nCloneTd1.cloneNode( true ), this.childNodes[7] );
     } );
     var oTable = $('#ddtable').dataTable( {
     	"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
@@ -157,23 +167,131 @@ $(document).ready(function() {
         else
         {
             /* Open this row */
-            this.className = "btn btn-dange";
+            this.className = "btn btn-danger";
             oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
+        }
+    } );
+    $('#ddtable tbody td a1').click(function () {
+        var nTr = $(this).parents('tr')[0];
+        if ( oTable.fnIsOpen(nTr) )
+        {
+            /* This row is already open - close it */
+            this.className = "btn btn-success";
+            oTable.fnClose( nTr );
+        }
+        else
+        {
+            /* Open this row */
+            this.className = "btn btn-danger";
+            oTable.fnOpen( nTr, fnFormatDetails1(oTable, nTr), 'details' );
         }
     } );
 } );
 
 function fnFormatDetails ( oTable, nTr )
 {
-	
     var aData = oTable.fnGetData( nTr );
-    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-    sOut += '<tr><td>Rendering engine:</td><td>'+aData[1]+' '+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
-    sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
-    sOut += '</table>';
-     
-    return sOut;
+    var insert;
+    alert("更多");
+    $.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/show.jsp?valorgroupnumber="+aData[0]+"&&option=pcshowvalinfo",//把表单数据发送到ajax.jsp
+		dataType:'json',
+		timeout:3000,
+		async: false,
+		error: function(request) {
+			alert("获取数据请求失败！");
+		},
+		success: function(data) {
+			//alert(data);
+			var i=0;
+			insert='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+			for(var n=0;n<data.length;n++){
+				insert+="<tr>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].index;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].valnumber;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].valproductno;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].valvecate;	
+				insert+="</td>";					
+				insert+="<td calss=\"center\">";
+				insert+=data[n].manufacture;	
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				if(data[n].isqualify=='yes'){
+					insert+="<td class=\"center\"><span class=\"label-success label label-default\">合格</span></td>";
+				}else if(data[n].isqualify=='no'){
+					insert+="<td class=\"center\"><span class=\"label-danger label label-default\">不合格</span></td>";
+				}else{
+					insert+="<td class=\"center\"><span class=\"label-info label label-default\">未检</span></td>";
+				}
+				insert+="</td>";
+				insert+="</tr>";
+				}	
+			insert += '</table>';
+		}
+		});
+    return insert;
+}
+function fnFormatDetails1 ( oTable, nTr )
+{
+    var aData = oTable.fnGetData( nTr );
+    var insert;
+    alert("进度");
+    $.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/show.jsp?acceptno="+aData[1]+"&&option=pcshowschedule",//把表单数据发送到ajax.jsp
+		dataType:'json',
+		timeout:3000,
+		async: false,
+		error: function(request) {
+			alert("获取数据请求失败！");
+		},
+		success: function(data) {
+			//alert(data);
+			var i=0;
+			insert='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+			for(var n=0;n<data.length;n++){
+				insert+="<tr>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].index;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].valnumber;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].optime;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].storagelocationnum;
+				if(data[n].exlocationnum!=null){
+					insert+="&"+data[n].exlocationnum;
+				}
+				insert+="<td calss=\"center\">";
+				if(data[n].valstatus=='N'){
+					insert+="<td class=\"center\"><span class=\"label-success label label-default\">未检在库</span></td>";
+				}else if(data[n].valstatus=='C'){
+					insert+="<td class=\"center\"><span class=\"label-danger label label-default\">备检出库</span></td>";
+				}else if(data[n].valstatus=='Y'){
+					insert+="<td class=\"center\"><span class=\"label-success label label-default\">已检在库</span></td>";
+				}else if(data[n].valstatus=='O'){
+					insert+="<td class=\"center\"><span class=\"label-danger label label-default\">检毕出库</span></td>";
+				}
+				insert+="</td>";
+				insert+="</tr>";
+				}	
+			insert += '</table>';
+		}
+		});
+    return insert;
 }
 function showval(r){
 	var rows=r.parentNode.parentNode.rowIndex;
