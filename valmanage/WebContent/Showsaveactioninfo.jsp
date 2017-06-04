@@ -77,10 +77,10 @@ $(document).ready(function show(){
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
 				}
-				insert+="</td>";	
+				insert+="</td>";
 				insert+="<td calss=\"center\">";
 				insert+=data[n].optime;
-				insert+="</td>";		
+				insert+="</td>";
 				if(data[n].opaction=='S'){
 				insert+="<td class=\"center\"><span class=\"label-success label label-default\">存入</span></td>";
 				}
@@ -101,9 +101,7 @@ $(document).ready(function show(){
 					insert+="检毕出库";
 				}
 				insert+="</td>";
-				insert+="<td class=\"center\"><a class=\"btn btn-success\" onclick=\"serchinfo(this)\">"
-				+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
-				+"</a></td>";
+				insert+="";
 				insert+="</tr>";
 				//alert(insert);
 				
@@ -114,12 +112,124 @@ $(document).ready(function show(){
 		});
         
 });
-function searchinfo(r){
+$(document).ready(function() {
+    /*
+     * Insert a 'details' column to the table
+     */
+    var nCloneTh = document.createElement( 'th' );
+    var nCloneTd = document.createElement( 'td' );
+    nCloneTh.innerHTML = "更多";
+    nCloneTd.innerHTML = "<a class=\"btn btn-success\">"
+		+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
+		+"</a>";
+    nCloneTd.className = "center";    
+    $('#ddtable thead tr').each( function () {
+        this.insertBefore(nCloneTh, this.childNodes[12]);
+    });
+     
+    $('#ddtable tbody tr').each( function () {
+        this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[6] );
+    } );
+    var oTable = $('#ddtable').dataTable( {
+    	"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
+        "sPaginationType": "bootstrap",
+        "aoColumnDefs": [
+                         { "bSortable": false, "aTargets": [6] }
+                     ],
+        "aaSorting": [[3, "desc"]],
+        "oLanguage": {
+            "sLengthMenu": "_MENU_ records per page"
+        }
+    });
+     
+    /* Add event listener for opening and closing details
+     * Note that the indicator for showing which row is open is not controlled by DataTables,
+     * rather it is done here
+     */
+    $('#ddtable tbody td a').click(function () {
+        var nTr = $(this).parents('tr')[0];
+        if ( oTable.fnIsOpen(nTr) )
+        {
+            /* This row is already open - close it */
+            this.className = "btn btn-success";
+            oTable.fnClose( nTr );
+        }
+        else
+        {
+            /* Open this row */
+            this.className = "btn btn-dange";
+            oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
+        }
+    } );
+} );
+
+function fnFormatDetails ( oTable, nTr )
+{
+	
+    var aData = oTable.fnGetData( nTr );
+    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+    sOut += '<tr><td>Rendering engine:</td><td>'+aData[1]+' '+aData[4]+'</td></tr>';
+    sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
+    sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
+    sOut += '</table>';
+     
+    return sOut;
+}
+function showval(r){
 	var rows=r.parentNode.parentNode.rowIndex;
 	var valorgroupnumber=document.getElementById('table').rows[rows].cells[0].innerText;
-	document.get
+	var tbody=window.document.getElementById("valinput");
+	$.ajax({
+		cache: false,
+		type: "POST",
+		url:"jsp/getlocationsavedinfosingle.jsp?valorgroupnumber="+valorgroupnumber,//把表单数据发送到ajax.jsp
+		dataType:'json',
+		timeout:3000,
+		async: false,
+		error: function(request) {
+			alert("获取数据请求失败！");
+		},
+		success: function(data) {
+			//alert(data);
+			var i=0;
+			var insert="";
+			for(var n=0;n<data.length;n++){
+				insert+="<tr>";
+				insert+="<td calss=\"center\">";
+				insert+="<input type=\"checkbox\" value=\""+data[n].valnumber+"\" name=\"checkisqualify\"/>"
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].valnumber;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].acceptno;
+				insert+="</td>";
+				insert+="<td calss=\"center\">";
+				insert+=data[n].storagelocationnum;
+				if(data[n].exlocationnum!=null){
+					insert+="&"+data[n].exlocationnum;
+				}
+				insert+="</td>";			
+				
+				if(data[n].isqualify=='yes'){
+					insert+="<td class=\"center\"><span class=\"label-success label label-default\">合格</span></td>";
+				}else if(data[n].isqualify=='no'){
+					insert+="<td class=\"center\"><span class=\"label-danger label label-default\">不合格</span></td>";
+				}else{
+					insert+="<td class=\"center\"><span class=\"label-info label label-default\">未检</span></td>";
+				}
+				insert+="<td class=\"center\"><a class=\"btn btn-danger\" onclick=\"deletechecked(this)\"> <i"
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库"
+				+"</a></td>";
+				insert+="</tr>";
+				//alert(insert);
+				
+				}	
+			tbody.innerHTML =insert;
+		}
+		});
+	//setInterval('show()', 5000);
 }
-
 function tabletoExcel(mytalbe) {
 		    // getExplore()返回1，说明是不是Google Chrome、
 		    //Firefox、Opera、Safari，那么就认为是IE了。
@@ -486,7 +596,7 @@ function tabletoExcel(mytalbe) {
 							</div>
 							<div class="box-content">
 								<table id="ddtable" 
-									class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+									class="table table-striped table-bordered bootstrap-datatable responsive">
 									<thead>
 										<tr>
 											<th>安全阀编号</th>
@@ -495,7 +605,6 @@ function tabletoExcel(mytalbe) {
 											<th>操作时间</th>
 											<th>存入／取出</th>
 											<th>状态</th>
-											<th>更多</th>
 										</tr>
 									</thead>
 									<tbody id="oneinput">

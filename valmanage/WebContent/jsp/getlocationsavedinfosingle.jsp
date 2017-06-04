@@ -16,8 +16,8 @@
 request.setCharacterEncoding("UTF-8");
 ResultSet rs=null;
 String locationstatus="select * from locationinfo where locationstatus=1 group by valorgroupnumber";
-out.println(locationstatus);
-String outputtime=request.getParameter("outputtime");
+System.out.println(locationstatus);
+//String outputtime=request.getParameter("outputtime");
 String sql="";
 String valorgroupnummber=request.getParameter("valorgroupnumber");
 JsonObject object=new JsonObject();
