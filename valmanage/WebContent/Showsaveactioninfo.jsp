@@ -156,7 +156,7 @@ $(document).ready(function() {
      * Note that the indicator for showing which row is open is not controlled by DataTables,
      * rather it is done here
      */
-    $('#ddtable tbody td a').click(function () {
+    $('#ddtable tbody').on('click','tr td a',function () {
         var nTr = $(this).parents('tr')[0];
         if ( oTable.fnIsOpen(nTr) )
         {
@@ -170,8 +170,8 @@ $(document).ready(function() {
             this.className = "btn btn-danger";
             oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
         }
-    } );
-    $('#ddtable tbody td a1').click(function () {
+    });
+    $('#ddtable tbody').on('click','tr td a1',function () {
         var nTr = $(this).parents('tr')[0];
         if ( oTable.fnIsOpen(nTr) )
         {
@@ -185,8 +185,8 @@ $(document).ready(function() {
             this.className = "btn btn-danger";
             oTable.fnOpen( nTr, fnFormatDetails1(oTable, nTr), 'details' );
         }
-    } );
-} );
+    });
+});
 
 function fnFormatDetails ( oTable, nTr )
 {
@@ -219,7 +219,7 @@ function fnFormatDetails ( oTable, nTr )
 				insert+=data[n].valproductno;
 				insert+="</td>";
 				insert+="<td calss=\"center\">";
-				insert+=data[n].valvecate;	
+				insert+=data[n].valvecate;
 				insert+="</td>";					
 				insert+="<td calss=\"center\">";
 				insert+=data[n].manufacture;	
@@ -275,6 +275,7 @@ function fnFormatDetails1 ( oTable, nTr )
 				if(data[n].exlocationnum!=null){
 					insert+="&"+data[n].exlocationnum;
 				}
+				insert+="</td>";					
 				insert+="<td calss=\"center\">";
 				if(data[n].valstatus=='N'){
 					insert+="<td class=\"center\"><span class=\"label-success label label-default\">未检在库</span></td>";
