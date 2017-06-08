@@ -118,7 +118,7 @@ $(document).ready(function() {
      */
     var nCloneTh = document.createElement( 'th' );
     var nCloneTd = document.createElement( 'td' );
-    nCloneTh.innerHTML = "更多";
+    nCloneTh.innerHTML = "安全阀";
     nCloneTd.innerHTML = "<a class=\"btn btn-success\">"
 		+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
 		+"</a>";
@@ -126,7 +126,7 @@ $(document).ready(function() {
     
     var nCloneTh1 = document.createElement( 'th' );
     var nCloneTd1 = document.createElement( 'td' );
-    nCloneTh1.innerHTML = "进度";
+    nCloneTh1.innerHTML = "校验进度";
     nCloneTd1.innerHTML = "<a1 class=\"btn btn-success\">"
 		+"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i> 浏览"
 		+"</a1>";
@@ -192,7 +192,6 @@ function fnFormatDetails ( oTable, nTr )
 {
     var aData = oTable.fnGetData( nTr );
     var insert;
-    alert("更多");
     $.ajax({
 		cache: false,
 		type: "POST",
@@ -244,7 +243,6 @@ function fnFormatDetails1 ( oTable, nTr )
 {
     var aData = oTable.fnGetData( nTr );
     var insert;
-    alert("进度");
     $.ajax({
 		cache: false,
 		type: "POST",

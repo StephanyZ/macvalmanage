@@ -99,9 +99,9 @@ $(document).ready(function show(){
 				}
 				insert+="</td>";
 				insert+="<td class=\"center\"><a class=\"btn btn-danger\" onclick=\"deleteRow(this)\"> <i"
-				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库</a> <a class=\"btn btn-success\" onclick=\"showval(this)\"> <i"
+				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 出库</a> <a1 class=\"btn btn-success\" onclick=\"showval(this)\"> <i"
 				+"class=\"glyphicon glyphicon-trash icon-white\"></i> 浏览"
-				+"</a></td>";
+				+"</a1></td>";
 				insert+="</tr>";
 				//alert(insert);
 				
@@ -233,7 +233,7 @@ function deleteRow(r){
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="index.html"> <img
-				alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" /> <span>Charisma</span></a>
+				alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" /> <span>Fast Valve</span></a>
 
 			<!-- user dropdown starts -->
 			<div class="btn-group pull-right">

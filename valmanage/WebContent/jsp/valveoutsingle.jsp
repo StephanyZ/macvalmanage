@@ -121,7 +121,7 @@
 							if (FF == 1 && exlocationnum != null && c) {
 								String update_location = "update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"
 										+ exlocationnum + "'";
-								System.out.println(update_location);
+								System.out.println("111   "+update_location);
 								String opa="X";
 								String insertstatus = "insert into valsavestatusinfo values('"
 										+ rs.getString("groupnum") + "','" + rs_valsave.getString("valvolume")
@@ -152,7 +152,7 @@
 							if (FF == 0 || a) {
 								String update_location = "update locationinfo set locationstatus=0,valorgroupnumber=null where storagelocationnum='"
 										+ storagelocationnum + "'";
-								System.out.println(2 + update_location);
+								System.out.println("222   " + update_location);
 								int rs_uplocation = connect.addquery(update_location);
 								if (rs_uplocation == 0) {
 									PrintWriter pw = response.getWriter();

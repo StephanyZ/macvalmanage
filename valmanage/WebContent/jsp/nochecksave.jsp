@@ -46,6 +46,7 @@ if(option.equals("pc")){
 		if(rs.next()){
 			f=1;
 			String lo1="select * from locationinfo where storagelocationnum=\""+storagelocationnum+"\"";
+			
 			rs=connect.query(lo1);
 			if(rs.next()){
 				ff=1;
@@ -124,11 +125,21 @@ if(option.equals("android")){
 			exlocationnum="'"+exlocationnum+"'";
 		}
 		String modify="update locationinfo set locationstatus=1,valorgroupnumber=\""+valorgroupnumber+"\" where storagelocationnum=\""+storagelocationnum+"\"";
+		int FFF=0;
+		if(exlocationnum!=null){
+			String modify_ex="update locationinfo set locationstatus=1,valorgroupnumber=\""+valorgroupnumber+"\" where storagelocationnum="+exlocationnum;
+			int flag_modify_ex=connect.addquery(modify_ex);
+			System.out.println(flag_modify_ex+modify+"  "+modify_ex);
+			if(flag_modify_ex==0){
+				FFF=1;
+			}
+		}
 		String insert="insert into valsavestatusinfo values('"+valorgroupnumber+"','"+valvolume+"','"+storagelocationnum+"','"+opaction+"','"+manindex+"','"+useraccount+"','"+optime+"','"+valstatus+"',"+exlocationnum+")";
 		System.out.println(insert);
 		int flag_modify=connect.addquery(modify);
 		int flad_insert=connect.addquery(insert);
-		if(flag_modify!=0&&flad_insert!=0){
+		System.out.println("FFF="+FFF);
+		if(FFF==0&&flag_modify!=0&&flad_insert!=0){
 			String delete_pre="delete from preparetochangeinfo where valorgroupnumber='"+valorgroupnumber+"'";
 			String delete=null;
 			if(valstatus.equals("N")){
