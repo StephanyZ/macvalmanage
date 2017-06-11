@@ -372,10 +372,12 @@ function tabletoExcel(mytalbe) {
 				+'<body><table style="vnd.ms-excel.numberformat:@">{table}</table>'
 				+'</body></html>', 
 				base64 = function (s) { 
-					return window.btoa(unescape(encodeURIComponent(s))); }
-				  , format = function (s, c) { 
+					return window.btoa(unescape(encodeURIComponent(s)));}, 
+				format = function (s, c) { 
 					  return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
-				if (!table.nodeType) table = document.getElementById(table);
+					  	  
+				if (!table.nodeType) 
+					table = document.getElementById(table);
 				var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML };
 				window.location.href = uri + base64(format(template, ctx));
 				

@@ -48,7 +48,7 @@ function doFind(){
 	}else{
 		flag="no";
 	}
-	alert(flag);
+	//alert(flag);
 	$.ajax({
 	cache: false,
 	type: "POST",
@@ -69,9 +69,11 @@ function doFind(){
 		var a=data.split("&");
 		var path=a[0];
 		var acceptno=a[1];
-		alert(path);
-		alert(acceptno);
-		window.open("/valmanage/CheckOrderPDF.html?name="+name+"&path="+path+"&acceptno="+acceptno,"","modal=yes,width=500,height=500,resizable=no,scrollbars=no");
+		//alert(path);
+		//alert(acceptno);
+		location.replace("Groupaddinfo.jsp");
+		window.open("/valmanage/CheckOrderPDF.html?name="+name+"&path="+path+"&acceptno="+acceptno,"","modal=yes,resizable=no,scrollbars=no");
+		
 	}
 	}
 	});

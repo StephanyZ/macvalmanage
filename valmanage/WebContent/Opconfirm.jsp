@@ -190,7 +190,7 @@ function delinfo(r){
 			success: function(data) {
 				//alert(data); //将返回的结果显示到ajaxDiv中
 				if(data=="isgroupsingle"){
-					alert(data);
+					//alert(data);
 					$.ajax({
 						cache: false,
 						type: "POST",
@@ -206,7 +206,7 @@ function delinfo(r){
 						}
 						});
 				}else if(data=="notgroupsingle"){
-					alert(data);
+					//alert(data);
 					$.ajax({
 						cache: false,
 						type: "POST",

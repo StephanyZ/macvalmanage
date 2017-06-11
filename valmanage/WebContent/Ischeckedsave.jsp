@@ -60,7 +60,8 @@ function doFind(){
 	alert("发送请求失败！");
 	},
 	success: function(data) {
-	alert(data); //将返回的结果显示到ajaxDiv中
+		location.replace("Ischeckedsave.jsp");
+		alert(data); //将返回的结果显示到ajaxDiv中
 	}
 	});
 	}
@@ -132,14 +133,14 @@ function addcheckgroup(){
 				
 				if(data.qlocation==""){
 					document.getElementById("location").value=data.ulocation;
-					alert("ulocation:"+data.ulocation);
+				//alert("ulocation:"+data.ulocation);
 				}else if(data.ulocation==""){
 					document.getElementById("location").value=data.qlocation;
-					alert("qlocation:"+data.qlocation);
+					//alert("qlocation:"+data.qlocation);
 				}else{
 					document.getElementById("location").value=data.qlocation;
 					document.getElementById("exlocation").value=data.ulocation;
-					alert("qlocation:"+data.qlocation+"ulocation:"+data.ulocation);
+					//alert("qlocation:"+data.qlocation+"ulocation:"+data.ulocation);
 				}
 			}else if(fdStart == -1){
 				if(checkedcount!=0){
@@ -448,8 +449,7 @@ function nochecklocation(){
 									class="glyphicon glyphicon-remove"></i></a>
 							</div>
 						</div>
-						<div id="showmessage" class="box-content">
-						
+						<div id="showmessage" class="box-content ex-scroll-y1">
 						</div>
 						
 						</div>

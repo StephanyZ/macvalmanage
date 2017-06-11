@@ -60,7 +60,8 @@ function doFind(){
 	alert("发送请求失败！");
 	},
 	success: function(data) {
-	alert(data); //将返回的结果显示到ajaxDiv中
+		location.replace("Nochecksave.jsp");
+		alert(data); //将返回的结果显示到ajaxDiv中
 	}
 	});
 	}
@@ -376,8 +377,7 @@ function nochecklocation(){
 									class="glyphicon glyphicon-remove"></i></a>
 							</div>
 						</div>
-						<div id="showmessage" class="box-content">
-						
+						<div id="showmessage" class="box-content  ex-scroll-y1">
 							</div>
 						</div>
 					</div>

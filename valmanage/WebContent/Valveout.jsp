@@ -199,9 +199,11 @@ function deleteRow(r){
 	 }else if(status=="已检在库"){
 		 status="Y";
 	 }
-	 alert(status); 
+	// alert(status); 
 	 var str=prompt("对接出库员工ID：","请核实后输入，如:lzhang");
-	 
+	 if(str==null){
+		 
+	 }else{
 	 $.ajax({
 			cache: false,
 			type: "POST",
@@ -216,6 +218,7 @@ function deleteRow(r){
 			location.replace("Valveout.jsp");
 			}
 			});
+	 }
 }
 
 </script>
